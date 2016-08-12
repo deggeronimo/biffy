@@ -1,0 +1,151 @@
+<div class="container-fluid">
+	<div class="row pos">
+        <div class="col-md-8 col-sm-12">
+			<div id="page-heading">
+				<ol class="breadcrumb">
+					<li><a href="/">Dashboard</a></li>
+					<li class="active">Marketing</li>
+				</ol>
+				<h1>Marketing</h1>
+			</div>
+		</div>
+
+		<div class="col-xs-12">
+			<div class="col-md-12"> 
+				<div ng-if="pageState == 'home'">
+					<div class="pos-tile" ng-click="beginMarketingRun()">
+                        <span class="">
+                            <i style="color:white" class="fa fa-map-marker tile-icon"></i>
+                            <span style="color:white" class="info-text">Launch Mobile Marketing Tracker</span>
+                        </span>
+					</div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>Recent Marketing Runs</h4>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-bordered" ng-table="runsTableParams">
+                                <thead>
+                                <tr>
+                                    <th class="sortable" ng-class="{
+                                'sort-asc': runsTableParams.isSortBy('id', 'asc'),
+                                'sort-desc': runsTableParams.isSortBy('id', 'desc')
+                              }"
+                                        ng-click="runsTableParams.sorting({'id' : runsTableParams.isSortBy('id', 'asc') ? 'desc' : 'asc'})">
+                                        <div>Id</div>
+                                    </th>
+                                    <th>
+                                        <div>Locations Visited</div>
+                                    </th>
+                                    <th class="sortable" ng-class="{
+                                'sort-asc': runsTableParams.isSortBy('stopped', 'asc'),
+                                'sort-desc': runsTableParams.isSortBy('stopped', 'desc')
+                              }"
+                                        ng-click="runsTableParams.sorting({'stopped' : runsTableParams.isSortBy('stopped', 'asc') ? 'desc' : 'asc'})">
+                                        <div>Stopped</div>
+                                    </th>
+                                    <th class="sortable" ng-class="{
+                                'sort-asc': runsTableParams.isSortBy('created_at', 'asc'),
+                                'sort-desc': runsTableParams.isSortBy('created_at', 'desc')
+                              }"
+                                        ng-click="runsTableParams.sorting({'created_at' : runsTableParams.isSortBy('created_at', 'asc') ? 'desc' : 'asc'})">
+                                        <div>Started At</div>
+                                    </th>
+                                    <th>
+                                        <div>Finished At</div>
+                                    </th>
+                                    <th>
+                                        <div>Actions</div>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="odd gradeX" ng-repeat="data in $data">
+                                    <td data-title="'Id'">{{data.id}}</td>
+                                    <td data-title="'Locations Visited'">{{data.marketing_locations.length}}</td>
+                                    <td data-title="'Stopped'">{{data.stopped == 1 ? 'Yes' : 'No'}}</td>
+                                    <td data-title="'Started At'">{{data.created_at}}</td>
+                                    <td data-title="'Finished At'">{{data.stopped == 1 ? data.updated_at : ''}}</td>
+                                    <td data-title="'Actions'">
+                                        <a class="btn default btn-xs green" ui-sref="leads.edit({id:data.id})">
+                                            <i class="fa fa-edit"></i>
+                                            Edit
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+				</div>
+				<div ng-if="pageState == 'running'">
+					Marketing Run {{marketingRunId}} In Progress... <br>
+					<button class="btn btn-primary btn-danger tile-icon" ng-click="logVisit()"><span class="fa fa-map-marker"></span>&nbsp;&nbsp;Log a visit</button><br>
+					<button class="btn btn-primary btn-midnightblue tile-icon" ng-click="stopMarketingRun()"><span class="fa fa-map-marker"></span>&nbsp;&nbsp;Stop Marketing Run</button>
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h4>Stops on this run</h4>
+						</div>
+                        <div class="panel-body">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        <div>Name</div>
+                                    </th>
+                                    <th>
+                                        <div>Location Type</div>
+                                    </th>
+                                    <th>
+                                        <div>Latitude</div>
+                                    </th>
+                                    <th>
+                                        <div>Longitude</div>
+                                    </th>
+                                    <th>
+                                        <div>Address</div>
+                                    </th>
+                                    <th>
+                                        <div>Phone</div>
+                                    </th>
+                                    <th>
+                                        <div>Time</div>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="odd gradeX" ng-repeat="visit in visitsList">
+                                    <td data-title="'Name'">{{visit.name}}</td>
+                                    <td data-title="'Location Type'">{{visit.marketing_location_type.name}}</td>
+                                    <td data-title="'Latitude'">{{visit.latitude}}</td>
+                                    <td data-title="'Longitude'">{{visit.longitude}}</td>
+                                    <td data-title="'Address'">{{visit.address}}</td>
+                                    <td data-title="'Phone'">{{visit.phone}}</td>
+                                    <td data-title="'Time'">{{visit.created_at}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+					</div>	
+				</div>
+				<div ng-if="pageState == 'logging'">
+					Marketing Run {{marketingRunId}} In Progress...
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h4 class="fa fa-bars">Select Nearby Location</h4>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<ul>
+									<li ng-click="selectLocation(location)" ng-repeat="location in locationList">
+										{{location.name}} - {{location.distance | number:2}} miles
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>	
+				</div>
+			</div>
+		</div>
+	</div>
+</div><!-- END OF container fluid-->

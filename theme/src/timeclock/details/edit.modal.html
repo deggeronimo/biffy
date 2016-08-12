@@ -1,0 +1,16 @@
+<div class="modal-header">
+    <h3 class="modal-title"><span ng-show="editing">Edit</span><span ng-hide="editing">Add</span> Timeclock Entry</h3>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            <input type="text" class="form-control" ng-value="'{{range.from}} - {{range.to}}'" daterangepicker="dateRangePickerOptions" date-begin="range.from" date-end="range.to">
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn push-left" ng-click="cancel()">Cancel</button>
+    <button type="button" class="btn btn-primary" ng-if="editing" ng-click="deleteEntry()">Delete</button>
+    <button type="button" class="btn btn-success" ng-click="save()">Save</button>
+</div>

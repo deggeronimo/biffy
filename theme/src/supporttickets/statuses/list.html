@@ -1,0 +1,62 @@
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="home">Dashboard</a></li>
+        <li><a ui-sref="supporttickets.list">Support Tickets</a></li>
+        <li class="active">Statuses</li>
+    </ol>
+    <h1>Support Ticket Statuses</h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>Statuses</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-6 pull-right">
+                            <input type="text" class="form-control" placeholder="Search..." ng-model="tableParams.filter()['search']"/>
+                        </div>
+                    </div>
+                    <table class="table table-bordered" ng-table="tableParams">
+                        <thead>
+                        <tr>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('name', 'asc'),
+                                'sort-desc': tableParams.isSortBy('name', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'given_name' : tableParams.isSortBy('name', 'asc') ? 'desc' : 'asc'})">
+                                <div>Name</div>
+                            </th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="odd gradeX" ng-repeat="data in $data">
+                            <td data-title="'Name'">{{data.name}}</td>
+                            <td data-title="'Actions'">
+                                <a class="btn default btn-xs red" ng-click="destroy(data)">
+                                    <i class="fa fa-trash-o"></i>
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" class="form-control" placeholder="name" ng-model="newData.name">
+                            </td>
+                            <td>
+                                <a class="btn default btn-xs green" ng-click="store()">
+                                    <i class="fa fa-plus-square-o"></i>
+                                    Add
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

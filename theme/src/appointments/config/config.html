@@ -1,0 +1,77 @@
+<div class="container-fluid">
+    <div class="row pos">
+        <div class="col-md-8 col-sm-12">
+            <div id="pos-left-content">
+                <ul class="breadcrumb">
+                    <li><a href="#">Appointments</a></li>
+                    <li class="active"><a href="#">Config</a></li>
+                </ul>
+                <div class="col-md-6">
+                    <div class="row">
+                        <h4 class="col-md-12">Available Times</h4>
+                        <p class="col-md-12">Check Times to Enable</p>
+                        <div class="form-group col-md-12">
+                            <div class="col-md-6" ng-repeat="timeSlot in timeSlots">
+                                <a ng-click="checkTimeSlot(timeSlot.value)" ng-disabled="timeSlot.disabled"
+                                   ng-class="{'btn btn-block btn-checklist btn-success btn-sm': timeSlot.checked, 'btn btn-block btn-checklist btn-default btn-sm': !timeSlot.checked}">
+                                    <i ng-class="{'fa fa-check-square-o': timeSlot.checked, 'fa fa-square-o': !timeSlot.checked}"></i> {{timeSlot.name}}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h4 class="col-md-12">Maximum Number of Appointments Per Day</h4>
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" ng-model="appointmentsPerDay.value">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h4 class="col-md-12">Day of Week</h4>
+                        <p class="col-md-12">Check Days to Enable</p>
+                        <div class="form-group col-md-6">
+                            <div class="col-md-12" ng-repeat="dayOfWeekSlot in dayOfWeekSlots">
+                                <a ng-click="checkDayOfWeekSlot(dayOfWeekSlot.value)" ng-disabled="dayOfWeekSlot.disabled"
+                                   ng-class="{'btn btn-block btn-checklist btn-success btn-sm': dayOfWeekSlot.checked, 'btn btn-block btn-checklist btn-default btn-sm': !dayOfWeekSlot.checked}">
+                                    <i ng-class="{'fa fa-check-square-o': dayOfWeekSlot.checked, 'fa fa-square-o': !dayOfWeekSlot.checked}"></i> {{dayOfWeekSlot.name}}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button class="btn btn-primary push-left" ui-sref="appointments.list()">Cancel</button>
+                        <button class="btn btn-success" ng-click="save()">Save</button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <h4 class="col-md-12">Blackout Dates</h4>
+                        <p class="col-md-12">Select a Date to add</p>
+                        <datepicker ng-model="dt" min-date="minDate" date-disabled="disabled(date, mode)" class="well well-sm"></datepicker>
+                        <h3>Selected Blackout Dates</h3>
+                        <ul class="customer-data">
+                            <li class="device" ng-repeat="blackoutDate in blackoutDateList" ng-if="blackoutDate.store_id!=null">
+                                <a ng-click="">
+                                    <span class="wo-num"> {{getDayOfYearString(blackoutDate.day_of_year, blackoutDate.year)}}</span>
+                                    <span class="description pull-right" style="position: relative;top:-8px">
+                                        <button class="btn btn-primary" ng-click="deleteBlackoutDate(blackoutDate)">Delete</button>
+                                        {{blackoutDate.store_id==null ? 'Global' : 'Private'}}
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Side Bar Start-->
+        <div id="pos-sidebar" class="col-sm-12 col-md-4">
+            <h3>Global Blackout Dates</h3>
+            <ul class="customer-data">
+                <li class="device" ng-repeat="blackoutDate in blackoutDateList" ng-if="blackoutDate.store_id==null">
+                    <a ng-click="">
+                        <span class="wo-num"> {{getDayOfYearString(blackoutDate.day_of_year, blackoutDate.year)}}</span>
+                        <span class="description pull-right">{{blackoutDate.store_id==null ? ' Global' : ' Private'}}</span>
+                    </a>
+                </li>
+            </ul>
+        </div><!--pos sidebar-->
+    </div>
+</div>

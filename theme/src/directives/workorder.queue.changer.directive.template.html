@@ -1,0 +1,4 @@
+<div class="btn-group col-md-12">
+    <label ng-class="{'btn btn-primary active': isSingleDayQueue(), 'btn btn-default': !isSingleDayQueue()}" ng-model="radio" btn-radio="'Left'" ng-click="changeWorkOrderQueue(1)"><strong>SD</strong></label>
+    <label ng-class="{'btn btn-primary active': !isSingleDayQueue(), 'btn btn-default': isSingleDayQueue()}" ng-model="radio" btn-radio="'Right'" ng-click="changeWorkOrderQueue(2)"><strong>MD</strong></label>
+</div>

@@ -1,0 +1,82 @@
+    <div class="modal-header">
+        <h3 class="modal-title">Customer Information</h3>
+    </div>
+    <div class="modal-body">
+        <div class="panel panel-default panel-body">
+            <h3><span class="fa fa-user icon-circle"></span>&nbsp; Customer Information</h3>
+            <div class="row">
+                <div class="col-sm-12 col-md-6 " id="first-name">
+                    <label>First Name: <span class="asterisk">*</span></label>
+                    <input type="text" class="form-control" id="customer-given_name" name="FirstName" value="" maxlength="25" tabindex="2"
+                           ng-model="currentCustomer.given_name"/>
+                </div>
+                <div class="col-sm-12 col-md-6" id="last-name">
+                    <label>Last Name: <span class="asterisk">*</span></label>
+                    <input type="text" class="form-control" id="customer-family_name" name="LastName" value="" maxlength="25" tabindex="3"
+                           ng-model="currentCustomer.family_name"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 <!--has-error-->" id="email">
+                    <label>Email: <span class="asterisk">*</span><!--<span class="help-block">Please enter a valid email address</span>--></label>
+                    <input type="text" class="form-control" id="customer-email" name="EmailAddress" value="" maxlength="100" tabindex="4"
+                           ng-model="currentCustomer.email"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" id="phoneNumber">
+                    <label>Phone: <span class="asterisk">*</span></label>
+                    <input type="text" class="form-control phoneNumber" id="customer-phone" name="PhoneNumber1" value="" maxlength="50" tabindex="5"
+                           ng-model="currentCustomer.phone"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-6" id="zip">
+                    <label>Zip: <span class="asterisk">*</span></label>
+                    <input type="text" class="form-control" id="customer-zip" name="PostalCode" value="" maxlength="15" tabindex="6"
+                           ng-model="currentCustomer.postal_code"/>
+                </div>
+                <div class="col-sm-12 col-md-6" id="referral-type">
+                    <label>Referral Type <span class="asterisk">*</span></label>
+                    <select class="form-control" name="referral-type" id="customer-referral_source" tabindex="7"
+                            ng-model="currentCustomer.referral_source">
+                        <option value="Search Engine">Search Engine</option>
+                        <option value="Friend">Friend</option>
+                        <option value="News Paper">News Paper</option>
+                        <option value="AT&T">AT&T</option>
+                        <option value="Verizon">Verizon</option>
+                        <option value="Sprint">Sprint</option>
+                        <option value="T-Mobile">T-Mobile</option>
+                        <option value="Walk By">Walk By</option>
+                        <option value="Drive By">Drive By</option>
+                        <option value="Print">Print</option>
+                        <option value="Ad">Ad</option>
+                        <option value="Flyer">Flyer</option>
+                        <option value="Yelp">Yelp</option>
+                        <option value="Facebook">Facebook</option>
+                        <option value="Groupon">Groupon</option>
+                        <option value="Vehicle Wrap">Vehicle Wrap</option>
+                        <option value="Web Site">Web Site</option>
+                        <option value="GameStop">GameStop</option>
+                        <option value="Cricket">Cricket</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" id="business-name">
+                    <label>Business Name: <i>(If Applicable)</i></label>
+                    <input type="text" class="form-control" id="business-name" name="business-name" class="business-name" value="" maxlength="50" tabindex="8" />
+                </div>
+            </div>
+            <div class="row">
+                <p class="col-md-12" id="more-info">
+                    <a href=""><span class="fa fa-plus"></span>&nbsp; Add More Information</a>
+                </p>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary push-left" ng-click="cancel()">Cancel</button>
+        <button class="btn btn-success" ng-click="save()">Save</button>
+    </div>

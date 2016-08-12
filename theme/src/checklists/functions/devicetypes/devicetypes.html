@@ -1,0 +1,54 @@
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="home">Dashboard</a></li>
+        <li>Checklists</li>
+        <li class="active">Device Type Functions</li>
+    </ol>
+    <h1>Checklist Device Type - Functions</h1>
+    <div class="options">
+        <div class="btn-toolbar">
+            <a ui-sref="checklists.functions-devicetypes.edit()" class="btn btn-default btn-sm">Add</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.reload()">Refresh</a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-6 pull-right">
+            <input type="text" class="form-control" placeholder="Search..." ng-model="search"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>Checklist Device Type - Functions</h4>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered" ng-table="tableParams">
+                        <thead>
+                        <tr>
+                            <th><div>Device Type</div></th>
+                            <th><div>Checklist Function</div></th>
+                            <th><div>Item Suggestion</div></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="odd gradeX" ng-repeat="data in filter($data)">
+                            <td data-title="'Device Type'">{{data.device_type.name}}</td>
+                            <td data-title="'Checklist Function'">{{data.checklist_function.name}}</td>
+                            <td data-title="'Item Suggestion'">{{data.item.name}}</td>
+                            <td data-title="'Actions'">
+                                <a class="btn default btn-xs green" ui-sref="checklists.functions-devicetypes.edit({id:data.id})">
+                                    <i class="fa fa-edit"></i>
+                                    Edit
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

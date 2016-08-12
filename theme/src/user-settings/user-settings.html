@@ -1,0 +1,48 @@
+<div class="container-fluid">
+    <div class="col-md-12 pos">
+        <breadcrumbs></breadcrumbs>
+        <div id="page-heading">
+            <div class="options">
+                <div class="btn-toolbar">
+
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>Your Settings</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Value</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="entry in settings">
+                                        <td>{{entry.name}}</td>
+                                        <td><dynamic-input base="entry" value="getUserSetting(entry.id)"></dynamic-input></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <button type="button" class="btn green" ng-click="save()">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+class_name: ApiTester
+modules:
+    enabled: [Laravel5, \Helper\Api, REST]
+    config:
+      REST:
+        url: 'http://portal.ubif.net/api/'
+      PhpBrowser:
+        url: 'http://portal.ubif.net'
+      Laravel5:
+        environment_file: .env.codecept
+    depends:
+      REST: PhpBrowser
+groups:
+    workorder: [tests/api/DeviceTypeCest.php, tests/api/DeviceRepairCest.php, tests/api/CustomerCest.php, tests/api/ItemsCest.php, tests/api/WorkorderCest.php]
+    test: [tests/api/WorkorderCest.php]

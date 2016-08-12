@@ -1,0 +1,43 @@
+<div class="container-fluid">
+    <div class="col-md-12 pos">
+        <breadcrumbs></breadcrumbs>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>{{mode}} Category</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <form class="form-horizontal row-border">
+                                    <div class="form-body">
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-2">Name</label>
+                                            <label class="control-label col-xs-10">
+                                                <input type="text" class="form-control" ng-model="data.name">
+                                            </label>
+                                            <label class="control-label col-xs-2">Parent</label>
+                                            <label class="control-label col-xs-10">
+                                                <select class="form-control" ng-model="data.parent_id" ng-options="category.id as category.name for category in categoryList"></select>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <button type="button" class="btn green" ng-click="store()" ng-if="isAdd()">Save</button>
+                                    <button type="button" class="btn green" ng-click="update()" ng-if="!isAdd()">Save</button>
+                                    <button type="button" class="btn default" ng-click="cancel()">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

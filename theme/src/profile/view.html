@@ -1,0 +1,105 @@
+<div class="container-fluid">
+    <div class="col-md-12 pos">
+        <breadcrumbs></breadcrumbs>
+        <div id="page-heading">
+            <div class="options">
+                <div class="btn-toolbar">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <img ng-src="{{user.picture_url}}" class="pull-left img-circle" style="margin: 0 20px 20px 0; width: 128px;">
+                                    <div class="table-responsive">
+                                        <table class="table table-condensed">
+                                            <thead>
+                                            <tr>
+                                                <td colspan="2"><h3><strong>{{user.name}}</strong></h3></td>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td><i class="fa fa-envelope-o fa-fw"></i> Email</td>
+                                                <td><a ng-href="mailto:{{user.email}}">{{user.email}}</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="fa fa-phone fa-fw"></i> Phone</td>
+                                                <td>{{user.profile.phone}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="fa fa-map-marker fa-fw"></i> Location</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="fa fa-user fa-fw"></i> Position</td>
+                                                <td>{{user.profile.position}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="fa fa-birthday-cake fa-fw"></i> Birthday</td>
+                                                <td>{{user.profile.birthday | birthday}}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h3>About</h3>
+                                    <p>{{user.profile.about}}</p>
+
+                                    <h3>Signature</h3>
+                                    <p>{{user.profile.signature}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <tabset class="tab-container tab-primary">
+                        <tab heading="Threads">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Post</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="thread in user.threads">
+                                    <td>{{thread.title}}</td>
+                                    <td ng-bind-html="thread.first_post.content"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </tab>
+                        <tab heading="Posts">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Thread Title</th>
+                                    <th>Post</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="post in user.posts">
+                                    <td>{{post.thread.title}}</td>
+                                    <td ng-bind-html="post.content"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </tab>
+                        <tab heading="Schedule">
+
+                        </tab>
+                    </tabset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

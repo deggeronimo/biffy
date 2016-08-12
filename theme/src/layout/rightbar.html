@@ -1,0 +1,117 @@
+<!-- BEGIN RIGHTBAR -->
+<div id="page-rightbar" sticky-scroll="40" rightbar-right-position="style_layoutBoxed" style="">
+    <div jscrollpane="{autoReinitialise:true, autoReinitialiseDelay: 100}" style="height: 100%;padding-bottom:40px" ng-show="!call.incoming">
+        <accordion close-others="rightbarAccordionsShowOne">
+            <accordion-group is-open="rightbarAccordions[0].open" ng-class="{open:rightbarAccordions[0].open}">
+                <accordion-heading>Outbound Calls</accordion-heading>
+                <form id="CallForm" role="form">
+                    <div class="form-group">
+
+                        <ui-select id="customers" ng-model="customer_call.selected" style="width:100%" ng-change="callCustomerChanged()">
+                            <ui-select-match placeholder="Select Customer...">{{$select.selected.full_name}}</ui-select-match>
+                            <ui-select-choices repeat="customer_call in customers"
+                                    refresh="refreshCustomers($select.search)"
+                                    refresh-delay="0">
+                                <div ng-bind-html="customer_call.full_name"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                
+                    <div class="form-group">
+                        <input type="text" id="call_number" 
+                            placeholder="Phone number" class="form-control" ng-model="call.number">
+                    </div>
+                    <div class="form-group" id="call-time-track">
+                        <p class="text-center">{{call.hhours}}:{{call.mminutes}}:{{call.sseconds}}</p>
+                    </div>
+                    <div class="form-group text-center">
+                        <button class="btn btn-green" ng-click="callPhone()" ng-disabled="call.calling">
+                            <i class="fa fa-phone"></i>
+                            Call
+                        </button>
+                        <button class="btn btn-brown" ng-click="hangupPhone()" ng-disabled="!call.calling">
+                            <i class="fa fa-ban"></i>
+                            Hangup
+                        </button>
+                    </div>
+                </form>
+            </accordion-group>
+
+            <accordion-group is-open="rightbarAccordions[1].open" ng-class="{open:rightbarAccordions[1].open}">
+                <accordion-heading>
+                    Send Message
+                </accordion-heading>
+                <form id="MessageForm" role="form">
+                    <div class="form-group">
+
+                        <ui-select id="customers" ng-model="customer_msg.selected" style="width:100%" ng-change="msgCustomerChanged()">
+                            <ui-select-match placeholder="Select Customer...">{{$select.selected.full_name}}</ui-select-match>
+                            <ui-select-choices repeat="customer_msg in customers"
+                                    refresh="refreshCustomers($select.search)"
+                                    refresh-delay="0">
+                                <div ng-bind-html="customer_msg.full_name"></div>
+                            </ui-select-choices>
+                        </ui-select>
+
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" id="send_message_number" 
+                            placeholder="Phone number" class="form-control" style="margin-bottom:12px;" ng-model="send.MessageNumber">
+                        <textarea id="send_message" class="form-control" rows="8" placeholder="Message..." ng-model="send.Message"></textarea>                    
+                    </div>
+                    <div class="form-group text-center">
+                        <button class="btn btn-inverse" ng-click="sendMessage()">
+                            <i class="fa fa-envelope"></i>
+                            Send
+                        </button>
+                    </div>
+                </form>
+            </accordion-group>
+        </accordion>
+    </div>
+    <div jscrollpane="{autoReinitialise:true, autoReinitialiseDelay: 100}" style="height: 100%;padding-bottom:40px" ng-show="call.incoming">
+        <accordion close-others="rightbarAccordionsShowOne">
+            <accordion-group is-open="rightbarAccordions[0].open" ng-class="{open:rightbarAccordions[0].open}">
+                <accordion-heading>Inbound Call</accordion-heading>
+                <form role="form" class="form-horizontal" style="padding: 0 20px;">
+                    <div class="form-group">  
+                        <p class="chat-users text-center">  
+                        <img style="float:none; text-align:center;" src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg">
+                        <div class="text-center" style="font-size:15px">{{call.inbound_name}}</div>
+                    </div>
+                    <hr>
+                    <div class="text-center form-group">Incoming Call...</div>
+                    <div class="form-group">
+                        <label for="callFromNumber" class="col-sm-4 control-label twilio-inbound-label">From</label>
+                        <div class="col-sm-8">
+                              <input type="text" class="form-control twilio-inbound-phone" id="callFromNumber" readonly ng-model="call.from_number">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="callToNumber" class="col-sm-4 control-label twilio-inbound-label">To</label>
+                        <div class="col-sm-8">
+                              <input type="text" class="form-control twilio-inbound-phone" id="callToNumber" readonly ng-model="call.to_number">
+                        </div>
+                    </div>
+                    <div class="text-center">(uBreakifix)</div>
+                    <div class="form-group" id="call-time-track">
+                        <p class="text-center">{{call.hhours}}:{{call.mminutes}}:{{call.sseconds}}</p>
+                    </div>
+                    <hr>
+                    <div>
+                        <button class="btn btn-green" ng-click="acceptIncoming()" ng-disabled="call.calling">
+                            <i class="fa fa-phone"></i>
+                            Accept
+                        </button>
+                        <button class="btn btn-brown pull-right" ng-click="rejectIncoming()">
+                            <i class="fa fa-ban"></i>
+                            Reject
+                        </button>
+                    </div>
+                </form>
+            </accordion-group>
+        </accordion>
+    </div>
+</div>
+<!-- END RIGHTBAR -->

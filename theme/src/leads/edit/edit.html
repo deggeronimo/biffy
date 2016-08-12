@@ -1,0 +1,74 @@
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="home">Dashboard</a></li>
+        <li><a ui-sref="leads">Leads</a></li>
+        <li class="active">Edit</li>
+    </ol>
+    <h1>Leads</h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>{{ mode }} Lead</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="control-label col-xs-2">Given Name</label>
+                                <label class="control-label col-xs-10">
+                                    <input type="text" class="form-control" ng-model="data.given_name">
+                                </label>
+                                <label class="control-label col-xs-2">Family Name</label>
+                                <label class="control-label col-xs-10">
+                                    <input type="text" class="form-control" ng-model="data.family_name">
+                                </label>
+                                <label class="control-label col-xs-2">Phone</label>
+                                <label class="control-label col-xs-10">
+                                    <input type="text" class="form-control" ng-model="data.phone">
+                                </label>
+                                <label class="control-label col-xs-2">Email</label>
+                                <label class="control-label col-xs-10">
+                                    <input type="text" class="form-control" ng-model="data.email">
+                                </label>
+                                <label class="control-label col-xs-2">Zip Code</label>
+                                <label class="control-label col-xs-10">
+                                    <input type="text" class="form-control" ng-model="data.postal_code">
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-2">Device</label>
+                                <label class="control-label col-xs-10">
+                                    <input type="text" class="form-control" ng-model="data.device">
+                                </label>
+                                <label class="control-label col-xs-2">Issue</label>
+                                <label class="control-label col-xs-10">
+                                    <textarea class="form-control" ng-model="data.issue"></textarea>
+                                </label>
+                                <label class="control-label col-xs-2">Price</label>
+                                <label class="control-label col-xs-10">
+                                    <input type="text" class="form-control" ng-model="data.price">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <button type="button" class="btn red" ng-click="destroy()" ng-if="isEdit()">Delete</button>
+                                    <button type="button" class="btn default" ng-click="cancel()">Cancel</button>
+                                </div>
+                                <div class="col-xs-6 text-right">
+                                    <button type="button" class="btn green" ng-click="createWorkOrder()" ng-if="isEdit()">Create Work Order</button>
+                                    <button type="button" class="btn green" ng-click="store()" ng-if="isAdd()">Save</button>
+                                    <button type="button" class="btn green" ng-click="update()" ng-if="isEdit()">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

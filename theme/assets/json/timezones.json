@@ -1,0 +1,8 @@
+{
+    "America/Port_of_Spain": "Trinidad",
+    "America/New_York": "Eastern time",
+    "America/Chicago": "Central time",
+    "America/Denver": "Mountain time",
+    "America/Phoenix": "Mountain time (no DST)",
+    "America/Los_Angeles": "Pacific time"
+}

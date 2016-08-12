@@ -1,0 +1,259 @@
+<div class="container-fluid">
+    <div class="row pos">
+        <div class="col-md-8 col-sm-12">
+            <div id="pos-left-content">
+                <ul class="breadcrumb">
+                    <li><a href="#">Purchasing</a></li>
+                    <li class="active"><a href="#">{{ mode }} Purchase Order</a></li>
+                </ul>
+                <div class="options">
+                    <div class="btn-toolbar pull-right">
+                        Toolbar Not Available
+                    </div>
+                </div>
+                <div class="row">
+                    <br/>
+                </div>
+                <div class="row" ng-if="negativeInventoryItemList && negativeInventoryItemList.length > 0">
+                    <div class="col-xs-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h4>Negative Count Inventory Items</h4>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive wo-items">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th align="middle">Item Name</th>
+                                            <th align="middle">Quantity</th>
+                                            <th align="middle">On Order</th>
+                                            <th align="middle">Required</th>
+                                            <th align="middle">Distro Price</th>
+                                            <th align="middle">Available</th>
+                                            <th align="middle">Actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="inventoryItem in negativeInventoryItemList">
+                                            <td align="left">{{inventoryItem.name}}</td>
+                                            <td align="left">{{inventoryItem.stock}}</td>
+                                            <td align="left">{{inventoryItem.on_order}}</td>
+                                            <td align="left">{{inventoryItem.item.required}}</td>
+                                            <td align="left">{{inventoryItem.distro_price | currency}}</td>
+                                            <td align="left">Available</td>
+                                            <td align="left"><a href="#" class="btn btn-primary" ng-click="addNegativeItem(inventoryItem)"><span class="fa fa-plus"> Add</span></a></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div><!--  End of Table -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row pull-right" ng-if="negativeInventoryItemList && negativeInventoryItemList.length > 0">
+                    <td align="left"><a href="#" class="btn btn-primary" ng-click="addAllTheNegativeItems()"><span class="fa fa-plus"> Add All</span></a></td>
+                </div>
+                <div class="row" ng-if="!isFinalized()" store-item-search-box>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h4>Purchase Order</h4>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive wo-items">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th align="middle">Item Name</th>
+                                            <th align="middle">Sold in 28 Days</th>
+                                            <th align="middle">Available</th>
+                                            <th align="middle">On Order</th>
+                                            <th align="middle" ng-if="isFinalized()">Received</th>
+                                            <th align="middle">Price</th>
+                                            <th align="middle" ng-if="currentPurchaseOrder.vendor_id==1">Available</th>
+                                            <th align="middle" ng-if="!isFinalized()">Order</th>
+                                            <th align="middle" ng-if="isFinalized()">Receive</th>
+                                            <th align="middle">Subtotal</th>
+                                            <th align="middle">Actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="purchaseItem in purchaseItemList">
+                                            <td align="left">{{purchaseItem.store_item.item.name}}</td>
+                                            <td align="left">Sold in 28 Days</td>
+                                            <td align="left">{{purchaseItem.store_item.stock}}</td>
+                                            <td align="left">{{purchaseItem.store_item.on_order}}</td>
+                                            <td align="left" ng-if="isFinalized()">{{purchaseItem.received}}</td>
+                                            <td align="left" ng-if="isFinalized() || currentPurchaseOrder.vendor_id==1">{{purchaseItem.cost | currency}}</td>
+                                            <td align="left" ng-if="!isFinalized() && currentPurchaseOrder.vendor_id!=1">
+                                                <input type="text" class="form-control" ng-model="purchaseItem.price" ng-change="updatePurchaseItemSubtotal(purchaseItem)">
+                                            </td>
+                                            <td align="left" ng-if="currentPurchaseOrder.vendor_id==1">Available</td>
+                                            <td align="left" ng-if="!isFinalized()">
+                                                <input type="text" class="form-control" ng-model="purchaseItem.store_item.to_order" ng-change="updatePurchaseItemSubtotal(purchaseItem)">
+                                            </td>
+                                            <td align="left" ng-if="isFinalized()&&purchaseItem.store_item.on_order==0">
+                                                0
+                                            </td>
+                                            <td align="left" ng-if="isFinalized()&&purchaseItem.store_item.on_order!=0">
+                                                <input type="text" class="form-control" ng-model="purchaseItem.to_receive">
+                                            </td>
+                                            <td align="left">{{purchaseItem.store_item.subtotal | currency}}</td>
+                                            <td align="left">
+                                                <div ng-if="!isFinalized()"><a href="#" class="btn btn-primary" ng-click="removePurchaseItem(purchaseItem)"><span class="fa fa-times"></span> Remove</a></div>
+                                                <div ng-if="isFinalized()&&purchaseItem.store_item.on_order!=0"><a href="#" class="btn btn-success" ng-click="receivePurchaseItem(purchaseItem)"><span class="fa fa-circle-thin"></span> Receive</a></div>
+                                            </td>
+                                        </tr>
+                                        <tr ng-repeat="orderItem in orderItemList">
+                                            <td align="left">{{orderItem.name}}</td>
+                                            <td align="left">Sold in 28 Days</td>
+                                            <td align="left">{{orderItem.stock}}</td>
+                                            <td align="left">{{orderItem.on_order}}</td>
+                                            <td align="left" ng-if="currentPurchaseOrder.vendor_id==1">{{orderItem.price |currency}}</td>
+                                            <td align="left" ng-if="currentPurchaseOrder.vendor_id!=1">
+                                                <input type="text" class="form-control" ng-model="orderItem.price" ng-change="updateOrderItemSubtotal(orderItem)">
+                                            </td>
+                                            <td align="left" ng-if="currentPurchaseOrder.vendor_id==1">Available</td>
+                                            <td align="left">
+                                                <input type="text" class="form-control" ng-model="orderItem.to_order" ng-change="updateOrderItemSubtotal(orderItem)">
+                                            </td>
+                                            <td align="left">{{orderItem.subtotal | currency}}</td>
+                                            <td align="left"><a href="#" class="btn btn-primary" ng-click="removeOrderItem(orderItem)"><span class="fa fa-times"></span> Remove</a></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div><!--  End of Table -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Side Bar Start-->
+        <div id="pos-sidebar" class="col-sm-12 col-md-4">
+            <div id="sales-totals" class="table-responsive" ng-if="currentPurchaseOrder != null">
+                <h2>Purchase Order Info</h2>
+                <table class="table">
+                    <tfoot>
+                    <tr>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Currency Rate:</td>
+                        <td class="sales-bg-b" align="right" ng-if="!isFinalized()">
+                            <input type="text" class="form-control" ng-model="currentPurchaseOrder.currency_rate">
+                        </td>
+                        <td class="sales-bg-b" align="right" ng-if="isFinalized()">
+                            {{currentPurchaseOrder.currency_rate}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Vendor:</td>
+                        <td class="sales-bg-b" align="right" ng-if="!isFinalized()">
+                            <select class="form-control" ng-model="currentPurchaseOrder.vendor_id"
+                                    ng-options="(vendorList.indexOf(selectedItem)+1) as selectedItem.name for selectedItem in vendorList"
+                                    ng-change="updateOrderItemPrices(currentPurchaseOrder.vendor_id)">
+                            </select>
+                        </td>
+                        <td class="sales-bg-b" align="right" ng-if="isFinalized()">
+                            {{getVendorById(currentPurchaseOrder.vendor_id).name}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Shipping Method:</td>
+                        <td class="sales-bg-b" align="right" ng-if="currentPurchaseOrder.vendor_id==1 && !isFinalized()">
+                            <select class="form-control" ng-model="currentPurchaseOrder.shipping_method"
+                                    ng-options="selectedItem for selectedItem in shippingMethodsRange()">
+                            </select>
+                        </td>
+                        <td class="sales-bg-b" align="right" ng-if="currentPurchaseOrder.vendor_id!=1 && !isFinalized()">
+                            <input type="text" class="form-control" ng-model="currentPurchaseOrder.shipping_method">
+                        </td>
+                        <td class="sales-bg-b" align="right" ng-if="isFinalized()">{{currentPurchaseOrder.shipping_method}}</td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Tracking Number:</td>
+                        <td class="sales-bg-b" align="right" ng-if="isFinalized()">
+                            <a target="_blank" href="http://wwwapps.ups.com/WebTracking/track?track=yes&trackNums={{currentPurchaseOrder.tracking_number}}">
+                                {{currentPurchaseOrder.tracking_number}}
+                            </a>
+                        </td>
+                        <td class="sales-bg-b" align="right" ng-if="currentPurchaseOrder.vendor_id!=1 && !isFinalized()">
+                            <input type="text" class="form-control" ng-model="currentPurchaseOrder.tracking_number">
+                        </td>
+                        <td class="sales-bg-b" align="right" ng-if="currentPurchaseOrder.vendor_id==1 && !isFinalized()"></td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Shipping Cost:</td>
+                        <td class="sales-bg-b" align="right" ng-if="currentPurchaseOrder.vendor_id==1">{{currentPurchaseOrder.shipping_cost | currency}}</td>
+                        <td class="sales-bg-b" align="right" ng-if="currentPurchaseOrder.vendor_id!=1 && !isFinalized()">
+                            <input type="text" class="form-control" ng-model="currentPurchaseOrder.shipping_cost">
+                        </td>
+                        <td class="sales-bg-b" align="right" ng-if="currentPurchaseOrder.vendor_id!=1 && isFinalized()">{{currentPurchaseOrder.shipping_cost | currency}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div><!--  End of Table -->
+            <div id="sales-totals" class="table-responsive">
+                <h2>Purchase Order Total</h2>
+                <table class="table">
+                    <tfoot>
+                    <tr>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Items in Cart:</td>
+                        <td class="sales-bg-b" align="right">{{orderItemList.length + purchaseItemList.length}}</td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Subtotal:</td>
+                        <td class="sales-bg-b" align="right">{{money.subtotal |currency}}</td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Sales Tax ({{viewTaxRate}}%):</td>
+                        <td class="sales-bg-b" align="right">{{money.taxes | currency}}</td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Total:</td>
+                        <td class="sales-bg-b" align="right">{{money.subtotal + money.taxes | currency}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div><!--  End of Table -->
+            <div ng-if="dirty && !isFinalized()">
+                <div class="row">
+                    <div class="pay-type">
+                        <div class="col-md-12">
+                            <button id="save-button" class="btn btn-lg btn-success save" ng-click="saveAllTheThings()"><strong>Save</strong></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="!dirty && !isFinalized() && (orderItemList.length + purchaseItemList.length)>0">
+                <div class="row">
+                    <div class="pay-type">
+                        <div class="col-md-12">
+                            <button id="finalize-button" class="btn btn-lg btn-success save" ng-click="finalizeOrder()">
+                                <strong>{{currentPurchaseOrder.vendor_id==1?'Send Order To Distro':'Finalize Order'}}</strong>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="isFinalized() && itemsToReceive > 0">
+                <div class="row">
+                    <div class="pay-type">
+                        <div class="col-md-12">
+                            <button id="receive-all-button" class="btn btn-lg btn-success save" ng-click="receiveAllTheThings()"><strong>Receive All: {{itemsToReceive}} items</strong></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--pos sidebar-->
+    </div>
+</div>

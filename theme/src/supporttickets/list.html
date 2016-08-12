@@ -1,0 +1,120 @@
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="home">Dashboard</a></li>
+        <li class="active">Support Tickets</li>
+    </ol>
+    <h1>Support Tickets</h1>
+    <div class="options">
+        <div class="btn-toolbar">
+            <a ui-sref="supporttickets.add" class="btn btn-default btn-sm">Add</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.reload()">Refresh</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.sorting({})">Clear sorting</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.filter({})">Clear filter</a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>Support Tickets</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <select ui-select2="{allowClear: true}" data-placeholder="Filter assignee..." class="form-control" ng-model="tableParams.filter()['user_id']" style="width:100%">
+                                <option></option>
+                                <option ng-repeat="item in users" value="{{item.id}}">{{item.name}}</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-6">
+                            <select ui-select2="{allowClear: true}" data-placeholder="Filter category..." class="form-control" ng-model="tableParams.filter()['category_id']" style="width:100%">
+                                <option></option>
+                                <option ng-repeat="item in categories" value="{{item.id}}">{{item.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <select ui-select2="{allowClear: true}" data-placeholder="Filter status..." class="form-control" ng-model="tableParams.filter()['status_id']" style="width:100%">
+                                <option></option>
+                                <option ng-repeat="item in statuses" value="{{item.id}}">{{item.name}}</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-6">
+                            <input type="text" class="form-control" placeholder="Search..." ng-model="tableParams.filter()['search']"/>
+                        </div>
+                    </div>
+                    <table class="table table-bordered" ng-table="tableParams">
+                        <thead>
+                        <tr>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('id', 'asc'),
+                                'sort-desc': tableParams.isSortBy('id', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'id' : tableParams.isSortBy('id', 'asc') ? 'desc' : 'asc'})">
+                                <div>#</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('title', 'asc'),
+                                'sort-desc': tableParams.isSortBy('title', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'title' : tableParams.isSortBy('title', 'asc') ? 'desc' : 'asc'})">
+                                <div>Title</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('author', 'asc'),
+                                'sort-desc': tableParams.isSortBy('author', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'author' : tableParams.isSortBy('author', 'asc') ? 'desc' : 'asc'})">
+                                <div>Author</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('status', 'asc'),
+                                'sort-desc': tableParams.isSortBy('status', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'status' : tableParams.isSortBy('status', 'asc') ? 'desc' : 'asc'})">
+                                <div>Status</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('category', 'asc'),
+                                'sort-desc': tableParams.isSortBy('category', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'category' : tableParams.isSortBy('category', 'asc') ? 'desc' : 'asc'})">
+                                <div>Category</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('assignee', 'asc'),
+                                'sort-desc': tableParams.isSortBy('assignee', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'assignee' : tableParams.isSortBy('assignee', 'asc') ? 'desc' : 'asc'})">
+                                <div>Assignee</div>
+                            </th>
+                            <th>Messages</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="odd gradeX" ng-repeat="data in $data">
+                            <td>{{data.id}}</td>
+                            <td>{{data.title}}</td>
+                            <td>{{data.author_name}}</td>
+                            <td>{{data.status_name}}</td>
+                            <td>{{data.category_name}}</td>
+                            <td>{{data.assignee_name}}</td>
+                            <td><i class="fa fa-comment-o"></i> {{data.messages}}</td>
+                            <td data-title="'Actions'">
+                                <a class="btn default btn-xs green" ui-sref="supporttickets.edit({id:data.id})">
+                                    <i class="fa fa-edit"></i>
+                                    Update
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+<div class="modal-header">
+    <h3 class="modal-title">Device Repair Option List</h3>
+</div>
+<div class="modal-body">
+    <h2><span class="fa fa-mobile"></span> Device Repair Option List</h2>
+    <div class="row">
+        <div class="col-md-12" id="first-name">
+            <div class="row">
+                <label>Device Option: <span class="asterisk">*</span></label>
+                <select class="form-control" ng-model="data.device_repair_option_id">
+                    <option ng-repeat="deviceRepairOption in deviceRepairOptions" value="{{deviceRepairOption.id}}">{{deviceRepairOption.name}}</option>
+                </select>
+            </div>
+            <div class="row">
+                <label>Option Value:</label>
+                <input type="text" class="form-control" ng-model="data.option_value"/>
+            </div>
+            <div class="row">
+                <label>Image:</label>
+                <input type="text" class="form-control" ng-model="data.image"/>
+            </div>
+            <div class="row">
+                <label class="control-label col-xs-2">Item</label>
+                <div class="col-xs-6">
+                    <item-search-box />
+                </div>
+                <label class="control-label col-xs-4">
+                    <input type="text" class="form-control" ng-model="data.item.name" disabled>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary push-left" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-success" ng-click="save()">Select</button>
+</div>

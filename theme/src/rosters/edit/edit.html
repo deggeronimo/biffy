@@ -1,0 +1,51 @@
+<form class="form-horizontal row-border" method="post">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h4>{{mode}}</h4>
+        </div>
+        <div class="panel-body">
+            <div class="form-body">
+                <div class="form-group">
+                    <div class="row">
+                        <label class="control-label col-xs-4">Start Date/Time</label>
+                        <div class="col-xs-8">
+                            <i-dtp format="'MMM D, YYYY hh:mm a'" ng-model="data.start_time" icon="calendar" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="control-label col-xs-4">End Date/Time</label>
+                        <div class="col-xs-8">
+                            <i-spin ng-model="data.time_interval" step="30" min="0" max="720" custom-format="formatEndTime" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="control-label col-xs-4">Allowed break</label>
+                        <div class="col-xs-8">
+                            <i-spin ng-model="data.allowed_break" step="15" min="0" max="240" custom-format="formatMinutes" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="control-label col-xs-4">Roster role</label>
+                        <div class="col-xs-8">
+                            <select ui-select2 data-placeholder="Please choose..." class="form-control" ng-multiple="true" ng-model="data.roster_role_ids" style="width:100%">
+                                <option ng-repeat="item in roster_roles" value="{{item.id}}">{{item.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-xs-6">
+                    <button type="button" class="btn red" ng-click="destroy()" ng-if="isEdit()">Delete</button>
+                    <button type="button" class="btn default" ng-click="cancel()">Cancel</button>
+                </div>
+                <div class="col-xs-6 text-right">
+                    <button type="button" class="btn green" ng-click="store()" ng-if="isAdd()">Save</button>
+                    <button type="button" class="btn green" ng-click="update()" ng-if="isEdit()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

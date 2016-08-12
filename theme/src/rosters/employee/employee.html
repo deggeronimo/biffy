@@ -1,0 +1,15 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h4>Roster</h4>
+        <div class="options">
+            <a ui-sref="rosters.employee.add({employeeId: params.filter.employee_id})">Add <i class="fa fa-plus-square-o"></i></a>
+            <a ng-click="refresh()">Refresh <i class="fa fa-refresh"></i></a>
+            <a ng-click="showAll()">All <i class="fa fa-sort"></i></a>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,3 @@
+<input type="text" class="form-control" ng-model="asyncCustomer" placeholder="Search..."
+       typeahead="item.id as (item.given_name + ' ' + item.family_name + ': ' + phoneFormat(item.phone) + ' ' + item.store.name ) for item in getCustomerItems($viewValue)"
+       typeahead-loading="loadingCustomers" typeahead-on-select="selectCustomer($item); asyncCustomer = '';" typeahead-wait-ms="300">

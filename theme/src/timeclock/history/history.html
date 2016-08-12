@@ -1,0 +1,56 @@
+<div class="container-fluid">
+	<div class="col-md-12 pos">
+        <ul class="breadcrumb">
+            <li><a href="/">Dashboard</a></li>
+            <li><a ui-sref="timeclock">Timeclock</a></li>
+            <li class="active">History</li>
+        </ul>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4>Timeclock History</h4>
+            </div>
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <input type="text" class="form-control" ng-value="'{{range.from}} - {{range.to}}'" daterangepicker="dateRangePickerOptions" date-begin="range.from" date-end="range.to">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Employee</th>
+                            <th>Work Hours</th>
+                            <th>Break Hours</th>
+                            <th>Daily OT *</th>
+                            <th>Weekly OT **</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="entry in history">
+                            <td>{{entry.name}}</td>
+                            <td>{{entry.workHours}}</td>
+                            <td>{{entry.breakHours}}</td>
+                            <td>{{entry.dailyOvertime}}</td>
+                            <td>{{entry.weeklyOvertime}}</td>
+                            <td><a ui-sref="timeclock.details(detailsObj(entry.user_id))"><i class="fa fa-list"></i> Details</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p style="margin-bottom: 0;">
+                    * Sum of hours worked over 8 per day<br>
+                    ** Sum of hours worked over 40 per week
+                </p>
+            </div>
+        </div>
+	</div>
+</div>

@@ -1,0 +1,95 @@
+<div class="container-fluid">
+    <div class="row pos">
+        <div class="col-md-8 col-sm-12">
+            <div id="pos-left-content">
+                <ul class="breadcrumb">
+                    <li><a href="#">Feedback</a></li>
+                    <li class="active"><a href="#">Edit</a></li>
+                </ul>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h4>Reporting</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <table class="table table-bordered">
+                                        <tr class="even gradeX" ng-repeat="report in reportList">
+                                            <td data-title="'{{report.name}}'">{{report.name}}</td>
+                                            <td data-title="'Graphical Reports'">
+                                                <a class="btn default btn-xs green" ui-sref="{{report.state}}({reportType:'GraphicalReport'})"
+                                                        ng-if="report.graphical==true"><i class="fa fa-edit"></i> Graphical Report</a>
+                                            </td>
+                                            <td data-title="'Summary Reports'">
+                                                <a class="btn default btn-xs green" ui-sref="{{report.state}}({reportType:'SummaryReport'})"
+                                                        ng-if="report.summary==true"><i class="fa fa-edit"></i> Summary Report</a>
+                                            </td>
+                                            <td data-title="'Detailed Reports'">
+                                                <a class="btn default btn-xs green" ui-sref="{{report.state}}({reportType:'DetailedReport'})"
+                                                        ng-if="report.detailed==true"><i class="fa fa-edit"></i> Detailed Report</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Side Bar Start-->
+        <div id="pos-sidebar" class="col-sm-12 col-md-4">
+            <div id="sales-totals"class="table-responsive">
+                <h2>Report Info</h2>
+                <table class="table">
+                    <tfoot>
+                    <tr>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Report Name:</td>
+                        <td class="sales-bg-b" align="right">
+                            <select class="form-control" ng-model="generate.name"
+                                    ng-options="reportItem.name as reportItem.name for reportItem in reportList">
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Report Type:</td>
+                        <td class="sales-bg-b" align="right">
+                            <select class="form-control" ng-model="generate.type">
+                                <option value="1">Graphical</option>
+                                <option value="2">Summary</option>
+                                <option value="3">Detailed</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">From Date</td>
+                        <td class="sales-bg-b" align="right">
+                            <input ui-date ng-model="generate.fromDate" ui-date-format='yy-mm-dd'>
+                        </td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">To Date</td>
+                        <td class="sales-bg-b" align="right">
+                            <input ui-date ng-model="generate.toDate" ui-date-format='yy-mm-dd'>
+                        </td>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div><!--  End of Table -->
+            <div class="row">
+                <div class="pay-type">
+                    <div class="col-md-12">
+                        <button id="receive-all-button" class="btn btn-lg btn-success save" ng-click="generateReport()"><strong>Generate Report</strong></button>
+                    </div>
+                </div>
+            </div>
+        </div><!--pos sidebar-->
+    </div>
+</div>

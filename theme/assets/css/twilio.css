@@ -1,0 +1,19 @@
+#customers .ui-select-match span i.caret{
+  margin-top: -9px;
+  margin-right: 4px;
+}
+
+#customers .ui-select-match span.btn-default {
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+
+.twilio-inbound-label {
+  text-align: left !important; 
+  font-weight:bold;
+}
+
+.twilio-inbound-phone {
+   border: 0;
+   cursor:default !important;
+}

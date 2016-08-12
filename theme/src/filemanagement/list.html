@@ -1,0 +1,78 @@
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="home">Dashboard</a></li>
+        <li class="active">File management</li>
+    </ol>
+    <h1>Files</h1>
+    <div class="options">
+        <div class="btn-toolbar">
+            <a class="btn btn-default btn-sm" ng-click="export()" target="_self">Export</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.reload()">Refresh</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.sorting({})">Clear sorting</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.filter({})">Clear filter</a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>Files</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <div ui-tree>
+                                <ol ui-tree-nodes="options" ng-model="categories">
+                                    <li ng-repeat="category in categories" ui-tree-node data-nodrag>
+                                        <div ui-tree-handle ng-click="toggle(this)">
+                                            <a class="btn handletools expand">
+                                                <span class="fa fa-fw" ng-class="{'fa-folder-o': collapsed, 'fa-folder-open-o': !collapsed}" ng-show="category.sets.length"></span>
+                                            </a>
+                                            {{category.name}}
+                                            <a class="btn handletools delete" data-nodrag ng-click="deleteCategory(category);$event.stopPropagation();"><span class="fa fa-fw fa-times"></span></a>
+                                            <a class="btn handletools add" data-nodrag ng-click="category.showNewSet=!category.showNewSet;$event.stopPropagation();"><span class="fa fa-fw fa-plus"></span></a>
+                                        </div>
+                                        <ol ui-tree-nodes="" ng-model="category.sets" ng-class="{hidden: collapsed}">
+                                            <li ng-repeat="set in category.sets" ui-tree-node data-nodrag data-collapsed="true">
+                                                <div ui-tree-handle ng-click="toggleSet(this, set)">
+                                                    <a class="btn handletools expand">
+                                                        <span class="fa fa-fw" ng-class="{'fa-folder-o': collapsed, 'fa-folder-open-o': !collapsed}"></span>
+                                                    </a>
+                                                    {{set.name}}
+                                                    <a class="btn handletools delete" data-nodrag ng-click="deleteSet(set);$event.stopPropagation();"><span class="fa fa-fw fa-times"></span></a>
+                                                </div>
+                                            </li>
+                                            <li ng-if="!!category.showNewSet" class="angular-ui-tree-node" data-nodrag data-collapsed="false">
+                                                <div class="angular-ui-tree-handle">
+                                                    <a class="btn handletools expand">
+                                                        <span class="fa fa-fw fa-folder-o"></span>
+                                                    </a>
+                                                    <input ng-model="category.newSetName" placeholder="new set" />
+                                                    <a class="btn handletools add" data-nodrag ng-click="addSet(category)"><span class="fa fa-fw fa-plus">&nbsp;add</a>
+                                                </div>
+                                            </li>
+                                        </ol>
+                                    </li>
+                                    <li class="angular-ui-tree-node">
+                                        <div class="angular-ui-tree-handle">
+                                            <a class="btn handletools expand">
+                                                <span class="fa fa-fw fa-folder-o"></span>
+                                            </a>
+                                            <input ng-model="newCategory.name" placeholder="new category" />
+                                            <a class="btn handletools add" data-nodrag ng-click="addCategory()"><span class="fa fa-fw fa-plus">&nbsp;add</a>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="col-xs-8">
+                            <ui-view/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

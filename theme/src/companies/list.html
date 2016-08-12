@@ -1,0 +1,194 @@
+<div class="row pos">
+	<div class="col-md-8 col-sm-12">
+		<div id="page-heading">
+			<ol class="breadcrumb">
+				<li><a ui-sref="home">Dashboard</a>
+				</li>
+				<li class="active">Companies</li>
+			</ol>
+			<div ng-if="contactDiv !== true">
+				<h1>Companies</h1>
+				<div class="options">
+					<div class="btn-toolbar">
+						<a ng-click="companiesAdd()" class="btn btn-default btn-sm">Add</a>
+						<a class="btn btn-default btn-sm" ng-click="export()" target="_self">Export</a>
+						<a class="btn btn-default btn-sm" ng-click="tableParams.reload()">Refresh</a>
+						<a class="btn btn-default btn-sm" ng-click="tableParams.sorting({})">Clear sorting</a>
+						<a class="btn btn-default btn-sm" ng-click="tableParams.filter({})">Clear filter</a>
+					</div>
+				</div>
+			</div>
+			<div ng-if="contactDiv ==true">
+				<h1>Contact </h1>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="col-xs-12">
+			<div ng-if="currentContactType == 'contact'">
+				<div class="container col-md-8 col-sm-12">
+					<div class="row">
+						<div class="panel panel-primary">
+							<div class="panel-heading">
+								<h4>Contact</h4>
+							</div>
+							<h4>{{currentContact.name}}</h4>
+							<a href="mailto:{{currentContact.email}}">Send mail</a>
+							<p>{{currentContact.phone}}</p>
+							<button type="button" class="btn green" ng-click="cancelContact()">Cancel</button>
+							<button type="button" class="btn green" ng-click="updateContact()">Edit</button>
+							<button type="button" class="btn green" ng-click="saveContact()">Save</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div ng-if="currentContactType == 'cancel' || currentContactType == 'home' || currentContactType == 'edit' || currentContactType == 'getting contact' || currentContactType == 'add'" class="container col-md-8 col-sm-12">
+				<div class="row">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h4>Companies</h4>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-xs-6 pull-right">
+									<input type="text" class="form-control" placeholder="Search..." ng-model="tableParams.filter()['search']" />
+								</div>
+							</div>
+							<table class="table table-bordered" ng-table="tableParams">
+								<thead>
+									<tr>
+										<th class="sortable" ng-class="{'sort-asc': tableParams.isSortBy('name', 'asc'),'sort-desc': tableParams.isSortBy('name', 'desc')}" ng-click="tableParams.sorting({'name' : tableParams.isSortBy('name', 'asc') ? 'desc' : 'asc'})">
+											<div>Name</div>
+										</th>
+										<th class="sortable" ng-class="{'sort-asc': tableParams.isSortBy('address_line_1', 'asc'),'sort-desc': tableParams.isSortBy('address_line_1', 'desc')}" ng-click="tableParams.sorting({'address_line_1' : tableParams.isSortBy('address_line_1', 'asc') ? 'desc' : 'asc'})">
+											<div>Address Line:</div>
+										</th>
+										<th class="sortable" ng-class="{'sort-asc': tableParams.isSortBy('email', 'asc'),'sort-desc': tableParams.isSortBy('email', 'desc')}" ng-click="tableParams.sorting({'email' : tableParams.isSortBy('email', 'asc') ? 'desc' : 'asc'})">
+											<div>Email</div>
+										</th>
+										<th class="sortable" ng-class="{'sort-asc': tableParams.isSortBy('discount', 'asc'),'sort-desc': tableParams.isSortBy('discount', 'desc')}" ng-click="tableParams.sorting({'discount' : tableParams.isSortBy('discount', 'asc') ? 'desc' : 'asc'})">
+											<div>Discount</div>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class="odd gradeX" ng-repeat="data in $data">
+										<td data-title="'Name'">
+											{{data.name}}
+										</td>
+										<td data-title="'Address'">
+											{{data.address_line_1}} </br>
+											{{data.address_line_2}}
+										</td>
+										<td data-title="'Email'">
+											<a href="mailto:{{data.email}}">{{data.email}}</a>
+										</td>
+										<td data-title="'Discount'">
+											{{data.discount}}
+										</td>
+										<td data-title="'Actions'">
+											<a class="btn default btn-xs green" ng-click="companiesEdit(data)">
+												<i class="fa fa-edit"></i> Edit
+											</a>
+											<a class="btn default btn-xs green" ng-click="getContact(data)">
+												<i class="fa fa-mobile"></i> Contact
+											</a>
+                                            <a class="btn default btn-xs green" ui-sref="companies.approvals({companyId:data.id})">
+                                                <i class="fa fa-edit"></i> Approvals
+                                            </a>
+                                            <a class="btn default btn-xs green" ui-sref="companies.instructions({companyId:data.id})">
+                                                <i class="fa fa-edit"></i> Instructions
+                                            </a>
+                                            <a class="btn default btn-xs green" ui-sref="companies.storeitems({companyId:data.id})">
+                                                <i class="fa fa-edit"></i> Store Items
+                                            </a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- End of container div-->
+			<div id="pos-sidebar" class="col-sm-12 col-md-4">
+				<tabset ng-if="currentContactType == 'edit' || currentContactType == 'add'">
+					<tab heading="{{mode}} Company" active="true">
+						<form class="form-horizontal row-border" method="post">
+							<div class="form-body">
+								<div class="form-group">
+									<div class="col-md-12">
+										<label class="control-label col-md-2">Name</label>
+										<label class="control-label col-md-10">
+											<input type="text" class="form-control" ng-model="company.name">
+										</label>
+									</div>
+									<div class="col-md-12">
+										<label class="control-label col-md-2">Address line 1</label>
+										<label class="control-label col-md-10">
+											<input type="text" class="form-control" ng-model="company.address_line_1">
+										</label>
+									</div>
+									<div class="col-md-12">
+										<label class="control-label col-md-2">Address line 2</label>
+
+										<label class="control-label col-md-10">
+											<input type="text" class="form-control" ng-model="company.address_line_2">
+										</label>
+									</div>
+									<div class="col-md-12">
+										<label class="control-label col-md-2">Phone</label>
+										<label class="control-label col-md-10">
+											<input type="text" class="form-control" ng-model="company.phone">
+										</label>
+									</div>
+									<div class="col-md-12">
+										<label class="control-label col-md-2">Email</label>
+										<label class="control-label col-md-10">
+											<input type="text" class="form-control" ng-model="company.email">
+										</label>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<label class="control-label col-md-2">Discount</label>
+										<label class="control-label col-md-10">
+											<input type="text" class="form-control" ng-model="company.discount">
+										</label>
+									</div>
+								</div>
+							</div>
+							<div class="panel-footer">
+								<div class="col-md-6">
+									<button type="button" class="btn red" ng-click="destroy()" ng-if="add == false">Delete</button>
+									<button type="button" class="btn default" ng-click="cancel()">Cancel</button>
+								</div>
+								<div class="col-md-6 text-right">
+									<button type="button" class="btn green" ng-click="store()" ng-if="mode == 'Add'">Save</button>
+									<button type="button" class="btn green" ng-click="update()" ng-if="mode == 'Edit'">Save</button>
+								</div>
+							</div>
+						</form>
+					</tab>
+					<tab heading="Contacts" ui-sref="companies.contacts({id: id})" ng-if="isEdit()">
+					</tab>
+				</tabset>
+				<div ng-if="currentContactType == 'getting contact'">
+					<h3>Contact</h3>
+					<ul class="customer-data">
+						<li class="device" ng-repeat="contact in contactData">
+							<a ng-click="contactInfo(contact)">
+								<span class="wo-num"> {{contact.name}} - {{contact.email}}</span>
+								<span class="description pull-right">{{contact.phone}}</span>
+							</a>
+						</li>
+					</ul>
+					<div class="add-device">
+						<button type="submit" class="btn btn-primary" id="submit" tabindex="9" ng-click="addNewContact()">Add Contact</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End of row pos div -->

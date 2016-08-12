@@ -1,0 +1,32 @@
+<div class="container-fluid">
+    <div class="col-md-12 pos">
+        <breadcrumbs></breadcrumbs>
+        <div id="page-heading">
+            <div class="options">
+                <div class="btn-toolbar">
+                    <a ui-sref="projects.edit({projectId: 'new'})" class="btn btn-default btn-sm">Add</a>
+                    <a ng-if="!viewCompleted" ng-click="setViewCompleted(true)" class="btn btn-default btn-sm">View Completed</a>
+                    <a ng-if="viewCompleted" ng-click="setViewCompleted(false)" class="btn btn-default btn-sm">View Active</a>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                        <tr>
+                            <td>Project</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="project in projects">
+                            <td><a ui-sref="projects.view({projectId: project.id})">{{project.name}}</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

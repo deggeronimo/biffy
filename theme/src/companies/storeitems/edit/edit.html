@@ -1,0 +1,58 @@
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="home">Dashboard</a></li>
+        <li>Companies</li>
+        <li>Store Items</li>
+        <li class="active">Edit</li>
+    </ol>
+    <h1>Company Store Items</h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>{{ mode }} Company Store Items</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <div ng-if="isAdd()">
+                                    <label class="control-label col-xs-2">Store Item</label>
+                                    <label class="control-label col-xs-10">
+                                        <store-item-search-box/>
+                                    </label>
+                                    <label class="control-label col-xs-2"></label>
+                                    <label class="control-label col-xs-10">
+                                        <input type="text" class="form-control" ng-model="currentStoreItem.item.name" disabled>
+                                    </label>
+                                </div>
+                                <label class="control-label col-xs-2">Unit Price</label>
+                                <label class="control-label col-xs-10">
+                                    <input type="text" class="form-control" ng-model="data.unit_price">
+                                </label>
+                                <label class="control-label col-xs-2">Labor Cost</label>
+                                <label class="control-label col-xs-10">
+                                    <input type="text" class="form-control" ng-model="data.labor_cost">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <button type="button" class="btn red" ng-click="destroy()" ng-if="isEdit()">Delete</button>
+                                    <button type="button" class="btn default" ng-click="cancel()">Cancel</button>
+                                </div>
+                                <div class="col-xs-6 text-right">
+                                    <button type="button" class="btn green" ng-click="store()" ng-if="isAdd()">Save</button>
+                                    <button type="button" class="btn green" ng-click="update()" ng-if="isEdit()">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,1 @@
+<input type="text" class="form-control" ng-model="asyncFamily" placeholder="Search..." typeahead="item.id as item.name for item in getFamilyItems($viewValue)" typeahead-loading="loadingFamilies" typeahead-on-select="selectFamily($item)" typeahead-wait-ms="300">

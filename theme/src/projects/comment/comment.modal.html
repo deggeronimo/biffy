@@ -1,0 +1,14 @@
+<div class="modal-header">
+    <h3 class="modal-title">Add Comment</h3>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xs-12">
+            <text-editor ng-model="comment.content"></text-editor>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-success push-left" ng-click="save()">Save</button>
+    <button type="button" class="btn push-left" ng-click="cancel()">Cancel</button>
+</div>

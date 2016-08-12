@@ -1,0 +1,72 @@
+<div class="container-fluid">
+    <div class="col-md-12 pos">
+        <breadcrumbs></breadcrumbs>
+        <div id="page-heading">
+            <h1>{{project.name}}</h1>
+            <div class="options">
+                <div class="btn-toolbar">
+                    <a ng-click="addTask()" class="btn btn-default btn-sm">Add Task</a>
+                    <a ng-if="currentUser.admin" ng-click="makeTemplate()" class="btn btn-default btn-sm">Make Template</a>
+                    <a ng-if="currentUser.admin && !project.completed_at" ng-click="completeProject()" class="btn btn-default btn-sm">Complete</a>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12" style="margin-bottom: 10px;">
+                    <ui-select ng-if="project.users" multiple class="form-control" ng-model="project.users">
+                        <ui-select-match ui-lock-choice="$item.cannotRemove">{{$item.username}}</ui-select-match>
+                        <ui-select-choices refresh="refresh($select.search)" refresh-delay="250" repeat="user in users">
+                            <div ng-bind-html="user.username | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <accordion>
+                        <accordion-group class="panel panel-primary" is-open="task.isOpen" ng-repeat="task in project.tasks">
+                            <accordion-heading>{{task.name}}</accordion-heading>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <a ng-click="addSubtask(task.id)"><i class="fa fa-plus"></i> Add Subtask</a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <accordion>
+                                        <accordion-group class="panel" ng-class="{'panel-dark': !subtask.completed_at, 'panel-success': subtask.completed_at}" is-open="subtask.isOpen" ng-repeat="subtask in task.subtasks">
+                                            <accordion-heading>
+                                                {{subtask.name}}
+                                                <span ng-if="!subtask.completed_at" class="pull-right" ng-click="completeTask(subtask.id, $event)"><i class="fa fa-check"></i> Complete Task</span>
+                                            </accordion-heading>
+                                            <ul class="timeline">
+                                                <li ng-if="subtask.description" class="timeline-white">
+                                                    <div class="timeline-body">
+                                                        <div class="timeline-content" ng-bind-html="subtask.description"></div>
+                                                    </div>
+                                                </li>
+                                                <li class="timeline-white" ng-repeat="comment in subtask.comments">
+                                                    <div class="timeline-icon">
+                                                        <img ng-src="{{comment.user.picture_url}}">
+                                                    </div>
+                                                    <div class="timeline-body">
+                                                        <div class="timeline-header">
+                                                            <span class="date">{{comment.created_at}} – {{comment.user.name}}</span>
+                                                        </div>
+                                                        <div class="timeline-content" ng-bind-html="comment.content"></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <a ng-click="addComment(subtask.id)"><i class="fa fa-comment"></i> Add Comment</a>
+                                        </accordion-group>
+                                    </accordion>
+                                </div>
+                            </div>
+                        </accordion-group>
+                    </accordion>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

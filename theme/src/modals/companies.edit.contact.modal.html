@@ -1,0 +1,25 @@
+<div class="modal-header">
+	<h3 class="modal-title">Edit Contact</h3>
+</div>
+<div class="modal-body">
+	<h3><span class="fa fa-user icon-circle"></span>&nbsp; Edit a Contact</h3>
+	<div class="row">
+		<div class="col-md-12">
+			<label for="contact-id"><strong>Contact Name:</strong></label><input type="text" id="contact-id" ng-model="currentcontact.name">
+		</div>
+
+		<div class="col-md-12">
+			<label for="contact-text"><strong>Email:</strong></label><input id="contact-text" type="text" ng-model="currentcontact.email">
+		</div>
+
+		<div class="col-md-12">
+			<label for="contact-phone"><strong>Phone Number:</strong></label><input id="contact-phone" type="text" ng-model="currentcontact.phone">
+		</div>
+	</div>
+	<a href="mailto:{{currentcontact.email}}">{{currentcontact.email}}</a>
+	<div class="clear"></div>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-primary push-left" ng-click="cancel()">Cancel</button>
+	<button type="button" class="btn btn-success" ng-click="saveContact(currentcontact)">Save</button>
+</div>

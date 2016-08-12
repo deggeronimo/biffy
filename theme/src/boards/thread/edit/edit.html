@@ -1,0 +1,42 @@
+<div class="container-fluid">
+    <div class="col-md-12 pos">
+        <breadcrumbs></breadcrumbs>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>{{mode}} Thread</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <form class="form-horizontal row-border">
+                                    <div class="form-body">
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-2">Title</label>
+                                            <label class="control-label col-xs-10">
+                                                <input type="text" class="form-control" ng-model="thread.title">
+                                            </label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <text-editor ng-model="thread.post"></text-editor>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <button type="button" class="btn" ng-click="store()" ng-if="isAdd()">Save</button>
+                                    <button type="button" class="btn" ng-click="update()" ng-if="!isAdd()">Save</button>
+                                    <button type="button" class="btn" ng-click="cancel()">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

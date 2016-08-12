@@ -1,0 +1,45 @@
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="home">Dashboard</a></li>
+        <li>Checklists</li>
+        <li class="active">Functions</li>
+    </ol>
+    <h1>Checklist Functions</h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>{{ mode }} Checklist Function</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="form-horizontal row-border">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="control-label col-xs-2">Name</label>
+                                    <label class="control-label col-xs-10">
+                                        <input type="text" class="form-control" ng-model="data.name">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <button type="button" class="btn red" ng-click="destroy()" ng-if="isEdit()">Delete</button>
+                                        <button type="button" class="btn default" ng-click="cancel()">Cancel</button>
+                                    </div>
+                                    <div class="col-xs-6 text-right">
+                                        <button type="button" class="btn green" ng-click="store()" ng-if="isAdd()">Save</button>
+                                        <button type="button" class="btn green" ng-click="update()" ng-if="isEdit()">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

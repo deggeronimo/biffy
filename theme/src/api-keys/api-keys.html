@@ -1,0 +1,39 @@
+<div class="container-fluid">
+    <div class="col-md-12 pos">
+        <ul class="breadcrumb">
+            <li><a ui-sref="home">Dashboard</a></li>
+            <li class="active">API Keys</li>
+        </ul>
+        <div id="page-heading">
+            <div class="options">
+                <div class="btn-toolbar">
+                    <a ng-click="addKey()" class="btn btn-default btn-sm">Add</a>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Key</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="key in data">
+                            <td>{{key.name}}</td>
+                            <td>{{key.key}}</td>
+                            <td>
+                                <a ng-click="deleteKey(key)"><i class="fa fa-trash-o"></i></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,164 @@
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="home">Dashboard</a></li>
+        <li><a ui-sref="supporttickets.list">Support Tickets</a></li>
+        <li class="active">#{{ticket.id}}</li>
+        <li>Update</li>
+    </ol>
+    <h1>Support Tickets</h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="col-xs-8">
+                        <h4 ng-hide="!!ticket.editTicket">{{ticket.title}} - #{{ticket.id}}</h4>
+                        <input type="text" class="form-control" ng-model="ticket.title" ng-show="!!ticket.editTicket">
+                    </div>
+                    <div class="options">
+                        <a ng-click="ticket.editTicket=!ticket.editTicket" ng-hide="!!ticket.editTicket">
+                            <i class="fa fa-edit"></i>
+                            Edit
+                        </a>
+                        <a ng-click="ticket.editTicket=!ticket.editTicket" ng-show="!!ticket.editTicket">
+                            Cancel
+                        </a>
+                        <a ng-click="updateTicket()" ng-show="!!ticket.editTicket">
+                            <i class="fa fa-edit"></i>
+                            Save
+                        </a>
+                        <a ng-click="destroyTicket()">
+                            <i class="fa fa-trash-o"></i>
+                            Delete
+                        </a>
+                        <a ng-click="reload()">
+                            <i class="fa fa-refresh"></i>
+                            Refresh
+                        </a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label col-xs-2 text-right">Author</label>
+                        <div class="col-xs-10">
+                            <label>{{ticket.author_name}} created {{ticket.created_at | timeAgo}}</label>
+                        </div>
+                        <label class="control-label col-xs-2 text-right">Status</label>
+                        <div class="col-xs-10">
+                            <label>{{ticket.status_name}}</label>
+                        </div>
+                        <label class="control-label col-xs-2 text-right">Assignee</label>
+                        <div class="col-xs-10">
+                            <label>{{ticket.assignee_name}}</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2 text-right">Category</label>
+                        <div class="col-xs-10">
+                            <select ui-select2 data-placeholder="Please choose..." class="form-control" ng-model="ticket.category_id" style="width:100%" ng-disabled="!ticket.editTicket">
+                                <option ng-repeat="item in categories" value="{{item.id}}">{{item.name}}</option>
+                            </select>
+                        </div>
+                        <label class="control-label col-xs-2 text-right">Watchers</label>
+                        <div class="col-xs-10">
+                            <select ui-select2 data-placeholder="Please choose..." class="form-control" ng-multiple="true" ng-model="ticket.watcher_ids" style="width:100%" ng-disabled="!ticket.editTicket">
+                                <option ng-repeat="item in users" value="{{item.id}}">{{item.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-10" ng-repeat="item in data" ng-class-odd="'col-xs-offset-2'">
+                <panel class="panel-sky" heading="{{item.author_name}} updated {{item.created_at | timeAgo}}">
+                    <panel-controls>
+                        <a ng-click="item.editItem=!ticket.editItem" ng-hide="!!item.editItem">
+                            <i class="fa fa-edit"></i>
+                            Edit
+                        </a>
+                        <a ng-click="item.editItem=!item.editItem" ng-show="!!item.editItem">
+                            Cancel
+                        </a>
+                        <a ng-click="update(item)" ng-show="!!item.editItem">
+                            <i class="fa fa-edit"></i>
+                            Save
+                        </a>
+                        <a ng-click="destroy(item)">
+                            <i class="fa fa-trash-o"></i>
+                            Delete
+                        </a>
+                    </panel-controls>
+                    <div ng-if="!!item.status_name || !!item.editItem">
+                        <label class="control-label col-xs-2 text-right">Status</label>
+                        <div class="col-xs-10">
+                            <label ng-hide="!!item.editItem">{{item.status_name}}</label>
+                            <select ui-select2 class="form-control" ng-model="item.status_id" style="width:100%" ng-show="!!item.editItem">
+                                <option value="">Please choose...</option>
+                                <option ng-repeat="item in statuses" value="{{item.id}}">{{item.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div ng-if="!!item.assignee_name || !!item.editItem">
+                        <label class="control-label col-xs-2 text-right">Assignee</label>
+                        <div class="col-xs-10">
+                            <label ng-hide="!!item.editItem">{{item.assignee_name}}</label>
+                            <select ui-select2 data-placeholder="Please choose..." class="form-control" ng-model="item.user_id" style="width:100%" ng-show="!!item.editItem">
+                                <option value="">Please choose...</option>
+                                <option ng-repeat="item in users" value="{{item.id}}">{{item.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2 text-right">Message</label>
+                        <div class="col-xs-10">
+                            <label ng-hide="!!item.editItem">{{item.message | noComment}}</label>
+                            <textarea ng-show="!!item.editItem" class="form-control" ng-model="item.message"></textarea>
+                        </div>
+                    </div>
+                </panel>
+            </div>
+            <!-- Add new update edit form -->
+            <div class="col-xs-10" ng-class="{'col-xs-offset-2': !(data.length % 2)}">
+                <div class="panel panel-sky">
+                    <div class="panel-heading">
+                        <h4>New update</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label class="control-label col-xs-2 text-right">Status</label>
+                            <div class="col-xs-10">
+                                <select ui-select2 class="form-control" ng-model="newItem.status_id" style="width:100%">
+                                    <option value="">Please choose...</option>
+                                    <option ng-repeat="item in statuses" value="{{item.id}}">{{item.name}}</option>
+                                </select>
+                            </div>
+                            <label class="control-label col-xs-2 text-right">Assignee</label>
+                            <div class="col-xs-10">
+                                <select ui-select2 data-placeholder="Please choose..." class="form-control" ng-model="newItem.user_id" style="width:100%">
+                                    <option value="">Please choose...</option>
+                                    <option ng-repeat="item in users" value="{{item.id}}">{{item.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2 text-right">Message</label>
+                            <div class="col-xs-10">
+                                <textarea class="form-control" ng-model="newItem.message"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <button type="button" class="btn default" ng-click="cancel()">Cancel</button>
+                            </div>
+                            <div class="col-xs-6 text-right">
+                                <button type="button" class="btn green" ng-click="store()">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="home">Dashboard</a></li>
+        <li><a ui-sref="users">Employees</a></li>
+        <li class="active">Permissions</li>
+    </ol>
+    <h1>Employees</h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>Update Permissions for {{user.given_name}} {{user.family_name}}</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <form class="form-horizontal row-border" method="post">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <div class="row checkbox col-sm-offset-1" ng-repeat="permission in permissions">
+                                        <label><input type="checkbox" ng-checked="userPermissions.indexOf(permission.id) > -1" ng-click="togglePermission(permission.id)"> {{permission.name}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <button type="button" class="btn default" ng-click="cancel()">Cancel</button>
+                        </div>
+                        <div class="col-xs-6 text-right">
+                            <button type="button" class="btn green" ng-click="update()">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

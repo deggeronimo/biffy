@@ -1,0 +1,63 @@
+<li class="timeline-white">
+    <div class="timeline-icon"><img ng-src="{{user.picture_url}}" /></div>
+    <div class="timeline-body">
+        <div class="timeline-header">
+            <h4 class="brand-type">{{user.given_name}} Says...</h4>
+        </div>
+        <div class="timeline-content">
+            <form role="form">
+                <div class="form-group">
+                    <div class="row wo-note">
+                        <div class="col-md-2">
+                            <button class="btn" ng-class="{'btn-default': note.diag === null, 'btn-success': note.diag !== null}" ng-click="addDiag()">
+                                <span ng-if="note.diag === null">Add Diag</span>
+                                <span ng-if="note.diag !== null">Diag Added</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row wo-note">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <text-editor ng-model="note.notes"></text-editor>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            Status
+                        </div>
+                    </div>
+                    <div class="row wo-note">
+                        <div class="col-sm-12">
+                            <select class="form-control" ng-model="selectedStatus" ng-options="status as status.name for status in statuses" ng-change="selectStatus()"></select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            {{selectedStatus.action_text}}
+                        </div>
+                    </div>
+                    <div class="row wo-note">
+                        <div class="col-sm-12">
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" id="next-update-time-toggle" data-toggle="dropdown" data-target="#">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control datetime-input-readonly" ng-value="note.next_update_time | date:'short'" readonly>
+                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu pull-left">
+                                    <datetimepicker ng-model="note.next_update_time" on-set-time="setNextUpdate(newDate)" datetimepicker-config="{dropdownSelector: '#next-update-time-toggle'}"></datetimepicker>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <button class="btn btn-primary col-md-2" ng-click="createNote();">Private</button>
+                    <button class="btn btn-primary col-md-2 col-md-offset-1" ng-click="note.public = 1; createNote();">Public</button>
+                    <button class="btn btn-primary col-md-2 col-md-offset-1" ng-click="createNote();">SMS</button>
+                    <button class="btn btn-primary col-md-2 col-md-offset-1" ng-click="createNote();">Email</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</li>

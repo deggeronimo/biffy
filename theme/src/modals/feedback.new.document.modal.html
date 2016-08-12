@@ -1,0 +1,29 @@
+<div class="modal-header">
+    <h3 class="modal-title">Create a Feedback Document</h3>
+</div>
+<div class="modal-body">
+    <div class="panel panel-default panel-body">
+        <h3><span class="fa fa-envelope icon-circle"></span>&nbsp; Create a Feedback Document</h3>
+        <div class="row">
+            <div class="col-sm-12 col-md-6" id="zip">
+                <label>File: <span class="asterisk">*</span></label>
+                <input ng-model='file' type="file" id="file"/>
+            </div>
+            <div class="col-sm-12 col-md-6" id="referral-type">
+                <label>Document Type: <span class="asterisk">*</span></label>
+                <select class="form-control" name="document-type" id="document-type" tabindex="7" ng-model="documentType">
+                    <option value="1">Receipt Image</option>
+                    <option value="2">Device Image</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <textarea class="form-control" rows="4" ng-model="notes.description" placeholder="Enter Description here..."></textarea>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary push-left" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-success" ng-click="save()">Save</button>
+</div>

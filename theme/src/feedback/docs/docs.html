@@ -1,0 +1,83 @@
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="home">Dashboard</a></li>
+        <li>Feedback</li>
+        <li class="active">Feedback Documents</li>
+    </ol>
+    <h1>Feedback</h1>
+    <div class="options">
+        <div class="btn-toolbar">
+            <a ui-sref="leads.edit()" class="btn btn-default btn-sm">Add</a>
+            <a class="btn btn-default btn-sm" ng-click="export()" target="_self">Export</a>
+            <a class="btn btn-default btn-sm" ng-click="feedbackTableParams.reload()">Refresh</a>
+            <a class="btn btn-default btn-sm" ng-click="feedbackTableParams.sorting({})">Clear sorting</a>
+            <a class="btn btn-default btn-sm" ng-click="feedbackTableParams.filter({})">Clear filter</a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>Feedback</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-6 pull-right">
+                            <input type="text" class="form-control" placeholder="Search..." ng-model="tableParams.filter()['search']"/>
+                        </div>
+                    </div>
+                    <table class="table table-bordered" ng-table="tableParams">
+                        <thead>
+                        <tr>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('filename', 'asc'),
+                                'sort-desc': tableParams.isSortBy('filename', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'filename' : tableParams.isSortBy('filename', 'asc') ? 'desc' : 'asc'})">
+                                <div>File Name</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('store_id', 'asc'),
+                                'sort-desc': tableParams.isSortBy('store_id', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'store_id' : tableParams.isSortBy('store_id', 'asc') ? 'desc' : 'asc'})">
+                                <div>Store Id</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('feedback_id', 'asc'),
+                                'sort-desc': tableParams.isSortBy('feedback_id', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'feedback_id' : tableParams.isSortBy('feedback_id', 'asc') ? 'desc' : 'asc'})">
+                                <div>Feedback Id</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('feedback_doctype_id', 'asc'),
+                                'sort-desc': tableParams.isSortBy('feedback_doctype_id', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'feedback_doctype_id' : tableParams.isSortBy('feedback_doctype_id', 'asc') ? 'desc' : 'asc'})">
+                                <div>Document Type</div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="odd gradeX" ng-repeat="data in $data">
+                            <td data-title="'File Name'"><a href="uploads/{{data.filename}}">{{data.filename}}</a></td>
+                            <td data-title="'Store Id'">{{data.store_id}}</td>
+                            <td data-title="'Feedback Id'">{{data.feedback_id}}</td>
+                            <td data-title="'Document Type'">{{data.feedback_doctype.name}}</td>
+                            <td data-title="'Actions'">
+                                <a class="btn default btn-xs green" ui-sref="feedback.edit({id:data.id})">
+                                    <i class="fa fa-edit"></i>
+                                    Edit
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

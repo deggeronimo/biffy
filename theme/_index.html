@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>uBreakiFix</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
+
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
+
+    <!--[if lt IE 9]>
+    <link rel="stylesheet" href="assets/css/ie8.css">
+    <![endif]-->
+
+<!-- build:css(theme) app/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/toastr/toastr.css" />
+    <link rel="stylesheet" href="bower_components/jScrollPane/style/jquery.jscrollpane.css" />
+    <link rel="stylesheet" href="bower_components/ng-table/ng-table.css" />
+    <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
+    <link rel="stylesheet" href="bower_components/angular-dialog-service/dist/dialogs.min.css" />
+    <link rel="stylesheet" href="bower_components/angular-ui-tree/dist/angular-ui-tree.min.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap-daterangepicker/daterangepicker-bs3.css" />
+    <link rel="stylesheet" href="bower_components/textAngular/src/textAngular.css" />
+    <link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.css" />
+    <link rel="stylesheet" href="bower_components/angular-bootstrap-datetimepicker/src/css/datetimepicker.css" />
+    <link rel="stylesheet" href="bower_components/pnotify/pnotify.core.css" />
+    <link rel="stylesheet" href="bower_components/pnotify/pnotify.buttons.css" />
+    <link rel="stylesheet" href="bower_components/pnotify/pnotify.history.css" />
+    <!-- endbower -->
+    <link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.min.css">
+<!-- endbuild -->
+<!-- build:css(theme) app/app.css -->
+    <!-- injector:css -->
+    <link rel="stylesheet" href="app/app.css">
+    <!-- endinjector -->
+    <link rel="stylesheet" href="assets/css/twilio.css">
+<!-- endbuild -->
+
+    <!-- custom style section in forza index.html for ng-cloak, animation, etc -->
+    <script type="text/javascript"
+      src="//static.twilio.com/libs/twiliojs/1.2/twilio.min.js"></script>
+</head>
+
+<body class=""
+      ng-app="biffyApp"
+      ng-controller="ThemeController"
+      ng-class="{
+              'static-header': !styleOpts.fixedHeader,
+              'focusedform': styleOpts.fullscreen,
+              'fixed-layout': styleOpts.layoutBoxed,
+              'collapse-leftbar': styleOpts.leftbarCollapsed && !styleOpts.leftbarShown,
+              'show-rightbar': styleOpts.rightbarCollapsed,
+              'show-leftbar': styleOpts.leftbarShown
+            }"
+      ng-click="hideSearchBar();hideHeaderBar();"
+      ng-cloak
+        >
+
+<div ng-include=" 'src/layout/headerbar.html' "></div>
+
+<div ng-include=" 'src/layout/header.html' "></div>
+
+<div id="page-container">
+
+
+    <div ng-include=" 'src/layout/sidebar.html' "></div>
+
+    <div ng-include=" 'src/layout/rightbar.html' "></div>
+
+    <div id="page-content" ng-class="{'main-bg-lcol': styleOpts.setMainBG}" class="clearfix" fit-height>
+        <div id="wrap" ui-view class="mainview-animation">
+
+
+        </div>
+        <!--wrap -->
+    </div>
+    <!-- page-content -->
+
+    <div ng-include=" 'src/layout/footer.html' "></div>
+
+</div>
+<!-- page-container -->
+
+<!--[if lt IE 9]>
+<script src="bower_components/html5shiv/dist/html5shiv.min.js"></script>
+<script src="bower_components/respond/dest/respond.min.js"></script>
+<script src="bower_components/excanvas/excanvas.js"></script>
+<![endif]-->
+
+<!-- build:js(theme) app/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <script src="bower_components/enquire/dist/enquire.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/toastr/toastr.js"></script>
+    <script src="bower_components/jScrollPane/script/jquery.mousewheel.js"></script>
+    <script src="bower_components/jScrollPane/script/mwheelIntent.js"></script>
+    <script src="bower_components/jScrollPane/script/jquery.jscrollpane.min.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/ng-table/ng-table.js"></script>
+    <script src="bower_components/lodash/dist/lodash.compat.js"></script>
+    <script src="bower_components/restangular/dist/restangular.js"></script>
+    <script src="bower_components/angular-ui-router-menus/dist/angular-ui-router-menus.js"></script>
+    <script src="bower_components/jquery-ui/jquery-ui.js"></script>
+    <script src="bower_components/angular-ui-date/src/date.js"></script>
+    <script src="bower_components/angular-ui-select/dist/select.js"></script>
+    <script src="bower_components/satellizer/satellizer.js"></script>
+    <script src="bower_components/angular-translate/angular-translate.js"></script>
+    <script src="bower_components/angular-dialog-service/dist/dialogs.min.js"></script>
+    <script src="bower_components/angular-dialog-service/dist/dialogs-default-translations.min.js"></script>
+    <script src="bower_components/angular-ui-tree/dist/angular-ui-tree.js"></script>
+    <script src="bower_components/angularjs-file-upload/angular-file-upload.js"></script>
+    <script src="bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+    <script src="bower_components/rangy/rangy-core.min.js"></script>
+    <script src="bower_components/rangy/rangy-cssclassapplier.min.js"></script>
+    <script src="bower_components/rangy/rangy-selectionsaverestore.min.js"></script>
+    <script src="bower_components/rangy/rangy-serializer.min.js"></script>
+    <script src="bower_components/textAngular/src/textAngular.js"></script>
+    <script src="bower_components/textAngular/src/textAngular-sanitize.js"></script>
+    <script src="bower_components/textAngular/src/textAngularSetup.js"></script>
+    <script src="bower_components/fullcalendar/dist/fullcalendar.js"></script>
+    <script src="bower_components/angular-ui-calendar/src/calendar.js"></script>
+    <script src="bower_components/angular-ui-utils/ui-utils.js"></script>
+    <script src="bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js"></script>
+    <script src="bower_components/autobahn/autobahn.js"></script>
+    <script src="bower_components/angular-wamp/release/angular-wamp.js"></script>
+    <script src="bower_components/pnotify/pnotify.core.js"></script>
+    <script src="bower_components/pnotify/pnotify.buttons.js"></script>
+    <script src="bower_components/pnotify/pnotify.callbacks.js"></script>
+    <script src="bower_components/pnotify/pnotify.confirm.js"></script>
+    <script src="bower_components/pnotify/pnotify.desktop.js"></script>
+    <script src="bower_components/pnotify/pnotify.history.js"></script>
+    <script src="bower_components/pnotify/pnotify.nonblock.js"></script>
+    <script src="bower_components/angular-pnotify/src/angular-pnotify.js"></script>
+    <!-- endbower -->
+<!-- endbuild -->
+
+<!-- build:js(theme) app/app.js -->
+    <script src="src/app.js"></script>
+    <!-- injector:js -->
+    <script src="components/biffy/_module.js"></script>
+    <script src="components/biffy/auth/_module.js"></script>
+    <script src="components/biffy/auth/auth.service.js"></script>
+    <script src="components/biffy/breadcrumb/_module.js"></script>
+    <script src="components/biffy/breadcrumb/breadcrumb.directive.js"></script>
+    <script src="components/biffy/breadcrumb/breadcrumb.service.js"></script>
+    <script src="components/biffy/common.js"></script>
+    <script src="components/biffy/dynamicInput/_module.js"></script>
+    <script src="components/biffy/dynamicInput/dynamicInput.directive.js"></script>
+    <script src="components/biffy/editor/_module.js"></script>
+    <script src="components/biffy/editor/text-editor.directive.js"></script>
+    <script src="components/biffy/export/_module.js"></script>
+    <script src="components/biffy/export/export.service.js"></script>
+    <script src="components/biffy/filters/_module.js"></script>
+    <script src="components/biffy/filters/birthday.filter.js"></script>
+    <script src="components/biffy/filters/noComment.filter.js"></script>
+    <script src="components/biffy/filters/phone.filter.js"></script>
+    <script src="components/biffy/filters/timeAgo.filter.js"></script>
+    <script src="components/biffy/filters/ucfirst.filter.js"></script>
+    <script src="components/biffy/iDtp/_module.js"></script>
+    <script src="components/biffy/iDtp/iDtp.directive.js"></script>
+    <script src="components/biffy/iSpin/_module.js"></script>
+    <script src="components/biffy/iSpin/iSpin.directive.js"></script>
+    <script src="components/biffy/modal/_module.js"></script>
+    <script src="components/biffy/modal/modal.service.js"></script>
+    <script src="components/biffy/moment/_module.js"></script>
+    <script src="components/biffy/moment/moment.value.js"></script>
+    <script src="components/biffy/notifier/_module.js"></script>
+    <script src="components/biffy/notifier/notifier.service.js"></script>
+    <script src="components/biffy/store/_module.js"></script>
+    <script src="components/biffy/store/store.service.js"></script>
+    <script src="components/biffy/time/daterange.factory.js"></script>
+    <script src="components/biffy/user/_module.js"></script>
+    <script src="components/biffy/user/user.service.js"></script>
+    <script src="components/theme/_module.js"></script>
+    <script src="components/theme/controllers/_module.js"></script>
+    <script src="components/theme/controllers/colorPicker.controller.js"></script>
+    <script src="components/theme/controllers/messages.controller.js"></script>
+    <script src="components/theme/controllers/notifications.controller.js"></script>
+    <script src="components/theme/controllers/storeSelector.controller.js"></script>
+    <script src="components/theme/directives/_module.js"></script>
+    <script src="components/theme/directives/theme.directives.js"></script>
+    <script src="components/theme/services/_module.js"></script>
+    <script src="components/theme/services/theme.services.js"></script>
+    <script src="components/theme/templates/overrides.js"></script>
+    <script src="components/theme/templates/templates.js"></script>
+    <script src="components/theme/theme.controller.js"></script>
+    <script src="src/api-keys/api-keys.controller.js"></script>
+    <script src="src/api-keys/api-keys.js"></script>
+    <script src="src/appointments/config/config.controller.js"></script>
+    <script src="src/appointments/config/config.js"></script>
+    <script src="src/appointments/edit/edit.controller.js"></script>
+    <script src="src/appointments/edit/edit.js"></script>
+    <script src="src/appointments/list.controller.js"></script>
+    <script src="src/appointments/list.js"></script>
+    <script src="src/boards/boards.controller.js"></script>
+    <script src="src/boards/boards.js"></script>
+    <script src="src/boards/directives/pagination-controls.directive.js"></script>
+    <script src="src/boards/edit/edit.controller.js"></script>
+    <script src="src/boards/edit/edit.js"></script>
+    <script src="src/boards/post/edit/edit.controller.js"></script>
+    <script src="src/boards/post/edit/edit.js"></script>
+    <script src="src/boards/post/post.js"></script>
+    <script src="src/boards/thread/directives/post-delete.directive.js"></script>
+    <script src="src/boards/thread/directives/post-edit.directive.js"></script>
+    <script src="src/boards/thread/directives/post-rep.directive.js"></script>
+    <script src="src/boards/thread/edit/edit.controller.js"></script>
+    <script src="src/boards/thread/edit/edit.js"></script>
+    <script src="src/boards/thread/thread.controller.js"></script>
+    <script src="src/boards/thread/thread.js"></script>
+    <script src="src/checklists/approvals/approvals.controller.js"></script>
+    <script src="src/checklists/approvals/approvals.js"></script>
+    <script src="src/checklists/approvals/edit/edit.controller.js"></script>
+    <script src="src/checklists/approvals/edit/edit.js"></script>
+    <script src="src/checklists/checklists.js"></script>
+    <script src="src/checklists/devicetypes/carriers/carriers.controller.js"></script>
+    <script src="src/checklists/devicetypes/carriers/carriers.js"></script>
+    <script src="src/checklists/devicetypes/repairs/edit/edit.controller.js"></script>
+    <script src="src/checklists/devicetypes/repairs/edit/edit.js"></script>
+    <script src="src/checklists/devicetypes/repairs/repairs.controllers.js"></script>
+    <script src="src/checklists/devicetypes/repairs/repairs.js"></script>
+    <script src="src/checklists/functions/devicetypes/devicetypes.controller.js"></script>
+    <script src="src/checklists/functions/devicetypes/devicetypes.js"></script>
+    <script src="src/checklists/functions/devicetypes/edit/edit.controller.js"></script>
+    <script src="src/checklists/functions/devicetypes/edit/edit.js"></script>
+    <script src="src/checklists/functions/edit/edit.controller.js"></script>
+    <script src="src/checklists/functions/edit/edit.js"></script>
+    <script src="src/checklists/functions/functions.controller.js"></script>
+    <script src="src/checklists/functions/functions.js"></script>
+    <script src="src/checklists/items/devicetypes/devicetypes.controller.js"></script>
+    <script src="src/checklists/items/devicetypes/devicetypes.js"></script>
+    <script src="src/checklists/items/devicetypes/edit/edit.controller.js"></script>
+    <script src="src/checklists/items/devicetypes/edit/edit.js"></script>
+    <script src="src/checklists/items/edit/edit.controller.js"></script>
+    <script src="src/checklists/items/edit/edit.js"></script>
+    <script src="src/checklists/items/items.controller.js"></script>
+    <script src="src/checklists/items/items.js"></script>
+    <script src="src/companies/approvals/approvals.controller.js"></script>
+    <script src="src/companies/approvals/approvals.js"></script>
+    <script src="src/companies/instructions/instructions.controller.js"></script>
+    <script src="src/companies/instructions/instructions.js"></script>
+    <script src="src/companies/list.controller.js"></script>
+    <script src="src/companies/list.js"></script>
+    <script src="src/companies/storeitems/edit/edit.controller.js"></script>
+    <script src="src/companies/storeitems/edit/edit.js"></script>
+    <script src="src/companies/storeitems/storeitems.controller.js"></script>
+    <script src="src/companies/storeitems/storeitems.js"></script>
+    <script src="src/config/edit/edit.controller.js"></script>
+    <script src="src/config/edit/edit.js"></script>
+    <script src="src/config/list.controller.js"></script>
+    <script src="src/config/list.js"></script>
+    <script src="src/customers/edit/edit.controller.js"></script>
+    <script src="src/customers/edit/edit.js"></script>
+    <script src="src/customers/list.controller.js"></script>
+    <script src="src/customers/list.js"></script>
+    <script src="src/devicetypes/devicetypes.controller.js"></script>
+    <script src="src/devicetypes/devicetypes.js"></script>
+    <script src="src/devicetypes/edit/edit.controller.js"></script>
+    <script src="src/devicetypes/edit/edit.js"></script>
+    <script src="src/devicetypes/edit/repairs/additem.modal.js"></script>
+    <script src="src/devicetypes/edit/repairs/items/edit/edit.controller.js"></script>
+    <script src="src/devicetypes/edit/repairs/items/edit/edit.js"></script>
+    <script src="src/devicetypes/edit/repairs/items/items.js"></script>
+    <script src="src/devicetypes/edit/repairs/repairs.controller.js"></script>
+    <script src="src/devicetypes/edit/repairs/repairs.js"></script>
+    <script src="src/devicetypes/families/families.controller.js"></script>
+    <script src="src/devicetypes/families/families.js"></script>
+    <script src="src/devicetypes/manufacturers/manufacturers.controller.js"></script>
+    <script src="src/devicetypes/manufacturers/manufacturers.js"></script>
+    <script src="src/devicetypes/options/options.controller.js"></script>
+    <script src="src/devicetypes/options/options.js"></script>
+    <script src="src/devicetypes/repairs/edit/edit.controller.js"></script>
+    <script src="src/devicetypes/repairs/edit/edit.js"></script>
+    <script src="src/devicetypes/repairs/repairs.controller.js"></script>
+    <script src="src/devicetypes/repairs/repairs.js"></script>
+    <script src="src/devicetypes/wizard/wizard.controller.js"></script>
+    <script src="src/devicetypes/wizard/wizard.js"></script>
+    <script src="src/dialogs.config.js"></script>
+    <script src="src/directives/searchbox/searchbox.company.directive.controller.js"></script>
+    <script src="src/directives/searchbox/searchbox.customer.directive.controller.js"></script>
+    <script src="src/directives/searchbox/searchbox.devicetype.directive.controller.js"></script>
+    <script src="src/directives/searchbox/searchbox.family.directive.controller.js"></script>
+    <script src="src/directives/searchbox/searchbox.item.directive.controller.js"></script>
+    <script src="src/directives/searchbox/searchbox.manufacturer.directive.controller.js"></script>
+    <script src="src/directives/searchbox/searchbox.storeitem.directive.controller.js"></script>
+    <script src="src/directives/workorder.queue.changer.directive.controller.js"></script>
+    <script src="src/directives/workorder.status.changer.directive.controller.js"></script>
+    <script src="src/employees/list.controller.js"></script>
+    <script src="src/employees/list.js"></script>
+    <script src="src/employees/permissions/permissions.controller.js"></script>
+    <script src="src/employees/permissions/permissions.js"></script>
+    <script src="src/employees/roles/roles.controller.js"></script>
+    <script src="src/employees/roles/roles.js"></script>
+    <script src="src/expensereport/list.controller.js"></script>
+    <script src="src/expensereport/list.js"></script>
+    <script src="src/feedback/docs/docs.controller.js"></script>
+    <script src="src/feedback/docs/docs.js"></script>
+    <script src="src/feedback/edit/edit.controller.js"></script>
+    <script src="src/feedback/edit/edit.js"></script>
+    <script src="src/feedback/list.controller.js"></script>
+    <script src="src/feedback/list.js"></script>
+    <script src="src/feedback/notes/notes.controller.js"></script>
+    <script src="src/feedback/notes/notes.js"></script>
+    <script src="src/filemanagement/list.controller.js"></script>
+    <script src="src/filemanagement/list.js"></script>
+    <script src="src/filemanagement/set/set.controller.js"></script>
+    <script src="src/filemanagement/set/set.js"></script>
+    <script src="src/groups/edit/edit.controller.js"></script>
+    <script src="src/groups/edit/edit.js"></script>
+    <script src="src/groups/list.controller.js"></script>
+    <script src="src/groups/list.js"></script>
+    <script src="src/home/home.js"></script>
+    <script src="src/inventory/list.controller.js"></script>
+    <script src="src/inventory/list.js"></script>
+    <script src="src/inventory/tracking/tracking.controller.js"></script>
+    <script src="src/inventory/tracking/tracking.js"></script>
+    <script src="src/invoice/edit/edit.controller.js"></script>
+    <script src="src/invoice/edit/edit.js"></script>
+    <script src="src/invoice/list.controller.js"></script>
+    <script src="src/invoice/list.js"></script>
+    <script src="src/items/items.controller.js"></script>
+    <script src="src/items/items.js"></script>
+    <script src="src/leads/edit/edit.controller.js"></script>
+    <script src="src/leads/edit/edit.js"></script>
+    <script src="src/leads/list.controller.js"></script>
+    <script src="src/leads/list.js"></script>
+    <script src="src/login/login.controller.js"></script>
+    <script src="src/login/login.js"></script>
+    <script src="src/marketingrun/locations/edit/edit.controller.js"></script>
+    <script src="src/marketingrun/locations/edit/edit.js"></script>
+    <script src="src/marketingrun/locations/locations.controller.js"></script>
+    <script src="src/marketingrun/locations/locations.js"></script>
+    <script src="src/marketingrun/marketing.controller.js"></script>
+    <script src="src/marketingrun/marketing.js"></script>
+    <script src="src/menu-sections/admin.js"></script>
+    <script src="src/menu-sections/data-management.js"></script>
+    <script src="src/menu-sections/kbase.js"></script>
+    <script src="src/menu-sections/menu-section.js"></script>
+    <script src="src/menu-sections/store-ops.js"></script>
+    <script src="src/menu-sections/support.js"></script>
+    <script src="src/modalService.run.js"></script>
+    <script src="src/modals/companies.edit.contact.modal.js"></script>
+    <script src="src/modals/companies.new.contact.modal.js"></script>
+    <script src="src/modals/createdevice.modal.js"></script>
+    <script src="src/modals/devicechecklist.modal.js"></script>
+    <script src="src/modals/deviceitemchecklist.modal.js"></script>
+    <script src="src/modals/devicetypes/create.repair.controller.js"></script>
+    <script src="src/modals/editcustomer.modal.js"></script>
+    <script src="src/modals/feedback.calllog.modal.js"></script>
+    <script src="src/modals/feedback.existing.document.modal.js"></script>
+    <script src="src/modals/feedback.new.document.modal.js"></script>
+    <script src="src/modals/feedback.notes.modal.js"></script>
+    <script src="src/modals/inventory.additems.modal.js"></script>
+    <script src="src/modals/marketing.edit.modal.js"></script>
+    <script src="src/modals/marketing.new.modal.js"></script>
+    <script src="src/modals/marketing.new.run.modal.js"></script>
+    <script src="src/permissions/edit/edit.controller.js"></script>
+    <script src="src/permissions/edit/edit.js"></script>
+    <script src="src/permissions/list.controller.js"></script>
+    <script src="src/permissions/list.js"></script>
+    <script src="src/pos/bohwoedit/bohwoedit.controller.js"></script>
+    <script src="src/pos/bohwoedit/bohwoedit.js"></script>
+    <script src="src/pos/bohwolist/bohwolist.controller.js"></script>
+    <script src="src/pos/bohwolist/bohwolist.js"></script>
+    <script src="src/pos/checkout/checkout.controller.js"></script>
+    <script src="src/pos/checkout/checkout.js"></script>
+    <script src="src/pos/create-workorder-note/create-workorder-note.directive.js"></script>
+    <script src="src/pos/customer/customer.controller.js"></script>
+    <script src="src/pos/customer/customer.js"></script>
+    <script src="src/pos/device/device.controller.js"></script>
+    <script src="src/pos/device/device.js"></script>
+    <script src="src/pos/fohsalelist/fohsalelist.controller.js"></script>
+    <script src="src/pos/fohsalelist/fohsalelist.js"></script>
+    <script src="src/pos/pos.controller.js"></script>
+    <script src="src/pos/pos.js"></script>
+    <script src="src/pos/services.js"></script>
+    <script src="src/pos/workorder-note-list/workorder-note-list.directive.js"></script>
+    <script src="src/profile/edit/edit.controller.js"></script>
+    <script src="src/profile/edit/edit.js"></script>
+    <script src="src/profile/view.controller.js"></script>
+    <script src="src/profile/view.js"></script>
+    <script src="src/projects/comment/comment.modal.js"></script>
+    <script src="src/projects/edit/edit.controller.js"></script>
+    <script src="src/projects/edit/edit.js"></script>
+    <script src="src/projects/list.controller.js"></script>
+    <script src="src/projects/list.js"></script>
+    <script src="src/projects/task/task.modal.js"></script>
+    <script src="src/projects/template/template.modal.js"></script>
+    <script src="src/projects/view/view.controller.js"></script>
+    <script src="src/projects/view/view.js"></script>
+    <script src="src/purchasing/edit/edit.controller.js"></script>
+    <script src="src/purchasing/edit/edit.js"></script>
+    <script src="src/purchasing/list.controller.js"></script>
+    <script src="src/purchasing/list.js"></script>
+    <script src="src/queryParams.run.js"></script>
+    <script src="src/reports/inventory/inventory.controller.js"></script>
+    <script src="src/reports/inventory/inventory.js"></script>
+    <script src="src/reports/reports.controller.js"></script>
+    <script src="src/reports/reports.js"></script>
+    <script src="src/reports/sales/sales.controller.js"></script>
+    <script src="src/reports/sales/sales.js"></script>
+    <script src="src/restangular.config.js"></script>
+    <script src="src/roles/edit/edit.controller.js"></script>
+    <script src="src/roles/edit/edit.js"></script>
+    <script src="src/roles/list.controller.js"></script>
+    <script src="src/roles/list.js"></script>
+    <script src="src/roles/permissions/permissions.controller.js"></script>
+    <script src="src/roles/permissions/permissions.js"></script>
+    <script src="src/rosters/edit/edit.controller.js"></script>
+    <script src="src/rosters/edit/edit.js"></script>
+    <script src="src/rosters/employee/employee.controller.js"></script>
+    <script src="src/rosters/employee/employee.js"></script>
+    <script src="src/rosters/list.controller.js"></script>
+    <script src="src/rosters/list.js"></script>
+    <script src="src/rosters/roles/list.controller.js"></script>
+    <script src="src/rosters/roles/list.js"></script>
+    <script src="src/settings/edit/edit.controller.js"></script>
+    <script src="src/settings/edit/edit.js"></script>
+    <script src="src/settings/settings.controller.js"></script>
+    <script src="src/settings/settings.js"></script>
+    <script src="src/store-config/list.controller.js"></script>
+    <script src="src/store-config/list.js"></script>
+    <script src="src/supporttickets/add/add.controller.js"></script>
+    <script src="src/supporttickets/add/add.js"></script>
+    <script src="src/supporttickets/categories/list.controller.js"></script>
+    <script src="src/supporttickets/categories/list.js"></script>
+    <script src="src/supporttickets/edit/edit.controller.js"></script>
+    <script src="src/supporttickets/edit/edit.js"></script>
+    <script src="src/supporttickets/list.controller.js"></script>
+    <script src="src/supporttickets/list.js"></script>
+    <script src="src/supporttickets/statuses/list.controller.js"></script>
+    <script src="src/supporttickets/statuses/list.js"></script>
+    <script src="src/timeclock/details/details.controller.js"></script>
+    <script src="src/timeclock/details/details.js"></script>
+    <script src="src/timeclock/details/edit.modal.js"></script>
+    <script src="src/timeclock/history/history.controller.js"></script>
+    <script src="src/timeclock/history/history.js"></script>
+    <script src="src/timeclock/list.controller.js"></script>
+    <script src="src/timeclock/list.js"></script>
+    <script src="src/timeclock/timeclockType.filter.js"></script>
+    <script src="src/user-settings/user-settings.controller.js"></script>
+    <script src="src/user-settings/user-settings.js"></script>
+    <script src="src/users/edit/edit.controller.js"></script>
+    <script src="src/users/edit/edit.js"></script>
+    <script src="src/users/groups/groups.controller.js"></script>
+    <script src="src/users/groups/groups.js"></script>
+    <script src="src/users/list.controller.js"></script>
+    <script src="src/users/list.js"></script>
+    <script src="src/users/permissions/permissions.controller.js"></script>
+    <script src="src/users/permissions/permissions.js"></script>
+    <script src="src/website/filters/edit/edit.controller.js"></script>
+    <script src="src/website/filters/edit/edit.js"></script>
+    <script src="src/website/filters/filters.controller.js"></script>
+    <script src="src/website/filters/filters.js"></script>
+    <script src="src/website/groups/edit/edit.controller.js"></script>
+    <script src="src/website/groups/edit/edit.js"></script>
+    <script src="src/website/groups/groups.controller.js"></script>
+    <script src="src/website/groups/groups.js"></script>
+    <script src="src/website/website.js"></script>
+    <!-- endinjector -->
+<!-- endbuild -->
+<!--LOGIN_INIT-->
+<!-- build:remove -->
+<script type="text/javascript">//<![CDATA[
+document.write('<script src="' + (location.protocol || 'http:') + '//' + 'localhost' + ':35729/livereload.js?snipver=1" type="text/javascript"><\/script>')
+//]]></script>
+<!-- endbuild -->
+
+</body>
+</html>

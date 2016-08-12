@@ -1,0 +1,26 @@
+<div class="modal-header">
+    <h3 class="modal-title">Find a Feedback Document</h3>
+</div>
+<div class="modal-body">
+    <div class="panel panel-default panel-body">
+        <h3><span class="fa fa-envelope icon-circle"></span>&nbsp; Find a Feedback Document</h3>
+        <div class="row" ng-repeat="document in documentList">
+            <div class="col-sm-16 col-md-8" id="filename">
+                <button class="btn btn-primary push-left" ng-click="add(document.id)">Add</button>
+                <button class="btn btn-success" ng-click="preview(document.id)">Preview</button>
+                <button class="btn btn-primary" ng-click="del(document.id)">Delete</button>
+                <label>Document Type:</label>
+                {{document.feedback_doctype.name}}
+            </div>
+            <div class="col-sm-8 col-md-4" id="document-type">
+                {{document.description}}
+            </div>
+        </div>
+        <div ng-if="currentImage!=null">
+            <img ng-src="uploads/{{currentImage.filename}}"/>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-success" ng-click="finished()">Finish</button>
+</div>

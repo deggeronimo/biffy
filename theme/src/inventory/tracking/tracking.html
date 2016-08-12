@@ -1,0 +1,306 @@
+<div class="container-fluid">
+    <div class="row pos">
+        <div class="col-md-8 col-sm-12">
+            <div id="pos-left-content">
+                <ul class="breadcrumb">
+                    <li><a href="/">Dashboard</a></li>
+                    <li class="active">Inventory</li>
+                </ul>
+                <h1>Inventory</h1>
+                <div class="options">
+                    <div class="btn-toolbar">
+                    </div>
+                </div>
+                <div class="row">
+                    <panel heading="Back Order" panel-class="panel-name">
+                        <div class="table-responsive wo-items">
+                            <table class="table table-bordered" ng-table="backOrderedTableParams">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>
+                                        <div>Status</div>
+                                    </th>
+                                    <th class="sortable" ng-class="{
+                                                'sort-asc': backOrderedTableParams.isSortBy('cost', 'asc'),
+                                                'sort-desc': backOrderedTableParams.isSortBy('cost', 'desc')
+                                            }"
+                                        ng-click="backOrderedTableParams.sorting({'cost' : backOrderedTableParams.isSortBy('cost', 'asc') ? 'desc' : 'asc'})">
+                                        <div>Cost</div>
+                                    </th>
+                                    <th class="sortable" ng-class="{
+                                                'sort-asc': backOrderedTableParams.isSortBy('updated_at', 'asc'),
+                                                'sort-desc': backOrderedTableParams.isSortBy('updated_at', 'desc')
+                                            }"
+                                        ng-click="backOrderedTableParams.sorting({'updated_at' : backOrderedTableParams.isSortBy('updated_at', 'asc') ? 'desc' : 'asc'})">
+                                        <div>Last Update</div>
+                                    </th>
+                                    <th>
+                                        <div>Unit Price</div>
+                                    </th>
+                                    <th>
+                                        <div>Labor Cost</div>
+                                    </th>
+                                    <th>
+                                        <div>Discount</div>
+                                    </th>
+                                    <th>
+                                        <div>Subtotal</div>
+                                    </th>
+                                    <th>
+                                        <div>Taxes</div>
+                                    </th>
+                                    <th>
+                                        <div>Total</div>
+                                    </th>
+                                    <th><div>Actions</div></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="odd gradeX" ng-repeat="data in $data">
+                                    <td data-title="Select" align="middle" class="no-padding">
+                                        <input type="checkbox" ng-click="checkboxCheckedEvent($event)" name="checklist-backorder" id="checkbox-backorder-{{data.id}}"/>
+                                    </td>
+                                    <td data-title="'Sold By'" ng-bind-html="data.status"></td>
+                                    <td data-title="'Cost'">{{data.cost | currency}}</td>
+                                    <td data-title="'Last Update'">{{data.created_at}}</td>
+                                    <td data-title="'Sold For'">{{data.sale_item.price | currency}}</td>
+                                    <td data-title="'Labor Cost'">{{data.sale_item.labor_cost | currency}}</td>
+                                    <td data-title="'Discount'">{{data.sale_item.discount | number:2}}{{data.sold_by_user != null ? '%' : ''}}</td>
+                                    <td data-title="'Subtotal'">{{data.sale_item.subtotal | currency}}</td>
+                                    <td data-title="'Subtotal'">{{data.sale_item.taxesTotal | currency}}</td>
+                                    <td data-title="'Total'">{{data.sale_item.subtotal + data.sale_item.taxesTotal | currency}}</td>
+                                    <td data-title="'Actions'">
+                                        <a class="btn default btn-xs" ng-click="setCurrentInventoryItem(data)"><i class="fa fa-edit"></i> Edit</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </panel>
+                </div><!--  End of Table -->
+                <div class="row">
+                    <panel heading="In Stock" panel-class="panel-name">
+                        <div class="table-responsive wo-items">
+                            <table class="table table-bordered" ng-table="inStockTableParams">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>
+                                        <div>Status</div>
+                                    </th>
+                                    <th class="sortable" ng-class="{
+                                                'sort-asc': inStockTableParams.isSortBy('cost', 'asc'),
+                                                'sort-desc': inStockTableParams.isSortBy('cost', 'desc')
+                                            }"
+                                        ng-click="inStockTableParams.sorting({'cost' : inStockTableParams.isSortBy('cost', 'asc') ? 'desc' : 'asc'})">
+                                        <div>Cost</div>
+                                    </th>
+                                    <th class="sortable" ng-class="{
+                                                'sort-asc': inStockTableParams.isSortBy('updated_at', 'asc'),
+                                                'sort-desc': inStockTableParams.isSortBy('updated_at', 'desc')
+                                            }"
+                                        ng-click="inStockTableParams.sorting({'updated_at' : inStockTableParams.isSortBy('updated_at', 'asc') ? 'desc' : 'asc'})">
+                                        <div>Last Update</div>
+                                    </th>
+                                    <th>
+                                        <div>Unit Price</div>
+                                    </th>
+                                    <th>
+                                        <div>Labor Cost</div>
+                                    </th>
+                                    <th>
+                                        <div>Discount</div>
+                                    </th>
+                                    <th>
+                                        <div>Subtotal</div>
+                                    </th>
+                                    <th>
+                                        <div>Taxes</div>
+                                    </th>
+                                    <th>
+                                        <div>Total</div>
+                                    </th>
+                                    <th><div>Actions</div></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="odd gradeX" ng-repeat="data in $data">
+                                    <td data-title="Select" align="middle" class="no-padding">
+                                        <input type="checkbox" ng-click="checkboxCheckedEvent($event)" name="checklist-instock" id="checkbox-instock-{{data.id}}"/>
+                                    </td>
+                                    <td data-title="'Sold By'" ng-bind-html="data.status"></td>
+                                    <td data-title="'Cost'">{{data.cost | currency}}</td>
+                                    <td data-title="'Last Update'">{{data.created_at}}</td>
+                                    <td data-title="'Sold For'">{{data.sale_item.price | currency}}</td>
+                                    <td data-title="'Labor Cost'">{{data.sale_item.labor_cost | currency}}</td>
+                                    <td data-title="'Discount'">{{data.sale_item.discount | number:2}}{{data.sold_by_user != null ? '%' : ''}}</td>
+                                    <td data-title="'Subtotal'">{{data.sale_item.subtotal | currency}}</td>
+                                    <td data-title="'Subtotal'">{{data.sale_item.taxesTotal | currency}}</td>
+                                    <td data-title="'Total'">{{data.sale_item.subtotal + data.sale_item.taxesTotal | currency}}</td>
+                                    <td data-title="'Actions'">
+                                        <a class="btn default btn-xs" ng-click="setCurrentInventoryItem(data)"><i class="fa fa-edit"></i> Edit</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </panel>
+                </div><!--  End of Table -->
+                <div class="row">
+                    <panel heading="On Order" panel-class="panel-name">
+                        <div class="table-responsive wo-items">
+                            <table class="table table-bordered" ng-table="onOrderTableParams">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>
+                                        <div>Status</div>
+                                    </th>
+                                    <th class="sortable" ng-class="{
+                                                'sort-asc': onOrderTableParams.isSortBy('cost', 'asc'),
+                                                'sort-desc': onOrderTableParams.isSortBy('cost', 'desc')
+                                            }"
+                                        ng-click="onOrderTableParams.sorting({'cost' : onOrderTableParams.isSortBy('cost', 'asc') ? 'desc' : 'asc'})">
+                                        <div>Cost</div>
+                                    </th>
+                                    <th class="sortable" ng-class="{
+                                                'sort-asc': onOrderTableParams.isSortBy('updated_at', 'asc'),
+                                                'sort-desc': onOrderTableParams.isSortBy('updated_at', 'desc')
+                                            }"
+                                        ng-click="onOrderTableParams.sorting({'updated_at' : onOrderTableParams.isSortBy('updated_at', 'asc') ? 'desc' : 'asc'})">
+                                        <div>Last Update</div>
+                                    </th>
+                                    <th>
+                                        <div>Unit Price</div>
+                                    </th>
+                                    <th>
+                                        <div>Labor Cost</div>
+                                    </th>
+                                    <th>
+                                        <div>Discount</div>
+                                    </th>
+                                    <th>
+                                        <div>Subtotal</div>
+                                    </th>
+                                    <th>
+                                        <div>Taxes</div>
+                                    </th>
+                                    <th>
+                                        <div>Total</div>
+                                    </th>
+                                    <th><div>Actions</div></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="odd gradeX" ng-repeat="data in $data">
+                                    <td data-title="Select" align="middle" class="no-padding">
+                                        <input type="checkbox" ng-click="checkboxCheckedEvent($event)" name="checklist-onorder" id="checkbox-onorder-{{data.id}}"/>
+                                    </td>
+                                    <td data-title="'Sold By'" ng-bind-html="data.status"></td>
+                                    <td data-title="'Cost'">{{data.cost | currency}}</td>
+                                    <td data-title="'Last Update'">{{data.created_at}}</td>
+                                    <td data-title="'Sold For'">{{data.sale_item.price | currency}}</td>
+                                    <td data-title="'Labor Cost'">{{data.sale_item.labor_cost | currency}}</td>
+                                    <td data-title="'Discount'">{{data.sale_item.discount | number:2}}{{data.sold_by_user != null ? '%' : ''}}</td>
+                                    <td data-title="'Subtotal'">{{data.sale_item.subtotal | currency}}</td>
+                                    <td data-title="'Subtotal'">{{data.sale_item.taxesTotal | currency}}</td>
+                                    <td data-title="'Total'">{{data.sale_item.subtotal + data.sale_item.taxesTotal | currency}}</td>
+                                    <td data-title="'Actions'">
+                                        <a class="btn default btn-xs" ng-click="setCurrentInventoryItem(data)"><i class="fa fa-edit"></i> Edit</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </panel>
+                </div><!--  End of Table -->
+            </div>
+        </div>
+        <!-- Side Bar Start-->
+        <div id="pos-sidebar" class="col-sm-12 col-md-4">
+            <div class="row" ng-if="currentInventoryItem!=null">
+                <div id="sales-totals"class="table-responsive">
+                    <h2>Inventory Item</h2>
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td class="sales-bg-a" align="right">Item Name:</td>
+                            <td class="sales-bg-b" align="right">
+                                {{currentInventoryItem.name}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="sales-bg-a" align="right">Item Category:</td>
+                            <td class="sales-bg-b" align="right">
+                                {{currentInventoryItem.device_type_name}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="sales-bg-a" align="right">Availablek:</td>
+                            <td class="sales-bg-b" align="right">
+                                <input type="text" class="form-control" ng-model="currentInventoryItem.stock" ng-change="makeDirty()">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="sales-bg-a" align="right">Last Cost:</td>
+                            <td class="sales-bg-b" align="right">
+                                <input type="text" class="form-control" ng-model="currentInventoryItem.last_cost" ng-change="makeDirty()">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="sales-bg-a" align="right">Unit Price:</td>
+                            <td class="sales-bg-b" align="right">
+                                <input type="text" class="form-control" ng-model="currentInventoryItem.unit_price" ng-change="makeDirty()">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="sales-bg-a" align="right">Labor Cost:</td>
+                            <td class="sales-bg-b" align="right">
+                                <input type="text" class="form-control" ng-model="currentInventoryItem.labor_cost" ng-change="makeDirty()">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div><!--  End of Table -->
+            </div>
+            <div class="row" ng-if="newInventoryItem!=null">
+                <div id="sales-totals"class="table-responsive">
+                    <h2>Inventory Item</h2>
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td class="sales-bg-a" align="right">Item Name:</td>
+                            <td class="sales-bg-b" align="right">
+                                <input type="text" class="form-control" ng-model="newInventoryItem.name" ng-change="makeDirty()">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="sales-bg-a" align="right">Item Category:</td>
+                            <td class="sales-bg-b" align="right">
+                                <select ui-select2="{allowClear: false}" data-placeholder="Select an item category..."
+                                        ng-model="newInventoryItem.device_type_id" style="width:100%" ng-change="makeDirty()">
+                                    <option ng-repeat="deviceType in deviceTypeList" value="{{deviceType.id}}">{{deviceType.name}}</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="sales-bg-a" align="right">Scan Number:</td>
+                            <td class="sales-bg-b" align="right">
+                                <input type="text" class="form-control" ng-model="newInventoryItem.item_number" ng-change="makeDirty()">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div><!--  End of Table -->
+            </div>
+            <div class="row" ng-if="dirty==true">
+                <div class="pay-type">
+                    <div class="col-md-12">
+                        <button id="save-button" class="btn btn-lg btn-success save" ng-click="saveCurrentInventoryItem()"><strong>Save</strong></button>
+                    </div>
+                </div>
+            </div>
+        </div><!--pos sidebar-->
+    </div>
+</div>

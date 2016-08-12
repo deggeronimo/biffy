@@ -1,0 +1,133 @@
+<div class="container-fluid">
+    <div class="col-md-12 pos">
+        <breadcrumbs></breadcrumbs>
+        <div id="page-heading">
+            <h1>{{thread.title}}</h1>
+            <div class="options">
+                <div class="btn-toolbar">
+                    <button ng-if="!thread.subscriptions.length" ng-click="subscribe()" type="button" class="btn btn-default btn-sm">Subscribe</button>
+                    <button ng-if="thread.subscriptions.length" ng-click="subscribe({cancel: true})" type="button" class="btn btn-default btn-sm">Unsubscribe</button>
+                    <div class="btn-group" dropdown>
+                        <button type="button" class="btn btn-default btn-sm" dropdown-toggle>{{pagination.sort | ucfirst}} <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a ng-click="sort('time')">Time</a></li>
+                            <li><a ng-click="sort('rep')">Rep</a></li>
+                        </ul>
+                    </div>
+                    <pagination-controls ng-if="thread.id" page="pagination.page" per-page="pagination.perPage" num-items="thread.num_posts"></pagination-controls>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <ul class="timeline">
+                        <li class="timeline-white" >
+                            <div class="timeline-icon">
+                                <img ng-src="{{thread.user.picture_url}}">
+                            </div>
+                            <div class="timeline-body">
+                                <div class="timeline-header">
+                                    <span class="edit" ng-if="thread.id">
+                                        <post-edit closed="thread.closed" user="thread.user_id" route="'boards.thread.edit'" route-val="({threadId: thread.id})"></post-edit>
+                                        <post-delete closed="thread.closed" user="thread.user_id" action="deleteThread()"></post-delete>
+                                    </span>
+                                    <span class="date">{{thread.created_at}} – {{thread.user.name}}</span>
+                                </div>
+                                <div class="timeline-content" ng-bind-html="thread.first_post.content"></div>
+                                <div class="timeline-signature" ng-if="thread.user.profile.signature" ng-bind="thread.user.profile.signature"></div>
+                                <div class="timeline-footer board-post-footer">
+                                    <post-rep ng-if="thread.first_post" post="thread.first_post"></post-rep>
+                                    <a ng-if="!thread.closed" ng-click="quotePost(thread.first_post)"><i class="fa fa-quote-right"></i></a>
+                                    <a ng-click="reportPost(thread.first_post)"><i class="fa fa-exclamation"></i></a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-white" ng-repeat="post in thread.posts">
+                            <a name="{{post.id}}"></a>
+                            <div class="timeline-icon"><img ng-src="{{post.user.picture_url}}" /></div>
+                            <div class="timeline-body">
+                                <div class="timeline-header">
+                                    <span class="edit">
+                                        <post-edit closed="thread.closed" user="post.user_id" route="'boards.post.edit'" route-val="({postId: post.id})"></post-edit>
+                                        <post-delete closed="thread.closed" user="post.user_id" action="deletePost(post.id)"></post-delete>
+                                    </span>
+                                    <span class="date">{{post.created_at}} – {{post.user.name}}</span>
+                                </div>
+                                <div class="timeline-content" ng-bind-html="post.content"></div>
+                                <div class="timeline-signature" ng-if="post.user.profile.signature" ng-bind="post.user.profile.signature"></div>
+                                <div class="timeline-footer board-post-footer">
+                                    <post-rep post="post"></post-rep>
+                                    <a ng-if="!thread.closed" ng-click="quotePost(post)"><i class="fa fa-quote-right"></i></a>
+                                    <a ng-click="reportPost(post)"><i class="fa fa-exclamation"></i></a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-white" ng-if="!thread.closed">
+                            <a name="editor"></a>
+                            <div class="timeline-icon"><img ng-src="{{currentUser.picture_url}}"></div>
+                            <div class="timeline-body">
+                                <div class="timeline-header">
+                                    <h4 class="brand-type">{{currentUser.given_name}} says...</h4>
+                                </div>
+                                <div class="timeline-content">
+                                    <form role="form">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                    <text-editor ng-model="newPost.content"></text-editor>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-if="!thread.subscriptions.length" class="form-group">
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" ng-model="newPost.subscribe"> Subscribe
+                                            </label>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-block" id="submit" tabindex="9" ng-click="addPost()"><strong>Submit Post</strong></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-white" ng-if="thread.closed">
+                            <div class="timeline-body">
+                                <div class="timeline-header">
+                                    <h4>Thread closed</h4>
+                                </div>
+                                <div class="timeline-content">
+                                    This thread has been closed and you may no longer reply to it.
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row" ng-if="showModerationTools">
+                <div class="col-xs-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>Moderation Tools</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-xs-3">
+                                <select class="form-control" ng-model="threadMove.categoryId" ng-options="category.id as category.name for category in categoryList"></select>
+                            </div>
+                            <div class="col-xs-1">
+                                <button class="btn" ng-click="moveThread()"><i class="fa fa-arrows"></i> Move</button>
+                            </div>
+                            <div class="col-xs-1">
+                                <button ng-if="!thread.closed" class="btn" ng-click="closeThread()"><i class="fa fa-lock"></i> Close</button>
+                                <button ng-if="thread.closed" class="btn" ng-click="openThread()"><i class="fa fa-unlock"></i> Open</button>
+                            </div>
+                            <div class="col-xs-1">
+                                <button ng-if="!thread.sticky" class="btn" ng-click="stickyThread()"><i class="fa fa-thumb-tack"></i> Sticky</button>
+                                <button ng-if="thread.sticky" class="btn" ng-click="unstickyThread()"><i class="fa fa-thumb-tack fa-rotate-180"></i> Unsticky</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,98 @@
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a href="/">Dashboard</a></li>
+        <li class="active">Customers</li>
+    </ol>
+    <h1>Customers</h1>
+    <div class="options">
+        <div class="btn-toolbar">
+            <a ui-sref="customers.edit({id: 'new'})" class="btn btn-default btn-sm">Add</a>
+            <a class="btn btn-default btn-sm" ng-click="export()" target="_self">Export</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.reload()">Refresh</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.sorting({})">Clear sorting</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.filter({})">Clear filter</a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>Customers</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <input type="text" class="form-control" placeholder="Search..." ng-model="tableParams.filter()['search']"/>
+                        </div>
+                    </div>
+                    <table class="table table-bordered" ng-table="tableParams">
+                        <thead>
+                        <tr>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('given_name', 'asc'),
+                                'sort-desc': tableParams.isSortBy('given_name', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'given_name' : tableParams.isSortBy('given_name', 'asc') ? 'desc' : 'asc'})">
+                                <div>Given Name</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('family_name', 'asc'),
+                                'sort-desc': tableParams.isSortBy('family_name', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'family_name' : tableParams.isSortBy('family_name', 'asc') ? 'desc' : 'asc'})">
+                                <div>Family Name</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('phone', 'asc'),
+                                'sort-desc': tableParams.isSortBy('phone', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'phone' : tableParams.isSortBy('phone', 'asc') ? 'desc' : 'asc'})">
+                                <div>Phone</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('email', 'asc'),
+                                'sort-desc': tableParams.isSortBy('email', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'email' : tableParams.isSortBy('email', 'asc') ? 'desc' : 'asc'})">
+                                <div>Email</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('postal_code', 'asc'),
+                                'sort-desc': tableParams.isSortBy('postal_code', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'postal_code' : tableParams.isSortBy('postal_code', 'asc') ? 'desc' : 'asc'})">
+                                <div>Zip code</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('referral_source', 'asc'),
+                                'sort-desc': tableParams.isSortBy('referral_source', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'referral_source' : tableParams.isSortBy('referral_source', 'asc') ? 'desc' : 'asc'})">
+                                <div>Referral</div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="odd gradeX" ng-repeat="data in $data">
+                            <td data-title="'Given Name'">{{data.given_name}}</td>
+                            <td data-title="'Family Name'">{{data.family_name}}</td>
+                            <td data-title="'Phone'">{{data.phone | biffyPhone}}</td>
+                            <td data-title="'Email'"><a href="mailto:{{data.email}}">{{data.email}}</a></td>
+                            <td data-title="'Zip code'">{{data.postal_code}}</td>
+                            <td data-title="'Referral'">{{data.referral_source}}</td>
+                            <td data-title="'Actions'">
+                                <a class="btn default btn-xs green" ui-sref="customers.edit({id:data.id})">
+                                    <i class="fa fa-edit"></i>
+                                    Edit
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

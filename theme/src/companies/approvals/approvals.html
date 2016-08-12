@@ -1,0 +1,74 @@
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="home">Dashboard</a></li>
+        <li>Companies</li>
+        <li class="active">Approvals</li>
+    </ol>
+    <h1>Approvals</h1>
+    <div class="options">
+        <div class="btn-toolbar">
+            <a ui-sref="leads.edit()" class="btn btn-default btn-sm">Add</a>
+            <a class="btn btn-default btn-sm" ng-click="export()" target="_self">Export</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.reload()">Refresh</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.sorting({})">Clear sorting</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.filter({})">Clear filter</a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>Approvals</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-6 pull-right">
+                            <input type="text" class="form-control" placeholder="Search..." ng-model="tableParams.filter()['search']"/>
+                        </div>
+                    </div>
+                    <table class="table table-bordered" ng-table="tableParams">
+                        <thead>
+                        <tr>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('created_at', 'asc'),
+                                'sort-desc': tableParams.isSortBy('created_at', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'created_at' : tableParams.isSortBy('created_at', 'asc') ? 'desc' : 'asc'})">
+                                <div>Created At</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('updated_at', 'asc'),
+                                'sort-desc': tableParams.isSortBy('updated_at', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'updated_at' : tableParams.isSortBy('updated_at', 'asc') ? 'desc' : 'asc'})">
+                                <div>Approved At</div>
+                            </th>
+                            <th>
+                                <div>Work Orders</div>
+                            </th>
+                            <th>
+                                <div>Actions</div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="odd gradeX" ng-repeat="data in $data">
+                            <td data-title="'Created At'">{{data.created_at}}</td>
+                            <td data-title="'Approved At'">{{data.approved ? data.updated_at : 'Not Approved'}}</td>
+                            <td data-title="'Work Orders'"><a ng-repeat="workorder in data.workOrderList" ui-sref="pos.woedit({workOrderId:workorder.id})"> {{workorder.id}} </a></td>
+                            <td data-title="'Actions'">
+                                <a class="btn default btn-xs green" ui-sref="leads.edit({id:data.id})">
+                                    <i class="fa fa-edit"></i>
+                                    Edit
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

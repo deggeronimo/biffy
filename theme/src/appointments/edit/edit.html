@@ -1,0 +1,99 @@
+<div class="container-fluid">
+    <div class="row pos">
+        <div class="col-md-8 col-sm-12">
+            <div id="pos-left-content">
+                <ul class="breadcrumb">
+                    <li><a href="#">Appointments</a></li>
+                    <li class="active"><a href="#">Edit</a></li>
+                </ul>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h4>{{ mode }} Appointment</h4>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="form-horizontal row-border">
+                                        <div class="form-body">
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-2">Customer Id</label>
+                                                <div class="col-xs-6">
+                                                    <customer-search-box />
+                                                </div>
+                                                <label class="control-label col-xs-4">
+                                                    <input type="text" class="form-control" ng-model="data.customer.full_name" disabled>
+                                                </label>
+
+                                                <label class="control-label col-xs-2">Store Id</label>
+                                                <div class="col-xs-6">
+                                                    <input type="text" class="form-control" placeholder="Search..." typeahead="item.name as item.name for item in storeList | filter:{name:$viewValue} | orderBy:'item.name'" ng-model="storeQuery" typeahead-on-select="setStore($item.id)"/>
+                                                </div>
+                                                <label class="control-label col-xs-4">
+                                                    <input type="text" class="form-control" ng-model="data.store_id">
+                                                </label>
+
+                                                <label class="control-label col-xs-2">Appointment Status Id</label>
+                                                <label class="control-label col-xs-10">
+                                                    <select class="form-control" name="Status" id="status" tabindex="7" ng-model="data.appointment_status_id"
+                                                            ng-options="appointmentStatuses.indexOf(selectedItem) as selectedItem for selectedItem in appointmentStatusRange()">
+                                                    </select>
+                                                </label>
+                                                <label class="control-label col-xs-2">Day Of Year</label>
+                                                <label class="control-label col-xs-10">
+                                                    <datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm"></datepicker>
+                                                </label>
+                                                <label class="control-label col-xs-2">Hour Of Day</label>
+                                                <label class="control-label col-xs-10">
+                                                    <input type="radio" ng-model="selectedTime" value="0">10:00 AM
+                                                    <input type="radio" ng-model="selectedTime" value="1">10:30 AM
+                                                    <input type="radio" ng-model="selectedTime" value="2">11:00 AM
+                                                    <input type="radio" ng-model="selectedTime" value="3">11:30 AM
+                                                    <input type="radio" ng-model="selectedTime" value="4">12:00 PM
+                                                    <input type="radio" ng-model="selectedTime" value="5">12:30 PM
+                                                    <input type="radio" ng-model="selectedTime" value="6">1:00 PM
+                                                    <input type="radio" ng-model="selectedTime" value="7">1:30 PM
+                                                    <input type="radio" ng-model="selectedTime" value="8">2:00 PM
+                                                    <input type="radio" ng-model="selectedTime" value="9">2:30 PM
+                                                    <input type="radio" ng-model="selectedTime" value="10">3:00 PM
+                                                    <input type="radio" ng-model="selectedTime" value="11">3:30 PM
+                                                    <input type="radio" ng-model="selectedTime" value="12">4:00 PM
+                                                    <input type="radio" ng-model="selectedTime" value="13">4:30 PM
+                                                    <input type="radio" ng-model="selectedTime" value="14">5:00 PM
+                                                    <input type="radio" ng-model="selectedTime" value="15">5:30 PM
+                                                    <input type="radio" ng-model="selectedTime" value="16">6:00 PM
+                                                    <input type="radio" ng-model="selectedTime" value="17">6:30 PM
+                                                </label>
+                                                <label class="control-label col-xs-2">Issue</label>
+                                                <label class="control-label col-xs-10">
+                                                    <textarea class="form-control" rows="16" ng-model="data.issue"></textarea>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="panel-footer">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <button type="button" class="btn red" ng-click="destroy()" ng-if="isEdit()">Delete</button>
+                                                    <button type="button" class="btn default" ng-click="cancel()">Cancel</button>
+                                                </div>
+                                                <div class="col-xs-6 text-right">
+                                                    <button type="button" class="btn green" ng-click="store()" ng-if="isAdd()">Save</button>
+                                                    <button type="button" class="btn green" ng-click="update()" ng-if="isEdit()">Save</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Side Bar Start-->
+        <div id="pos-sidebar" class="col-sm-12 col-md-4">
+            <div class="customer-data-wrap">
+            </div>
+        </div><!--pos sidebar-->
+    </div>
+</div>

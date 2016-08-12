@@ -1,0 +1,78 @@
+<div class="container-fluid">
+    <div class="col-md-12 pos">
+        <ul class="breadcrumb">
+            <li><a ui-sref="home">Dashboard</a></li>
+            <li class="active">Store Config</li>
+        </ul>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>Settings</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Value</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="entry in config">
+                                        <td>{{entry.name}}</td>
+                                        <td><dynamic-input base="entry" value="getStoreConfig(entry.id)"></dynamic-input></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="button" class="btn" ng-click="save()">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>Taxes</h4>
+                            <div class="options">
+                                <a ng-click="addTax()"><span class="fa fa-plus-square-o"></span> Add</a>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Percentage</th>
+                                        <th>Active</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="tax in taxes">
+                                        <td>{{tax.name}}</td>
+                                        <td>{{tax.percentage * 100}}</td>
+                                        <td>{{tax.active}}</td>
+                                        <td><a ng-click="editTax(tax)"><span class="fa fa-pencil-square-o "></span> Edit</a></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

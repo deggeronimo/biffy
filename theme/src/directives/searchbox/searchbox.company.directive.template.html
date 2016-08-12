@@ -1,0 +1,1 @@
+<input type="text" class="form-control" ng-model="asyncCompany" placeholder="Search..." typeahead="item.id as item.name for item in getCompanyItems($viewValue)" typeahead-loading="loadingCompanies" typeahead-on-select="selectCompany($item)" typeahead-wait-ms="300">

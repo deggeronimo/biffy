@@ -1,0 +1,383 @@
+<div class="container-fluid">
+    <div class="row pos">
+        <div class="col-md-8 col-sm-12">
+            <div id="pos-left-content">
+                <ul class="breadcrumb">
+                    <li><a href="#">Point of Sale</a></li>
+                    <li><a href="#">Repair</a></li>
+                    <li><a href="#">Customer Information</a></li>
+                    <li class="active">Order Summary</li>
+                </ul>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <h2 class="wo-heading">Sale #: {{currentSale.id}} </h2>
+                    </div>
+                    <div id="wo-edit-tools-left" class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <div class="pull-right tool">
+                            <a href="#" class="btn btn-danger btn-sm" ng-click="deleteSale()"><span class="fa fa-trash"></span> Cancel Sale</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-if="currentSale.customer">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 pull-right customer-info-wo-boh" ng-if="currentSale.company">
+                        <span class="name"><strong>{{currentSale.company.name}}</strong> - #{{currentSale.company.id}}</span>
+                        <span class="phone">{{currentSale.company.phone | biffyPhone}}</span>
+                        <span class="email">{{currentSale.company.email}}</span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 customer-info-wo-boh">
+                        <span class="name"><strong>{{currentSale.customer.given_name}} {{currentSale.customer.family_name}}</strong> - #{{currentSale.customer.id}}</span>
+                        <span class="phone">{{currentSale.customer.phone | biffyPhone}}</span>
+                        <span class="email">{{currentSale.customer.email}}</span>
+                    </div>
+                    <div id="wo-header"></div>
+                </div>
+                <div class="row">
+                    <div id="part-search" ng-if="!saleCompleted()" store-item-search-box></div>
+                </div>
+                <tabset id="workorders-tabset" panel-tabs="true" panel-class="panel-name">
+                    <tab select="setCurrentWorkOrder(workOrder.id)" active="workOrder.active"
+                         heading="WO#: {{workOrder.id}} - {{workOrder.device.device_type.name}}" ng-repeat="workOrder in currentSale.work_orders">
+                        <div class="table-responsive rec-items" ng-if="workOrder.recommended_items.length > 0">
+
+                            <h4>Recommended Items</h4>
+                            <table class="table table-striped table-hover">
+                                <tbody>
+                                <tr ng-repeat="recommendedItem in workOrder.recommended_items">
+                                    <td align="left">{{recommendedItem.store_item.name}}</td>
+                                    <td align="right">{{recommendedItem.price | currency}}</td>
+                                    <td align="right"><a href="#" class="btn btn-primary" ng-click="addNewSaleItem(recommendedItem)"><span class="fa fa-plus"></span> Add</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div><!--  End of Table -->
+                        <div class="row">
+                            <div id="work-order-list" class="col-md-12">
+                                <div id="wo-tools" class="front-of-h">
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            <button class="btn btn-default btn-sm"><span class="fa fa-exclamation"></span></button>
+                                            <div class="btn-group" dropdown is-open="status.isopen">
+                                                <button type="button" class="btn btn-default btn-sm dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+                                                    <span class="fa fa-user-plus"></span> &nbsp;{{currentWorkOrder.assigned_to_user ? currentWorkOrder.assigned_to_user.name : 'Assign To'}}&nbsp;  <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li ng-repeat="user in userList"><a ng-click="assignUserToCurrentWorkOrder(user)"><span class="fa fa-circle"></span> {{user.name}}</a></li>
+                                                </ul>
+                                            </div>
+                                            <work-order-status-changer></work-order-status-changer>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="row">
+                                                <div class="col-md-12" ng-if="!saleCompleted()">
+                                                    <button class="btn btn-default" ui-sref="pos.woedit({workOrderId:currentWorkOrder.id})">View WO</button>
+                                                    <div class="pull-right" >
+                                                        <span class="fa fa-circle-o-notch" ng-class="{'fa-spin': saveTimer !== null}" ng-if="currentSale.dirty"></span>
+                                                        <button id="save-button" class="btn btn-primary btn-sm save" ng-click="saveAllTheThings()" ng-if="currentSale.dirty">Save</button>
+                                                        <button id="saved-button" class="btn btn-success btn-sm save disabled" ng-if="!currentSale.dirty">Saved</button>
+                                                    </div>
+                                                    <div class="pull-right">
+                                                        <button id="quote-button" class="btn btn-sm btn-default" ng-click="saveAsQuote();" ng-if="!currentSale.dirty && !saleIsQuote()">Save As Quote</button>
+                                                    </div>
+                                                    <div class="pull-right" ng-if="workOrder.sale_items.length > 1">
+                                                        <button id="discount-button" class="btn btn-default btn-sm save" ng-click="autoDiscount();saveAllTheThings();">Auto Discount</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="flatTable table-striped">
+                                    <thead>
+                                        <tr class="headingTr">
+                                            <th align="middle"></th>
+                                            <th align="middle">QTY</th>
+                                            <th align="middle">Item</th>
+                                            <th align="middle">Sku</th>
+                                            <th align="middle">Available</th>
+                                            <th align="middle">Cost</th>
+                                            <th align="middle">Price</th>
+                                            <th align="middle">Labor</th>
+                                            <th align="middle">Discount</th>
+                                            <th align="middle">Tax Exempt</th>
+                                            <th align="middle">Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-if="workOrder.sale_items.length < 0">
+                                            <td colspan="42" align="middle"><div class="no-items">No items added yet.</div></td>
+                                        </tr>
+                                        <tr ng-repeat="saleItem in workOrder.sale_items">
+                                            <td align="middle"><a href="#" ng-click="removeSaleItem(saleItem)"><span class="fa fa-minus"></span></a></td>
+                                            <td align="middle">1</td>
+                                            <td align="left">{{saleItem.name}}</td>
+                                            <td align="middle">{{saleItem.inventory.store_item.item.item_number}}</td>
+                                            <td align="middle">{{saleItem.inventory.store_item.stock}} <a ng-click="swapItem(saleItem)"><span class="fa fa-exchange"></span></a></td>
+                                            <td align="middle">{{1*saleItem.inventory.cost + 1*saleItem.inventory.shipping_cost | currency}}</td>
+                                            <td align="middle">
+                                                <input type="text" class="form-control" ng-model="saleItem.price" ng-focus="itemFocus()" ng-change="dirtySaleItem(saleItem)" ng-model-options="{updateOn: 'blur'}" ng-if="!saleCompleted()">
+                                                <div ng-if="saleCompleted()">
+                                                    {{saleItem.price | currency}}
+                                                </div>
+                                            </td>
+                                            <td align="middle">
+                                                <input type="text" class="form-control" ng-model="saleItem.labor_cost" ng-focus="itemFocus()" ng-change="dirtySaleItem(saleItem)" ng-model-options="{updateOn: 'blur'}" ng-if="!saleCompleted()">
+                                                <div ng-if="saleCompleted()">
+                                                    {{saleItem.labor_cost | currency}}
+                                                </div>
+                                            </td>
+                                            <td align="middle">
+                                                <input type="text" class="form-control" ng-model="saleItem.discount" ng-focus="itemFocus()" ng-change="dirtySaleItem(saleItem)" ng-model-options="{updateOn: 'blur'}" ng-if="!saleCompleted()">
+                                                <div ng-if="saleCompleted()">
+                                                    {{saleItem.discount}}%
+                                                </div>
+                                            </td>
+                                            <td align="middle">
+                                                <input type="checkbox" ng-click="checkTaxExempt($event)" id="checkbox-{{workOrder.id}}-saleitem-{{saleItem.id}}" ng-checked="saleItem.tax_exempt == 1"/>
+                                            </td>
+                                            <td align="middle">{{saleItem.subtotal | currency}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </tab>
+                    <tab select="setCurrentWorkOrder(null)" ng-if="currentSale.sale_items.length > 0">
+                        <tab-heading>Accessories</tab-heading>
+                        <div class="table-responsive wo-items">
+                            <div class="accessory-info">Search above to add accessories.</div>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th align="middle"></th>
+                                    <th align="middle">QTY</th>
+                                    <th align="middle">Item</th>
+                                    <th align="middle">Sku</th>
+                                    <th align="middle">Available</th>
+                                    <th align="middle">Cost</th>
+                                    <th align="middle">Price</th>
+                                    <th align="middle">Labor</th>
+                                    <th align="middle">Discount</th>
+                                    <th align="middle">Tax Exempt</th>
+                                    <th align="middle">Subtotal</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="saleItem in currentSale.sale_items">
+                                    <td align="middle"><a href="#" ng-click="removeSaleItem(saleItem)"><span class="fa fa-minus"></span></a></td>
+                                    <td align="middle">1</td>
+                                    <td align="left">{{saleItem.inventory.store_item.item.name}}</td>
+                                    <td align="middle">{{saleItem.inventory.store_item.item.item_number}}</td>
+                                    <td align="middle">{{saleItem.inventory.store_item.stock}}</td>
+                                    <td align="middle">{{saleItem.inventory.cost | currency}}</td>
+                                    <td align="middle">
+                                        <input type="text" class="form-control" ng-model="saleItem.price" ng-focus="itemFocus()" ng-change="dirtySaleItem(saleItem)" ng-model-options="{updateOn: 'blur'}" ng-if="!saleCompleted()">
+                                        <div ng-if="saleCompleted()">
+                                            {{saleItem.price | currency}}
+                                        </div>
+                                    </td>
+                                    <td align="middle">
+                                        <input type="text" class="form-control" ng-model="saleItem.labor_cost" ng-focus="itemFocus()" ng-change="dirtySaleItem(saleItem)" ng-model-options="{updateOn: 'blur'}" ng-if="!saleCompleted()">
+                                        <div ng-if="saleCompleted()">
+                                            {{saleItem.labor_cost | currency}}
+                                        </div>
+                                    </td>
+                                    <td align="middle">
+                                        <input type="text" class="form-control" ng-model="saleItem.discount" ng-focus="itemFocus()" ng-change="dirtySaleItem(saleItem)" ng-model-options="{updateOn: 'blur'}" ng-if="!saleCompleted()">
+                                        <div ng-if="saleCompleted()">
+                                            {{saleItem.discount}}%
+                                        </div>
+                                    </td>
+                                    <td align="middle">
+                                        <input type="checkbox" ng-click="checkTaxExempt($event)" id="checkbox-0-saleitem-{{saleItem.id}}"/>
+                                    </td>
+                                    <td align="middle">{{saleItem.subtotal | currency}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div><!--  End of Table -->
+                    </tab>
+                    <tab select="setCurrentWorkOrder(null)" ng-if="!saleCompleted() && currentSale.customer != null">
+                        <tab-heading><span class="fa fa-plus"></span></tab-heading>
+                        <div class="table-responsive wo-items">
+                            <a href="#" class="btn btn-green btn-sm" ui-sref="pos.device({action:'new',customerId:currentSale.customer.id,deviceId:0,saleId:currentSale.id})">
+                                <span class="fa fa-plus"></span> Add Device
+                            </a>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th align="middle"></th>
+                                    <th align="middle">Device Name</th>
+                                    <th align="middle">Device Serial</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="device in currentSale.customer.devices">
+                                    <td align="middle"><a ui-sref="pos.device({action:'workorder',customerId:currentSale.customer.id,deviceId:device.id,saleId:currentSale.id})"><span class="fa fa-plus"></span></a></td>
+                                    <td align="middle">{{device.device_type.name}}</td>
+                                    <td align="middle">{{device.serial}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--  End of Table -->
+                    </tab>
+                </tabset>
+                <!-- Past notes begin -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Notes</h2>
+                        <ul class="timeline">
+                            <create-workorder-note note="workOrderNote" user="user" statuses="workOrderStatuses" create-fn="createWorkOrderNote()" device-type-id="currentDeviceTypeId" workorder="currentWorkOrder" ng-if="workorderLoaded"></create-workorder-note>
+                            <workorder-note-list notes="currentWorkOrder.work_order_notes" ng-if="workorderLoaded"></workorder-note-list>
+                            <li class="timeline-white">
+                                <div class="timeline-icon">
+                                    <img ng-src="{{user.picture_url}}" />
+                                </div>
+                                <div class="timeline-body">
+                                    <div class="timeline-header">
+                                        <span class="date">Today at 8:32PM – Eddie Matias</span>
+                                    </div>
+                                    <div class="timeline-content">
+                                        <p>{{currentWorkOrder.notes}}</p>
+                                        <div class=""></div>
+                                        <h4>Physical Appearance</h4>
+                                        <div class="mb10">
+                                            <rating class="rating" ng-model="x" min="1" max="5" state-on="'fa-star gold'" state-off="'fa-star-o'" readonly="true"></rating> <b>({{currentWorkOrder.rating}} of 5)</b>
+                                        </div>
+                                        <div>
+                                            {{ratingDescriptions[currentWorkOrder.rating]}}
+                                        </div>
+                                    </div>
+                                    <div class="timeline-footer-init">
+                                        <accordion close-others="false" class="panel-cyan">
+                                            <accordion-group is-open="isopena" class="row">
+                                                <accordion-heading class="col-sm-12">
+                                                    Quick Diagnostic
+                                                    <i class="pull-right glyphicon" ng-class="{'fa fa-chevron-down': isopena, 'fa fa-chevron-right': !isopena}"></i>
+                                                </accordion-heading>
+                                                <div class="col-sm-6">
+                                                    <div class="checkbox" ng-repeat="diag in currentWorkOrder.quickdiag">
+                                                        <label class="checkbox-inline">
+                                                            <input type="checkbox" disabled="disabled" ng-click="" ng-checked="diag.checked===1">{{diag.name}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </accordion-group>
+                                            <accordion-group is-open="isopenb" class="row">
+                                                <accordion-heading class="col-sm-12">
+                                                    Items With Device
+                                                    <i class="pull-right glyphicon" ng-class="{'fa fa-chevron-down': isopenb, 'fa fa-chevron-right': !isopenb}"></i>
+                                                </accordion-heading>
+                                                <div class="col-md-6">
+                                                    <div class="checkbox" ng-repeat="item in currentWorkOrder.itemswithdevice">
+                                                        <label ng-if="$even">
+                                                            <input type="checkbox" disabled="disabled" ng-click="" ng-checked="item.checked===1">{{item.name}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="checkbox" ng-repeat="item in currentWorkOrder.itemswithdevice">
+                                                        <label ng-if="$odd">
+                                                            <input type="checkbox" disabled="disabled" ng-click="" ng-checked="item.checked===1">{{item.name}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </accordion-group>
+                                        </accordion>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Side Bar Start-->
+        <div id="pos-sidebar" class="col-sm-12 col-md-4">
+            <div class="col-md-12">
+                <div class="row" ng-if="!currentSale.dirty">
+                    <div id="sales-totals" class="table-responsive">
+                        <h2>Sale Total</h2>
+                        <table class="table">
+                            <tfoot>
+                            <tr>
+                                <td colspan="2" align="middle" ng-if="saleCompleted()">Sale Complete</td>
+                                <td align="right" ng-if="currentSale.money.total_due > 0">Balance Due:</td>
+                                <td align="right" ng-if="currentSale.money.subtotal != 0 && currentSale.money.total_due == 0 && !saleCompleted()">Balance Due:</td>
+                                <td align="right" ng-if="currentSale.money.total_due < 0">Change Due:</td>
+                                <td align="right" ng-if="currentSale.money.total_due != 0">{{currentSale.money.total_due | currency}}</td>
+                                <td align="right" ng-if="currentSale.money.subtotal != 0 && currentSale.money.total_due == 0 && !saleCompleted()">{{currentSale.money.total_due | currency}}</td>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            <tr>
+                                <td class="sales-bg-a" align="right">Items in Cart:</td>
+                                <td class="sales-bg-b" align="right">{{currentSale.money.items_in_cart}}</td>
+                            </tr>
+                            <tr ng-if="currentSale.company!=null">
+                                <td class="sales-bg-a" align="right">Company Discount %:</td>
+                                <td class="sales-bg-b" align="right">{{companyDiscount}} %</td>
+                            </tr>
+                            <tr>
+                                <td class="sales-bg-a" align="right">Subtotal:</td>
+                                <td class="sales-bg-b" align="right">{{currentSale.money.subtotal | currency}}</td>
+                            </tr>
+                            <tr>
+                                <td class="sales-bg-a" align="right">Sales Tax ({{(currentSale.money.view_tax_rate * 100).toFixed(2)}}%):</td>
+                                <td class="sales-bg-b" align="right">{{currentSale.money.taxes_due | currency}}</td>
+                            </tr>
+                            <tr>
+                                <td class="sales-bg-a" align="right">Total:</td>
+                                <td class="sales-bg-b" align="right">{{currentSale.money.total | currency}}</td>
+                            </tr>
+                            <tr ng-if="currentSale.sale_payments.length > 0">
+                                <td class="sales-bg-a" align="right">{{payment.sale_payment_type.name}}</td>
+                                <td class="sales-bg-b" align="right">{{- currentSale.money.payments | currency}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div><!--  End of Table -->
+                </div>
+                <div class="row" ng-if="currentSale && (currentSale.money.total_due!= 0&&!currentSale.dirty&&!saleCompleted()&&!saleIsQuote())">
+                    <div class="payment-info">
+                        <h2>Add Payment</h2>
+                        <div class="row">
+                            <div id="payment-amount" class="col-md-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-dollar"></span></span>
+                                    <input type="text" class="form-control input-lg" id="payment-entry" name="payment-amount" maxlength="25" tabindex="" ng-model="currentSale.money.value" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="pay-type">
+                                <div class="col-md-6" ng-if="!lockTradeCredit()">
+                                    <button class="btn  btn-success btn-block" ng-click="makePayment(2)"><i class="fa fa-credit-card fa-fw"></i><strong>Credit</strong></button>
+                                </div>
+                                <div class="col-md-6" ng-if="!lockTradeCredit()">
+                                    <button class="btn  btn-success btn-block" ng-click="makePayment(1)"><i class="fa fa-money fa-fw"></i><strong>Cash</strong></button>
+                                </div>
+                                <div class="col-md-6" ng-if="!lockTradeCredit()">
+                                    <button class="btn  btn-success btn-block" ng-click="makePayment(3)"><i class="fa fa-gift fa-fw"></i><strong>Gift Card</strong></button>
+                                </div>
+                                <div class="col-md-6" ng-if="lockTradeCredit()">
+
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-warning btn-block save" ng-click="makePayment(7)"><i class="fa fa-building fa-fw"></i> <strong>Trade Credit</strong></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-if="saleCompleted() && currentWorkOrder != null">
+                    <div id="payment-info">
+                        <button class="btn btn-lg btn-success save" ng-click="createWarranty();"><strong>Warranty</strong></button>
+                    </div>
+                </div>
+            </div>
+        </div><!--pos sidebar-->
+    </div>
+</div>

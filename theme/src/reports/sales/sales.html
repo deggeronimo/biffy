@@ -1,0 +1,132 @@
+<div class="row pos">
+    <div class="col-md-8 col-sm-12 pos-tile-container">
+        <ul class="breadcrumb">
+            <li><a href="/">Point of Sale</a></li>
+            <li><a ui-sref="reports">Reporting Panel</a></li>
+            <li class="active"><a href="#">Sales</a></li>
+        </ul>
+
+        <!-- Reporting - generateSaleSummaryReport -->
+        <div class="container" ng-if="reportType==2">
+            <div class="row">
+                <div class="col-xs-12">
+                    From <input ui-date ng-model="time.fromDate" ui-date-format='yy-mm-dd'> to <input ui-date ng-model="time.toDate" ui-date-format='yy-mm-dd'> <button ng-click="filterReport(time)" > Filter Report </button>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>Sale Summary Report</h4>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-bordered">
+                                <tr class="even gradeX">
+                                    <td data-title="'Date'">Date</td>
+                                    <td data-title="'Subtotal'">Subtotal</td>
+                                    <td data-title="'Taxes'">Taxes</td>
+                                    <td data-title="'Total'">Total</td>
+                                    <td data-title="'Payments'">Payments</td>
+                                    <td data-title="'Balance Due'">Balance Due</td>
+                                    <td data-title="'Profit'">Profit</td>
+                                </tr>
+                                <tr class="even gradeX" ng-repeat="day in reportItems">
+                                    <td data-title="'Date'">{{day.day}}</td>
+                                    <td data-title="'Subtotal'">{{day.subtotal | currency}}</td>
+                                    <td data-title="'Taxes'">{{day.taxes | currency}}</td>
+                                    <td data-title="'Total'">{{day.subtotal + day.taxes | currency}}</td>
+                                    <td data-title="'Payments'">{{day.payments | currency}}</td>
+                                    <td data-title="'Balance Due'">{{day.subtotal + day.taxes - day.payments | currency}}</td>
+                                    <td data-title="'Profit'">{{day.profit | currency}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Reporting - generateSaleSummaryReport -->
+        <!-- Reporting - generateDetailedSaleReport -->
+        <div class="container" ng-if="reportType==3">
+            <div class="row">
+                <div class="col-xs-12">
+                    From <input ui-date ng-model="time.fromDate" ui-date-format='yy-mm-dd'> to <input ui-date ng-model="time.toDate" ui-date-format='yy-mm-dd'> <button ng-click="filterReport(time)" > Filter Report </button>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>Detailed Sale Report</h4>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-bordered">
+                                <tr class="even gradeX">
+                                    <td data-title="'Sale Id'">Sale Id</td>
+                                    <td data-title="'Date'">Date</td>
+                                    <td data-title="'Sold By'">Sold By</td>
+                                    <td data-title="'Sold To'">Sold To</td>
+                                    <td data-title="'Items Sold'">Items Sold</td>
+                                    <td data-title="'Subtotal'">Subtotal</td>
+                                    <td data-title="'Taxes'">Taxes</td>
+                                    <td data-title="'Total'">Total</td>
+                                    <td data-title="'Balance Due'">Balance Due</td>
+                                    <td data-title="'Payments'">Payments</td>
+                                    <td data-title="'Profit'">Profit</td>
+                                    <td data-title="'Actions'">Actions</td>
+                                </tr>
+                                <tr class="even gradeX" ng-repeat="sale in reportItems">
+                                    <td data-title="'Sale Id'">{{sale.id}}</td>
+                                    <td data-title="'Date'">{{sale.created_at}}</td>
+                                    <td data-title="'Sold By'">{{sale.user.given_name}} {{sale.user.family_name}}</td>
+                                    <td data-title="'Sold To'">{{sale.customer.given_name}} {{sale.customer.family_name}}</td>
+                                    <td data-title="'Items Sold'">{{sale.items_sold}}</td>
+                                    <td data-title="'Subtotal'">{{sale.subtotal | currency}}</td>
+                                    <td data-title="'Taxes'">{{sale.taxes | currency}}</td>
+                                    <td data-title="'Total'">{{1*sale.subtotal + 1*sale.taxes | currency}}</td>
+                                    <td data-title="'Balance Due'">{{1*sale.subtotal + 1*sale.taxes - 1*sale.payments - 1*sale.adjustments | currency}}</td>
+                                    <td data-title="'Payments'"><span ng-repeat="payment in sale.sale_payments">{{paymentTypes[payment.payment_type]}}: {{payment.amount | currency}}<br/></span></td>
+                                    <td data-title="'Profit'">{{sale.profit | currency}}</td>
+                                    <td data-title="'Actions'">
+                                        <a class="btn default btn-xs" ui-sref="pos.repairwo({saleId:sale.id})" ng-if="sale.completed==0"><i class="fa fa-edit"></i> Edit</a>
+                                        <a class="btn default btn-xs" ui-sref="pos.repairwo({saleId:sale.id})" ng-if="sale.completed==1"><i class="fa fa-edit"></i> View</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Reporting - generateDetailedSaleReport -->
+    </div>
+    <div id="pos-sidebar" class="col-sm-12 col-md-4">
+            <div id="sales-totals"class="table-responsive">
+                <h2>Sales Report Total</h2>
+                <table class="table">
+                    <tfoot>
+                    <tr>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Subtotal:</td>
+                        <td class="sales-bg-b" align="right">{{sum.subtotal | currency}}</td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Tax:</td>
+                        <td class="sales-bg-b" align="right">{{sum.taxes | currency}}</td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Total:</td>
+                        <td class="sales-bg-b" align="right">{{1*sum.subtotal + 1*sum.taxes | currency}}</td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Payments:</td>
+                        <td class="sales-bg-b" align="right">{{sum.payments | currency}}</td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Adjustments:</td>
+                        <td class="sales-bg-b" align="right">{{sum.adjustments | currency}}</td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Profit:</td>
+                        <td class="sales-bg-b" align="right">{{sum.profit | currency}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div><!--  End of Table -->
+    </div>
+</div>

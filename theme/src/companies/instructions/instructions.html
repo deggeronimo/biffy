@@ -1,0 +1,52 @@
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="home">Dashboard</a></li>
+        <li><a ui-sref="companies">Companies</a></li>
+        <li class="active">Instructions</li>
+    </ol>
+    <h1>Company Instructions</h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>Edit Instructions</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <form class="form-horizontal row-border" method="post">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="control-label col-xs-2">Email Template</label>
+                                    <label class="control-label col-xs-10">
+                                        <textarea class="form-control" rows="16" ng-model="data.email_template"></textarea>
+                                    </label>
+                                    <label class="control-label col-xs-2">Display Instructions</label>
+                                    <label class="control-label col-xs-10">
+                                        <textarea class="form-control" rows="16" ng-model="data.display_instructions"></textarea>
+                                    </label>
+                                    <label class="control-label col-xs-2">Lock Trade Credit</label>
+                                    <label class="control-label col-xs-10">
+                                        <a ng-click="toggleLockTradeCredit()"
+                                           ng-class="{'btn btn-block btn-checklist btn-success btn-sm': data.lock_trade_credit=='1', 'btn btn-block btn-checklist btn-default btn-sm': data.lock_trade_credit!='1'}">
+                                            <i ng-class="{'fa fa-check-square-o': data.lock_trade_credit=='1', 'fa fa-square-o': data.lock_trade_credit!='1'}"></i> {{data.lock_trade_credit == '1' ? 'True' : 'False'}}</a>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <button type="button" class="btn default" ng-click="cancel()">Cancel</button>
+                                    </div>
+                                    <div class="col-xs-6 text-right">
+                                        <button type="button" class="btn green" ng-click="update()">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

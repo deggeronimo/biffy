@@ -1,0 +1,3 @@
+<a ng-click="canVote && upvotePost()"><i ng-class="{'vote-arrow-active': isUpvote, 'fa-disabled': !isUpvote && !canVote}" class="vote-arrow fa fa-arrow-up"></i></a>
+<span class="post-rep">{{post.rep}}</span>
+<a ng-click="canVote && downvotePost()"><i ng-class="{'vote-arrow-active': isDownvote, 'fa-disabled': !isDownvote && !canVote}" class="vote-arrow fa fa-arrow-down"></i></a>

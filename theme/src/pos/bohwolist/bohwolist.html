@@ -1,0 +1,222 @@
+<div class="container-fluid">
+    <div class="row pos">
+        <div class="col-md-12 col-sm-12">
+            <ul class="breadcrumb">
+                <li><a href="/">Dashboard</a></li>
+                <li><a ui-sref="pos">Point of Sale</a></li>
+                <li class="active">Work Orders</li>
+            </ul>
+            <div class="row">
+                <h2 class="col-md-12 wo-heading">Work Orders:</h2>
+                <div class="col-md-3 col-sm-12">
+                    <tile-large data="repairQueue" ng-click="setFilter('repair_queue')"></tile-large>
+                </div>
+                <div class="col-md-2 col-sm-6 col-md-offset-1">
+                    <tile-large data="awaitingParts" ng-click="setFilter('awaiting_parts')"></tile-large>
+                </div>
+                <div class="col-md-2 col-sm-6">
+                    <tile-large data="needToOrderParts" ng-click="setFilter('needs_to_order_parts')"></tile-large>
+                </div>
+                <div class="col-md-2 col-sm-6">
+                    <tile-large data="awaitingApproval" ng-click="setFilter('awaiting_approval')"></tile-large>
+                </div>
+                <div class="col-md-2 col-sm-6">
+                    <tile-large data="appointments"></tile-large>
+                </div>
+                <div class="clearfix visible-sm-block"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="part-search">
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="fa fa-search"></span></span>
+                            <input type="text" class="form-control input-lg" id="part-search-input" name="part-search-input" placeholder="Search Work Orders" maxlength="25" tabindex="" ng-model="tableParams.filter()['search']"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div id="work-order-list" class="col-md-12">
+                    <div id="wo-tools" class="col-md-12 back-of-h">
+                        <div class="row">
+                            <div class="col-md-1">
+                                <a href="#" class="btn btn-white" ng-click="checkboxAllToggle()"><span class="fa fa-check-square-o"></span></a>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="btn-group" dropdown ng-if="checkedBoxes.length > 0">
+                                    <a href="#" class="btn btn-default"><span class="fa fa-exclamation"></span></a>
+                                    <button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle ><span class="fa fa-share-square-o"></span> &nbsp;Actions&nbsp;  <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#" ng-click="actions.process(actions.sendToSingleDayQueueCallback)">Send to Single Day Queue</a></li>
+                                        <li><a href="#" ng-click="actions.process(actions.sendToMultiDayQueueCallback)">Send to Multi Day Queue</a></li>
+                                    </ul>
+                                    <div class="btn-group" dropdown is-open="status.isopen">
+                                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+                                            <span class="fa fa-user-plus"></span> &nbsp;{{currentWorkOrder.assigned_to_user ? currentWorkOrder.assigned_to_user.name : 'Assign To'}}&nbsp;  <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li ng-repeat="user in userList"><a ng-click="assignUserToCurrentWorkOrder(user)"><span class="fa fa-circle"></span> {{user.name}}</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="pull-right">
+
+                                            <button type="button" class="btn" ng-class="{'btn-danger': !autoRefresh, 'btn-success': autoRefresh}" ng-click="toggleAutoRefresh()">Auto Refresh</button>
+
+                                            <div class="btn-group" dropdown >
+                                                <button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle >Queue <span class="caret"></span></button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li><a href="#">All WOs</a></li>
+                                                    <li><a href="#">Update Today</a></li>
+                                                    <li><a href="#">Repair Queue</a></li>
+                                                    <li><a href="#">SD Repair Queue</a></li>
+                                                    <li><a href="#">MD Repair Queue</a></li>
+                                                    <li><a href="#">Contact List</a></li>
+                                                    <li><a href="#">Part List</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="btn-group" dropdown >
+                                                <button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle >Status <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li><a href="#">Archived</a></li>
+                                                    <li><a href="#">Awaiting Approval</a></li>
+                                                    <li><a href="#">Awaiting Callback</a></li>
+                                                    <li><a href="#">Awaiting Device</a></li>
+                                                    <li><a href="#">Awaiting Parts</a></li>
+                                                    <li><a href="#">Awaiting Repair</a></li>
+                                                    <li><a href="#">Declined-RFP</a></li>
+                                                    <li><a href="#">Device Abandoned</a></li>
+                                                    <li><a href="#">Need To Order Parts</a></li>
+                                                    <li><a href="#">Picked Up</a></li>
+                                                    <li><a href="#">Repair in Progress</a></li>
+                                                    <li><a href="#">Repaired-RFP</a></li>
+                                                    <li><a href="#">Sale Completed</a></li>
+                                                    <li><a href="#">Unrepairable-RFP</a></li>
+                                                    <li><a href="#">Appointment</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="btn-group" dropdown >
+                                                <button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle >Trade Credit <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li><a href="#">Square Trade</a></li>
+                                                    <li><a href="#">Mack Worldwide Warranty</a></li>
+                                                    <li><a href="#">Grip</a></li>
+                                                    <li><a href="#">Groupon</a></li>
+                                                    <li><a href="#">Asurion</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="btn-group" dropdown >
+                                                <button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle >List Options <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li><a href="#">Workorder #</a></li>
+                                                    <li><a href="#">Sale #</a></li>
+                                                    <li><a href="#">Created</a></li>
+                                                    <li><a href="#">Next Update</a></li>
+                                                    <li><a href="#">Action</a></li>
+                                                    <li><a href="#">Updated</a></li>
+                                                    <li><a href="#">Customer</a></li>
+                                                    <li><a href="#">Phone</a></li>
+                                                    <li><a href="#">Email</a></li>
+                                                    <li><a href="#">Device Items</a></li>
+                                                    <li><a href="#">Ticket Total</a></li>
+                                                    <li><a href="#">Balance Due</a></li>
+                                                    <li><a href="#">Amount Paid</a></li>
+                                                    <li><a href="#">Device Name</a></li>
+                                                    <li><a href="#">Device Type</a></li>
+                                                    <li><a href="#">Device Serial</a></li>
+                                                    <li><a href="#">Trade Credit</a></li>
+                                                    <li><a href="#">Company</a></li>
+                                                    <li><a href="#">Last Updated By</a></li>
+                                                    <li><a href="#">Status</a></li>
+                                                    <li><a href="#">Warranty Repair</a></li>
+                                                    <li class="divider"></li>
+                                                    <li><a href="#">Save View</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="flatTable table-striped table-hover" ng-table="tableParams">
+                        <thead>
+                            <tr class="headingTr">
+                                <th></th>
+                                <th class="sortable" ng-class="{
+                                    'sort-asc': tableParams.isSortBy('sale_id', 'asc'),
+                                    'sort-desc': tableParams.isSortBy('sale_id', 'desc')
+                                  }"
+                                    ng-click="tableParams.sorting({'sale_id' : tableParams.isSortBy('sale_id', 'asc') ? 'desc' : 'asc'})">
+                                    <div>WO#</div>
+                                </th>
+                                <th class="sortable" ng-class="{
+                                    'sort-asc': tableParams.isSortBy('device_status', 'asc'),
+                                    'sort-desc': tableParams.isSortBy('device_status', 'desc')
+                                  }"
+                                    ng-click="tableParams.sorting({'device_status' : tableParams.isSortBy('device_status', 'asc') ? 'desc' : 'asc'})">
+                                    <div>Status</div>
+                                </th>
+                                <th class="sortable" ng-class="{
+                                    'sort-asc': tableParams.isSortBy('created_at', 'asc'),
+                                    'sort-desc': tableParams.isSortBy('created_at', 'desc')
+                                  }"
+                                    ng-click="tableParams.sorting({'created_at' : tableParams.isSortBy('created_at', 'asc') ? 'desc' : 'asc'})">
+                                    <div>Created</div>
+                                </th>
+                                <th class="sortable" ng-class="{
+                                    'sort-asc': tableParams.isSortBy('next_update', 'asc'),
+                                    'sort-desc': tableParams.isSortBy('next_update', 'desc')
+                                  }"
+                                    ng-click="tableParams.sorting({'next_update' : tableParams.isSortBy('next_update', 'asc') ? 'desc' : 'asc'})">
+                                    <div>Next Update</div>
+                                </th>
+                                <th class="sortable" ng-class="{
+                                    'sort-asc': tableParams.isSortBy('device.customer.family_name', 'asc'),
+                                    'sort-desc': tableParams.isSortBy('device.customer.family_name', 'desc')
+                                  }"
+                                    ng-click="tableParams.sorting({'device.customer.family_name' : tableParams.isSortBy('device.customer.family_name', 'asc') ? 'desc' : 'asc'})">
+                                    <div>Customer</div>
+                                </th>
+                                <th class="sortable" ng-class="{
+                                    'sort-asc': tableParams.isSortBy('woitem', 'asc'),
+                                    'sort-desc': tableParams.isSortBy('woitem', 'desc')
+                                  }"
+                                    ng-click="tableParams.sorting({'woitem' : tableParams.isSortBy('woitem', 'asc') ? 'desc' : 'asc'})">
+                                    <div>WO Items</div>
+                                </th>
+                                <th>Trade Credit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="data in $data | filter:searchFilter">
+                                <td data-title="Select" align="middle" class="no-padding">
+                                    <input type="checkbox" ng-click="checkboxCheckedEvent($event)" name="checklist" id="checkbox-workorder-{{data.id}}"/>
+                                </td>
+                                <td class="wo-id-display" ng-click="workOrderRowOnClick(data)">{{data.id}}</td>
+                                <td ng-click="workOrderRowOnClick(data)">{{data.work_order_status.name}}</td>
+                                <td ng-click="workOrderRowOnClick(data)">{{data.created_at}}</td>
+                                <td ng-click="workOrderRowOnClick(data)">{{data.next_update}}</td>
+                                <td ng-click="workOrderRowOnClick(data)">{{data.device.customer.given_name}} {{data.device.customer.family_name}}</td>
+                                <td ng-click="workOrderRowOnClick(data)"><span ng-repeat="saleItem in data.sale_items">{{saleItem.inventory.store_item.item.name}}<br></span></td>
+                                <td ng-click="workOrderRowOnClick(data)"></td>
+                                <!-- <td ng-click="click1(workOrder)" class="no-padding" align="middle">
+                                    <span class="fa fa-edit fa-lg"></span>
+                                </td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Side Bar Start-->
+</div>

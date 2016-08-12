@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: Biffy
+        psr4_prefix: Biffy
+        src_path: app

@@ -1,0 +1,63 @@
+<div class="container-fluid">
+    <div class="col-md-12 pos">
+        <ul class="breadcrumb">
+            <li><a href="/">Dashboard</a></li>
+            <li><a ui-sref="timeclock">Timeclock</a></li>
+            <li><a ui-sref="timeclock.history">History</a></li>
+            <li class="active">Details</li>
+        </ul>
+        <div id="page-heading">
+            <div class="options">
+                <div class="btn-toolbar pull-right">
+                    <a ng-click="addModal('work')" class="btn btn-default btn-sm">Add Work Clock</a>
+                    <a ng-click="addModal('break')" class="btn btn-default btn-sm">Add Break Clock</a>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>Timeclock Details</h4>
+                        </div>
+
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input type="text" class="form-control" ng-value="'{{range.from}} - {{range.to}}'" daterangepicker="dateRangePickerOptions" date-begin="range.from" date-end="range.to">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <table class="table table-bordered" ng-table="tableParams">
+                                    <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>In</th>
+                                        <th>Out</th>
+                                        <th>Hours</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="entry in $data">
+                                        <td>{{entry.clock_type | timeclockType}}</td>
+                                        <td>{{entry.time_in | date:'M/d/yy h:mm a':'UTC'}}</td>
+                                        <td>{{entry.time_out | date:'M/d/yy h:mm a':'UTC'}}</td>
+                                        <td>{{entry.hours}}</td>
+                                        <td><a ng-click="editModal(entry)"><i class="fa fa-pencil-square-o"></i> Edit</a></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

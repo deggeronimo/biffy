@@ -1,0 +1,207 @@
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="home">Dashboard</a></li>
+        <li>Device Types</li>
+        <li>Repairs</li>
+        <li class="active">Edit</li>
+    </ol>
+    <h1>Device Repairs</h1>
+</div>
+<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h4>Edit Device Repairs</h4>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-body">
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">Image</label>
+                        <label class="control-label col-xs-10">
+                            <input type="text" class="form-control" ng-model="data.image">
+                        </label>
+                        <label class="control-label col-xs-2">Sort Order</label>
+                        <label class="control-label col-xs-10">
+                            <input type="text" class="form-control" ng-model="data.sort_order">
+                        </label>
+                        <label class="control-label col-xs-2">View Count</label>
+                        <label class="control-label col-xs-10">
+                            <input type="text" class="form-control" ng-model="data.view_count">
+                        </label>
+                        <label class="control-label col-xs-2">Status</label>
+                        <label class="control-label col-xs-10">
+                            <select class="form-control" ng-model="data.status"
+                                    ng-options="selectedItem.id as selectedItem.value for selectedItem in trueFalse">
+                            </select>
+                        </label>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h4>Edit Name Attribute</h4>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-body">
+                    <div class="form-group">
+                        <div class="row" ng-repeat="language in languageList">
+                            <label class="control-label col-xs-2">Name in {{language.lang}}</label>
+                            <label class="control-label col-xs-10">
+                                <input type="text" class="form-control" ng-model="nameAttributes[language.id-1].string">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h4>Edit Estimated Cost Attribute</h4>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-body">
+                    <div class="form-group">
+                        <div class="row" ng-repeat="language in languageList">
+                            <label class="control-label col-xs-2">Estimated Cost in {{language.lang}}</label>
+                            <label class="control-label col-xs-10">
+                                <input type="text" class="form-control" ng-model="estimatedCostAttributes[language.id-1].string">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h4>Edit Meta Description Attribute</h4>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-body">
+                    <div class="form-group">
+                        <div class="row" ng-repeat="language in languageList">
+                            <label class="control-label col-xs-2">Meta Description in {{language.lang}}</label>
+                            <label class="control-label col-xs-10">
+                                <input type="text" class="form-control" ng-model="metaDescriptionAttributes[language.id-1].string">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h4>Edit Meta Keywords Attribute</h4>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-body">
+                    <div class="form-group">
+                        <div class="row" ng-repeat="language in languageList">
+                            <label class="control-label col-xs-2">Meta Keywords in {{language.lang}}</label>
+                            <label class="control-label col-xs-10">
+                                <input type="text" class="form-control" ng-model="metaKeywordsAttributes[language.id-1].string">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h4>Edit Web Description Attribute</h4>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-body">
+                    <div class="form-group">
+                        <div class="row" ng-repeat="language in languageList">
+                            <label class="control-label col-xs-2">Web Description in {{language.lang}}</label>
+                            <label class="control-label col-xs-10">
+                                <textarea class="form-control" rows="4" ng-model="webDescriptionAttributes[language.id-1].string"></textarea>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h4>Repair Items</h4>
+        </div>
+        <div class="panel-body">
+            <table class="table table-bordered" ng-table="deviceRepairItemTableParams">
+                <thead>
+                <tr>
+                    <th><div>Repair Option</div></th>
+                    <th><div>Option Value</div></th>
+                    <th><div>Item</div></th>
+                    <th><div>Image</div></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="odd gradeX" ng-repeat="data in $data">
+                    <td data-title="'Repair Option'">{{data.device_repair_option.name}}</td>
+                    <td data-title="'Option Value'">{{data.option_value}}</td>
+                    <td data-title="'Item'">{{data.item.name}}</td>
+                    <td data-title="'Image'">{{data.image}}</td>
+                    <td data-title="'Actions'">
+                        <a class="btn default btn-xs green" ui-sref="devicetypes.edit.repairs.items.edit({repairOptionId:data.id})"><i class="fa fa-edit"></i>Edit</a>
+                        <a class="btn default btn-xs green" ng-click="deleteDeviceRepairOption(data.id)"><i class="fa fa-edit"></i>Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-xs-6">
+                </div>
+                <div class="col-xs-6 text-right">
+                    <button type="button" class="btn green" ng-click="createNewDeviceRepairItem()">Add Item</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <button type="button" class="btn default" ng-click="cancel()">Cancel</button>
+            <button type="button" class="btn red" ng-click="destroy()" ng-if="isEdit()">Delete</button>
+        </div>
+        <div class="col-xs-6 text-right">
+            <button type="button" class="btn green" ng-click="store()" ng-if="isAdd()">Save</button>
+            <button type="button" class="btn green" ng-click="update()" ng-if="isEdit()">Save</button>
+        </div>
+    </div>
+</div>

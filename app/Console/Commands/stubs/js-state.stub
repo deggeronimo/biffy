@@ -1,0 +1,14 @@
+'use strict';
+
+angular.module('biffyApp')
+    .config(function ($stateProvider) {
+        $stateProvider.state('{{state}}', {{{parent}}
+            url: '',
+            views: {
+                '@': {
+                    templateUrl: '{{template}}',
+                    controller: '{{controller}}'
+                }
+            }
+        });
+    });

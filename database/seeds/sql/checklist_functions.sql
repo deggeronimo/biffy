@@ -1,0 +1,13 @@
+INSERT INTO checklist_functions (id, name) VALUES (1, 'Powers On');
+INSERT INTO checklist_functions (id, name) VALUES (2, 'LCD Working');
+INSERT INTO checklist_functions (id, name) VALUES (3, 'Touch Responsive');
+INSERT INTO checklist_functions (id, name) VALUES (4, 'Wifi');
+INSERT INTO checklist_functions (id, name) VALUES (5, 'Speakers');
+INSERT INTO checklist_functions (id, name) VALUES (6, 'Exterior Buttons');
+INSERT INTO checklist_functions (id, name) VALUES (7, 'Camera');
+INSERT INTO checklist_functions (id, name) VALUES (8, 'Carrier Connection');
+INSERT INTO checklist_functions (id, name) VALUES (9, 'Charge Port');
+INSERT INTO checklist_functions (id, name) VALUES (10, 'Proximity Sensor');
+INSERT INTO checklist_functions (id, name) VALUES (11, 'Headphone Jack');
+INSERT INTO checklist_functions (id, name) VALUES (12, 'Water Damage');
+INSERT INTO checklist_functions (id, name) VALUES (13, 'Microphone');

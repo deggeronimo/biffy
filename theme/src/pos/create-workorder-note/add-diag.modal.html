@@ -1,0 +1,20 @@
+<div class="modal-header">
+    <h3 class="modal-title">Add Diag</h3>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <div class="col-md-6" ng-repeat="item in checklist">
+                    <a ng-click="item.checked=item.checked===1?0:1"
+                       ng-class="{'btn btn-block btn-checklist btn-success btn-sm': item.checked, 'btn btn-block btn-checklist btn-default btn-sm': !item.checked}">
+                        <i ng-class="{'fa fa-check-square-o': item.checked, 'fa fa-square-o': !item.checked}"></i> {{item.name}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-success" ng-click="add()">Add</button>
+    <button type="button" class="btn btn-danger" ng-click="cancel()">Cancel</button>
+</div>

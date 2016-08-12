@@ -1,0 +1,47 @@
+<ol class="breadcrumb">
+    <li><a href="#">{{set.category_name}}</a></li>
+    <li class="active">{{set.name}}</li>
+</ol>
+<table class="table table-bordered" ng-table="tableParams">
+    <thead>
+    <tr>
+        <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('path', 'asc'),
+                                'sort-desc': tableParams.isSortBy('path', 'desc')
+                              }"
+            ng-click="tableParams.sorting({'path' : tableParams.isSortBy('path', 'asc') ? 'desc' : 'asc'})">
+            <div>File</div>
+        </th>
+        <th>Size</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="odd gradeX" ng-repeat="data in $data">
+        <td>{{data.path}}</td>
+        <td>{{data.size}}</td>
+        <td>
+            <a class="btn default btn-xs red" ng-click="destroy(data)">
+                <i class="fa fa-trash-o"></i>
+                Delete
+            </a>
+            <a class="btn default btn-xs green" href="{{data.file_path}}" target="_blank">
+                <i class="fa fa-download"></i>
+                Download
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <div ng-file-drop ng-model="files" ng-file-change="uploadFiles(files)" class="drop-zone"
+                 drag-over-class="{accept:'hover', reject:'hover', delay:100}"
+                 ng-multiple="true" allow-dir="true" accept="image/*,audio/*,video/*,application/pdf">
+                <button ng-file-select ng-model="files" ng-file-change="uploadFiles(files)" ng-multiple="true">Attach Any File</button>
+                <strong>OR</strong>
+                Drop Images, PDFs, Audio or Video files here
+            </div>
+            <div ng-no-file-drop>File Drag/Drop is not supported for this browser</div>
+        </td>
+    </tr>
+    </tbody>
+</table>

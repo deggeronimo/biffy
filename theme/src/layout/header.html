@@ -1,0 +1,124 @@
+<header class="navbar navbar-inverse"
+        ng-class="{'navbar-fixed-top': styleOpts.fixedHeader, 'navbar-static-top': !styleOpts.fixedHeader}" role="banner">
+    <a id="leftmenu-trigger" tooltip-placement="right" tooltip="Toggle Sidebar" ng-click="toggleLeftBar()"></a>
+    <a id="rightmenu-trigger" tooltip-placement="left" tooltip="Toggle Infobar" ng-click="toggleRightBar()"></a>
+
+    <div class="navbar-header pull-left">
+        <a class="navbar-brand" ui-sref="home">uBreakiFix Portal</a>
+    </div>
+
+    <ul class="nav navbar-nav pull-right toolbar">
+        <li class="dropdown" ng-if="pin_user">
+            <a href="#" class="username" data-toggle="dropdown">
+                <span class="hidden-xs">PIN: {{pin_user.given_name}} {{pin_user.family_name}}</span>
+            </a>
+            <ul class="dropdown-menu userinfo arrow">
+                <li class="userlinks">
+                    <ul class="dropdown-menu">
+                        <li><a ng-click="pinLogout()">Log Out PIN</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="username" data-toggle="dropdown">
+                <span class="hidden-xs">{{user.given_name}} {{user.family_name}}</span>
+                <img ng-src="{{user.picture_url}}" />
+            </a>
+            <ul class="dropdown-menu userinfo arrow">
+                <li class="userlinks">
+                    <ul class="dropdown-menu">
+                        <li><a ui-sref="profile({userId: user.id})">View Profile <i class="pull-right fa fa-fw fa-user"></i></a></li>
+                        <li><a ui-sref="profile.edit({userId: user.id})">Edit Profile <i class="pull-right fa fa-fw fa-pencil"></i></a></li>
+                        <li><a ui-sref="user-settings">Settings <i class="pull-right fa fa-fw fa-cog"></i></a></li>
+                        <li class="divider"></li>
+                        <li><a ng-click="logout()" class="text-right">Log Out</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li class="dropdown" ng-controller="MessagesController"
+            data-bootstro
+            data-bootstro-step="2"
+            data-bootstro-placement='bottom'
+            data-bootstro-content="Click to mark messages as read.">
+            <a href="#" data-toggle="dropdown">
+                <i class="fa fa-envelope"></i><span class="badge badge-danger" ng-if="unseenCount>0"
+                                                    ng-bind="unseenCount"></span>
+            </a>
+            <ul class="dropdown-menu messages arrow">
+                <li class="dd-header">
+                    <span>You have {{unseenCount}} new message(s)</span>
+                    <span><a href="#" ng-click="setReadAll($event)">Mark all Read</a></span>
+                </li>
+                <div class="scrollthis" jscrollpane="{autoReinitialise:true, autoReinitialiseDelay: 20}">
+                    <li ng-repeat="item in messages">
+                        <a href="#/extras-chatroom" ng-class="{active: !item.read}">
+                            <button tooltip-placement="top" tooltip-append-to-body="true" tooltip="Mark Read"
+                                    class="btn-mark-read" ng-if="!item.read" ng-click="setRead(item, $event)"><i
+                                    class="fa fa-circle"></i></button>
+                            <button tooltip-placement="top" tooltip-append-to-body="true" tooltip="Mark Unread"
+                                    class="btn-mark-unread" ng-if="item.read" ng-click="setUnread(item, $event)"><i
+                                    class="fa fa-circle-thin"></i></button>
+                            <span class="time">{{item.time}}</span>
+                            <img ng-src="{{item.thumb}}" alt="avatar"/>
+
+                            <div>
+                                <span class="name">{{item.name}}</span>
+                                <span class="msg">{{item.message}}</span>
+                            </div>
+                        </a>
+                    </li>
+                </div>
+                <li class="dd-footer"><a href="#">View All Messages</a></li>
+            </ul>
+        </li>
+        <li class="dropdown" ng-controller="NotificationsController"
+            data-bootstro
+            data-bootstro-step="1"
+            data-bootstro-placement='bottom'
+            data-bootstro-content="Click here to check out the dynamic notifications section. You can mark items as read and see the changes in real time.">
+            <a href="#" data-toggle="dropdown">
+                <i class="fa fa-bell"></i><span class="badge badge-orange" ng-if="unseenCount>0"
+                                                ng-bind="unseenCount"></span>
+            </a>
+            <ul class="dropdown-menu notifications arrow">
+                <li class="dd-header">
+                    <span>You have {{unseenCount}} new notification(s)</span>
+                    <span><a href="javascript:;" ng-click="setSeenAll($event)">Mark all Seen</a></span>
+                </li>
+                <div class="scrollthis" jscrollpane="{autoReinitialise:true, autoReinitialiseDelay: 20}">
+                    <li ng-repeat="item in notifications">
+                        <a href="#" class="{{item.class}}" ng-class="{active: !item.seen}">
+                            <button tooltip-placement="top" tooltip-append-to-body="true" tooltip="Mark Seen"
+                                    class="btn-mark-read" ng-if="!item.seen" ng-click="setSeen(item, $event)"><i
+                                    class="fa fa-circle"></i></button>
+                            <button tooltip-placement="top" tooltip-append-to-body="true" tooltip="Mark Unseen"
+                                    class="btn-mark-unread" ng-if="item.seen" ng-click="setUnseen(item, $event)"><i
+                                    class="fa fa-circle-thin"></i></button>
+                            <span class="time">{{item.time}}</span>
+                            <i class="{{item.iconClasses}}"></i>
+                            <span class="msg">{{item.text}}</span>
+                        </a>
+                    </li>
+                </div>
+                <li class="dd-footer"><a href="#">View All Notifications</a></li>
+            </ul>
+        </li>
+        <!--<li ng-click="showHeaderBar($event)">-->
+            <!--<a href="" id="headerbardropdown"><span><i class="fa fa-level-down"></i></span></a>-->
+        <!--</li>-->
+        <li ng-if="user" class="dropdown" ng-controller="StoreSelectorController">
+            <a href="#" class="dropdown-toggle username" data-toggle="dropdown"><span class="hidden-xs">{{current.name}}</span></a>
+            <ul class="dropdown-menu userinfo arrow">
+                <li class="userlinks">
+                    <ul class="dropdown-menu">
+                        <li ng-repeat="item in stores">
+                            <a href="#" ng-click="selectStore(item.id)">{{item.name}}</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</header>

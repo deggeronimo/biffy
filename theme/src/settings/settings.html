@@ -1,0 +1,41 @@
+<div class="container-fluid">
+    <div class="col-md-12 pos">
+        <breadcrumbs></breadcrumbs>
+        <div id="page-heading">
+            <div class="options">
+                <div class="btn-toolbar">
+                    <a ui-sref="settings.edit({id: 'new'})" class="btn btn-default btn-sm">Add</a>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>Settings</h4>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Key</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="setting in settings">
+                                    <td>{{setting.name}}</td>
+                                    <td>{{setting.key}}</td>
+                                    <td><a ui-sref="settings.edit({id: setting.id})"><i class="fa fa-edit"></i> Edit</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,207 @@
+<div class="container-fluid">
+    <div class="row pos">
+        <div class="col-md-8 col-sm-12">
+			<div id="page-heading">
+				<ol class="breadcrumb">
+					<li><a href="/">Dashboard</a></li>
+					<li class="active">Expense Report</li>
+				</ol>
+				<h1>Expense Report</h1>
+			</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="panel panel-primary">
+							<div class="panel-heading">
+								<h4 class="fa fa-bars">Add Expense</h4>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<label class="btn red">Purchase Date</label>
+							<input ui-date ui-date-format='yy-mm-dd' ng-model="expense.date">
+							<label class="btn red">Purchase Amount</label>
+							<input type='text' placeholder="123.76" ng-model="expense.amount">
+							<label class="btn red">Purchase Vendor</label>
+							<input type='text' placeholder="Distro,Ebay,Amazon ext" ng-model="expense.vendor_id">
+							<label class="btn red">Purchased By</label>
+							<select ng-model="expense.account_expense_category_id"
+                				ng-options="opt.value as opt.label for opt in options">
+           					</select>
+							<label class="btn red">Purchase Comments</label>
+							<input type='text' placeholder="Filling Order number 4521" ng-model="expense.comments">
+							<button class="btn btn-primary" ng-click="addPurchase(expense)">Add Purchase</button>
+						</div>
+						<div clas="col-md-4" >
+							<label class="btn disabled">Recent Upload</label><br>
+							<img src="//www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt=""><br>
+							<input name="image" type="file" id="file" ng-model="expense.file" class="fileupload-new">
+						</div>
+
+
+						<div class="panel panel-primary">
+							<div class="panel-heading">
+								<h4 class="fa fa-bars">Expense Report</h4>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div id="table_holder">
+								<table class="table table-bordered" ng-table="tableParams">
+									<thead>
+						    			<tr>
+						    				<th class="sortable" ng-class="{
+					                            'sort-asc': tableParams.isSortBy('date', 'asc'),
+					                            'sort-desc': tableParams.isSortBy('date', 'desc')
+					                          }"
+					                            ng-click="tableParams.sorting({'date' : tableParams.isSortBy('date', 'asc') ? 'desc' : 'asc'})">
+					                            <div>Date</div>
+					                        </th>
+					                        <th class="sortable" ng-class="{
+					                            'sort-asc': tableParams.isSortBy('amount', 'asc'),
+					                            'sort-desc': tableParams.isSortBy('amount', 'desc')
+					                          }"
+					                            ng-click="tableParams.sorting({'amount' : tableParams.isSortBy('amount', 'asc') ? 'desc' : 'asc'})">
+					                            <div>Amount</div>
+					                        </th>
+					                        <th class="sortable" ng-class="{
+					                            'sort-asc': tableParams.isSortBy('vendor', 'asc'),
+					                            'sort-desc': tableParams.isSortBy('vendor', 'desc')
+					                          }"
+					                            ng-click="tableParams.sorting({'vendor' : tableParams.isSortBy('vendor', 'asc') ? 'desc' : 'asc'})">
+					                            <div>Vendor</div>
+					                        </th>
+					                        <th class="sortable" ng-class="{
+					                            'sort-asc': tableParams.isSortBy('user', 'asc'),
+					                            'sort-desc': tableParams.isSortBy('user', 'desc')
+					                          }"
+					                            ng-click="tableParams.sorting({'user' : tableParams.isSortBy('user', 'asc') ? 'desc' : 'asc'})">
+					                            <div>User</div>
+					                        </th>
+					                        <th class="sortable" ng-class="{
+					                            'sort-asc': tableParams.isSortBy('category', 'asc'),
+					                            'sort-desc': tableParams.isSortBy('category', 'desc')
+					                          }"
+					                            ng-click="tableParams.sorting({'category' : tableParams.isSortBy('category', 'asc') ? 'desc' : 'asc'})">
+					                            <div>Category</div>
+					                        </th>
+					                        <th class="sortable" ng-class="{
+					                            'sort-asc': tableParams.isSortBy('image', 'asc'),
+					                            'sort-desc': tableParams.isSortBy('image', 'desc')
+					                          }"
+					                            ng-click="tableParams.sorting({'image' : tableParams.isSortBy('image', 'asc') ? 'desc' : 'asc'})">
+					                            <div>Image</div>
+					                        </th>
+					                        <th class="sortable" ng-class="{
+					                            'sort-asc': tableParams.isSortBy('comments', 'asc'),
+					                            'sort-desc': tableParams.isSortBy('comments', 'desc')
+					                          }"
+					                            ng-click="tableParams.sorting({'comments' : tableParams.isSortBy('comments', 'asc') ? 'desc' : 'asc'})">
+					                            <div>Comments</div>
+					                        </th>
+					                        <th>
+					                        </th>
+						    			</tr>
+						    			<tr class="odd gradeX" ng-repeat="expense in $data">
+						    				<td>{{expense.created_at}}</td>
+						    				<td>{{expense.amount}}</td>
+						    				<td>{{expense.vendor.name}}</td>
+						    				<td>{{expense.user.given_name}} {{expense.user.family_name}}</td>
+						    				<td>{{expense.account_expense_category.name}}</td>
+						    				<td>
+												<div ng-if="expense.filename!=''">
+													<a ng-src="'uploads/' + expense.filename"><img ng-src="'uploads/' + expense.filename" width="60px" height="60px"/></a>
+												</div>
+											</td>
+						    				<td>{{expense.comments}}</td>
+						    				<td><button ng-click="deleteExpense(expense)"> Delete </button></td>
+						    			</tr>
+						    		</thead>
+						    	</table>
+							</div> <!-- END OF Table_holder -->
+						</div>
+					</div> <!-- END OF xs-12-->
+				</div> <!-- END OF row-->
+			</div> <!-- END OF container-->
+		</div> <!-- END OF col-md 8 -->
+
+		<div id="pos-sidebar" class="col-sm-12 col-md-4">
+            <div id="sales-totals" class="table-responsive">
+                <h2>Totals</h2>
+                <table class="table">
+                    <tfoot>
+                    <tr>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Inventory:</td>
+                        <td class="sales-bg-b" align="right">{{totalInventory | currency}}</td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Marketing:</td>
+                        <td class="sales-bg-b" align="right">{{totalMarketing | currency}}</td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Store Supplies:</td>
+                        <td class="sales-bg-b" align="right">{{totalSupples | currency}}</td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Postage and Delivery:</td>
+                        <td class="sales-bg-b" align="right">{{totalPostage | currency}}</td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Repairs and Maintenance:</td>
+                        <td class="sales-bg-b" align="right">{{totalRepairs | currency}}</td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Other:</td>
+                        <td class="sales-bg-b" align="right">{{totalOther | currency}}</td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Total:</td>
+                        <td class="sales-bg-b" align="right">{{totals | currency}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <h2>Inventory Budget for January</h2>
+                <table class="table">
+                    <tfoot>
+                    <tr>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Projected Sales:</td>
+                        <td class="sales-bg-b" align="right"></td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Projected Parts Budget:</td>
+                        <td class="sales-bg-b" align="right"></td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Parts Ordered:</td>
+                        <td class="sales-bg-b" align="right"></td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Under Projected Budget:</td>
+                        <td class="sales-bg-b" align="right"></td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">MTD Sales:</td>
+                        <td class="sales-bg-b" align="right"></td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">MTD Budget:</td>
+                        <td class="sales-bg-b" align="right"> </td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Under MTD Budget:</td>
+                        <td class="sales-bg-b" align="right"></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div><!--  End of Table -->
+    	</div> <!--  End of pos-sidebar -->
+	</div> <!-- END OF row pos-->
+</div><!-- END OF container fluid-->

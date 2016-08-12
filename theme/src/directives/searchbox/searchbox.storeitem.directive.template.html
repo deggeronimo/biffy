@@ -1,0 +1,1 @@
+<input type="text" class="form-control" ng-model="asyncSelected" placeholder="Search to add items..." typeahead="item.id as item.item.name for item in getStoreItems($viewValue)" typeahead-loading="loadingItems" typeahead-on-select="addStoreItem($item)" typeahead-wait-ms="300">

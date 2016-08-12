@@ -1,0 +1,171 @@
+<div class="container-fluid">
+    <div class="row pos">
+        <div class="col-md-8 col-sm-12">
+            <div id="pos-left-content">
+                <ul class="breadcrumb">
+                    <li><a ui-sref="home">Dashboard</a></li>
+                    <li class="active">Purchase Orders</li>
+                </ul>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h1>Purchase Orders</h1>
+                    </div>
+                    <div class="col-md-8 options">
+                        <div class="btn-toolbar pull-right">
+                            <a ng-click="autoOrder()" class="btn btn-default btn-sm">Auto Order</a>
+                            <a ui-sref="purchasing.edit()" class="btn btn-default btn-sm">Add</a>
+                            <a class="btn btn-default btn-sm" ng-click="export()" target="_self">Export</a>
+                            <a class="btn btn-default btn-sm" ng-click="tableParams.reload()">Refresh</a>
+                            <a class="btn btn-default btn-sm" ng-click="tableParams.sorting({})">Clear sorting</a>
+                            <a class="btn btn-default btn-sm" ng-click="tableParams.filter({})">Clear filter</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h4>Purchase Orders</h4>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-bordered" ng-table="tableParams">
+                                    <thead>
+                                    <tr>
+                                        <th class="sortable" ng-class="{
+                                                'sort-asc': tableParams.isSortBy('created_at', 'asc'),
+                                                'sort-desc': tableParams.isSortBy('created_at', 'desc')
+                                            }"
+                                            ng-click="tableParams.sorting({'created_at' : tableParams.isSortBy('created_at', 'asc') ? 'desc' : 'asc'})">
+                                            <div>Created</div>
+                                        </th>
+                                        <th class="sortable" ng-class="{
+                                                'sort-asc': tableParams.isSortBy('currency_rate', 'asc'),
+                                                'sort-desc': tableParams.isSortBy('currency_rate', 'desc')
+                                                }"
+                                            ng-click="tableParams.sorting({'currency_rate' : tableParams.isSortBy('currency_rate', 'asc') ? 'desc' : 'asc'})">
+                                            <div>Vendor</div>
+                                        </th>
+                                        <th class="sortable" ng-class="{
+                                                'sort-asc': tableParams.isSortBy('currency_rate', 'asc'),
+                                                'sort-desc': tableParams.isSortBy('currency_rate', 'desc')
+                                                }"
+                                            ng-click="tableParams.sorting({'currency_rate' : tableParams.isSortBy('currency_rate', 'asc') ? 'desc' : 'asc'})">
+                                            <div>Currency Rate</div>
+                                        </th>
+                                        <th class="sortable" ng-class="{
+                                                'sort-asc': tableParams.isSortBy('subtotal', 'asc'),
+                                                'sort-desc': tableParams.isSortBy('subtotal', 'desc')
+                                                }"
+                                            ng-click="tableParams.sorting({'subtotal' : tableParams.isSortBy('subtotal', 'asc') ? 'desc' : 'asc'})">
+                                            <div>Subtotal</div>
+                                        </th>
+                                        <th class="sortable" ng-class="{
+                                                'sort-asc': tableParams.isSortBy('taxes', 'asc'),
+                                                'sort-desc': tableParams.isSortBy('taxes', 'desc')
+                                            }"
+                                            ng-click="tableParams.sorting({'taxes' : tableParams.isSortBy('taxes', 'asc') ? 'desc' : 'asc'})">
+                                            <div>Taxes</div>
+                                        </th>
+                                        <th>
+                                            <div>Total</div>
+                                        </th>
+                                        <th>
+                                            <div>Shipping Method</div>
+                                        </th>
+                                        <th>
+                                            <div>Actions</div>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="odd gradeX" ng-repeat="data in $data">
+                                        <td data-title="'Created At'">{{data.created_at}}</td>
+                                        <td data-title="'Vendor'">{{data.vendor.name}}</td>
+                                        <td data-title="'Currency Rate'">{{data.currency_rate | number : 6}}</td>
+                                        <td data-title="'Subtotal'">{{data.subtotal | currency}}</td>
+                                        <td data-title="'Taxes'">{{data.taxes | currency}}</td>
+                                        <td data-title="'Total'">{{1*data.subtotal + 1*data.taxes | currency}}</td>
+                                        <td data-title="'Shipping Method'">{{data.shipping_method}}</td>
+                                        <td data-title="'Actions'">
+                                            <a class="btn default btn-xs green" ui-sref="purchasing.edit({id:data.id})">
+                                                <i class="fa fa-edit"></i> Edit
+                                            </a>
+                                            <a href="#" class="btn default btn-xs green" ng-click="viewPurchaseOrder(data)"><span class="fa fa-edit"> View</span></a>
+                                            <a href="#" class="btn default btn-xs green" ng-click="deletePurchaseOrder(data)"><span class="fa fa-edit"> Delete</span></a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Side Bar Start-->
+        <div id="pos-sidebar" class="col-sm-12 col-md-4">
+            <div id="sales-totals"class="table-responsive" ng-if="currentPurchaseOrder != null">
+                <h2>Purchase Order Info</h2>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td class="sales-bg-a" align="right" width="50%">Currency Rate:</td>
+                        <td class="sales-bg-b" align="right">
+                            {{currentPurchaseOrder.currency_rate}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right" width="50%">Vendor:</td>
+                        <td class="sales-bg-b" align="right">
+                            {{getVendorById(currentPurchaseOrder.vendor_id).name}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right" width="50%">Shipping Method:</td>
+                        <td class="sales-bg-b" align="right">{{currentPurchaseOrder.shipping_method}}</td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right" width="50%">Tracking Number:</td>
+                        <td class="sales-bg-b" align="right">
+                            <a target="_blank"href="http://wwwapps.ups.com/WebTracking/track?track=yes&trackNums={{currentPurchaseOrder.tracking_number}}">
+                                {{currentPurchaseOrder.tracking_number}}
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right" width="50%">Shipping Cost:</td>
+                        <td class="sales-bg-b" align="right">{{currentPurchaseOrder.shipping_cost | currency}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div><!--  End of Table -->
+            <div id="sales-totals"class="table-responsive" ng-if="currentPurchaseOrder != null">
+                <h2>Purchase Order Total</h2>
+                <table class="table">
+                    <tfoot>
+                    <tr>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    <tr>
+                        <td class="sales-bg-a" align="right" width="50%">Items in Cart:</td>
+                        <td class="sales-bg-b" align="right">{{currentPurchaseOrder.purchase_items.length}}</td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right" width="50%">Subtotal:</td>
+                        <td class="sales-bg-b" align="right">{{currentPurchaseOrder.subtotal |currency}}</td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right" width="50%">Sales Tax ({{viewTaxRate}}%):</td>
+                        <td class="sales-bg-b" align="right">{{currentPurchaseOrder.taxes | currency}}</td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right" width="50%">Total:</td>
+                        <td class="sales-bg-b" align="right">{{currentPurchaseOrder.total | currency}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div><!--  End of Table -->
+        </div><!--pos sidebar-->
+    </div>
+</div>

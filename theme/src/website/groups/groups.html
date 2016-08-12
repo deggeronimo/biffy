@@ -1,0 +1,67 @@
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="home">Dashboard</a></li>
+        <li class="active">Filter Groups</li>
+    </ol>
+    <h1>Filter Groups</h1>
+    <div class="options">
+        <div class="btn-toolbar">
+            <a ui-sref="website.groups.edit({id:'new'})" class="btn btn-default btn-sm">Add</a>
+            <a class="btn btn-default btn-sm" ng-click="export()" target="_self">Export</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.reload()">Refresh</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.sorting({})">Clear sorting</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.filter({})">Clear filter</a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>Filter Groups</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-6 pull-right">
+                            <input type="text" class="form-control" placeholder="Search..." ng-model="tableParams.filter()['search']"/>
+                        </div>
+                    </div>
+                    <table class="table table-bordered" ng-table="tableParams">
+                        <thead>
+                        <tr>
+                            <th>
+                                <div>Id</div>
+                            </th>
+                            <th>
+                                <div>Name</div>
+                            </th>
+                            <th>
+                                <div>Sort Order</div>
+                            </th>
+                            <th>
+                                <div>Portal Filter Name</div>
+                            </th>
+                            <th>
+                                <div>Actions</div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="odd gradeX" ng-repeat="data in $data">
+                            <td data-title="'Id'">{{data.id}}</td>
+                            <td data-title="'Name'">{{data.name}}</td>
+                            <td data-title="'Sort Order'">{{data.sort_order}}</td>
+                            <td data-title="'Portal Filter Name'">{{data.portal_filter}}</td>
+                            <td data-title="'Actions'">
+                                <a class="btn default btn-xs green" ui-sref="website.groups.edit({id:data.id})"><i class="fa fa-edit"></i>Edit</a>
+                                <a class="btn default btn-xs green" ng-click="deleteWebsiteGroup(data)"><i class="fa fa-edit"></i>Delete</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

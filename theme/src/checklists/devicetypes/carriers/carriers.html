@@ -1,0 +1,42 @@
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="home">Dashboard</a></li>
+        <li>Checklists</li>
+        <li class="active">Device Types</li>
+    </ol>
+    <h1>Device Type Carriers</h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>Edit Device Type Carriers</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="control-label col-xs-2">Name</label>
+                                <label class="control-label col-xs-10">
+                                    <select size="7" multiple ng-multiple="true" ng-model="selectedDeviceCarriers" ng-options="deviceCarrier.name for deviceCarrier in deviceCarrierList">
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <button type="button" class="btn default" ng-click="cancel()">Cancel</button>
+                                </div>
+                                <div class="col-xs-6 text-right">
+                                    <button type="button" class="btn green" ng-click="update()">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

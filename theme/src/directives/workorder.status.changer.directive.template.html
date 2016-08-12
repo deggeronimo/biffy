@@ -1,0 +1,10 @@
+<div class="btn-group" dropdown is-open="workOrderStatusChangerStatus.isopen">
+    <button type="button" class="btn btn-default btn-sm dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+        {{workOrderStatuses[currentWorkOrder.workorder_status_id]}} &nbsp;
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+        <li ng-repeat="selectedItem in workOrderStatusRange()"
+                ng-click="setWorkOrderStatusId(workOrderStatuses.indexOf(selectedItem))"><a href="#">{{selectedItem}}</a></li>
+    </ul>
+</div>

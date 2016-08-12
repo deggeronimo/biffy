@@ -1,0 +1,135 @@
+<div class="container-fluid">
+    <div class="row pos">
+        <div class="col-sm-12 col-md-8">
+            <div id="pos-left-content">
+                <ul class="breadcrumb">
+                    <li class="active">Point of Sale</li>
+                </ul>
+                <h1>Select a Device</h1>
+                <ul class="breadcrumb">
+                    <li><a href="#" ng-click="resetDeviceSelection()">Home</a></li>
+                    <li ng-repeat="crumb in deviceBreadCrumbList" class="active"><a href="#" ng-click="breadCrumbGoBackTo(crumb)">{{crumb.name}}</a></li>
+                </ul>
+                <div class="well" ng-if="selectedDeviceType == null || !selectedDeviceType.pos_selectable">
+                    <div class="input-group">
+                        <span class="input-group-addon"><span class="fa fa-search"></span></span>
+                        <device-type-search-box></device-type-search-box>
+                    </div>
+                </div>
+                <div class="row">
+                    <ul class="pos-tile-container">
+                        <li class="col-sm-6 col-md-3" ng-repeat="deviceType in deviceTypeList">
+                            <a class="pos-tile hover-slideUp" ng-class="{'pos-tile-selected': selectedDeviceType == deviceType}" ng-click="selectDeviceType(deviceType)">
+                                <span class="pt-text">
+                                    <span class="info-text">{{deviceType.name}}</span>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row" ng-if="selectedDeviceType != null">
+                    <ul class="pos-tile-container">
+                        <li class="col-sm-6 col-md-3" ng-repeat="deviceRepair in deviceRepairList">
+                            <a class="pos-tile hover-slideUp" ng-click="selectDeviceRepair(deviceRepair)">
+                                <span class="pt-text">
+                                    <span class="info-text">{{deviceRepair.name}}</span>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row" ng-if="selectedDeviceRepair != null">
+                    <div class="row" ng-repeat="deviceRepairOption in deviceRepairOptionList">
+                        <label>{{deviceRepairOption.name}}</label>
+                        <select class="form-control" ng-model="deviceRepairOption.selected">
+                            <option value="{{value.item_id}}" ng-repeat="value in deviceRepairOption.values">{{value.value}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Side Bar-->
+        <div id="pos-sidebar" class="col-sm-12 col-md-4">
+            <div ng-if="selectedDeviceType && selectedDeviceType.pos_selectable">
+                <div class="form control pass-serial">
+                    <h3>Passcode:</h3>
+                    <input type="text" class="form-control" ng-model="currentDevice.passcode" placeholder="" maxlength="25" tabindex="" />
+                    <h3>Serial Number:</h3>
+                    <div class="input-group">
+                        <input type="text" id="buttondropdown" name="buttondropdown" class="form-control" ng-model="currentDevice.serial" placeholder="Enter Serial" maxlength="25" tabindex="" />
+                        <div class="btn-group input-group-btn" dropdown is-open="status.isopen">
+                            <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+                                {{currentDevice.serial_type}}
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li ng-repeat="serialType in serialTypes" ng-click="currentDevice.serial_type=serialType.name"><a href="#">{{serialType.name}}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div id="device-condition">
+                    <accordion close-others="false" class="panel-cyan">
+                        <accordion-group is-open="isopena">
+                            <accordion-heading class="">
+                                Initial Condition
+                                <i class="pull-right glyphicon" ng-class="{'fa fa-chevron-down': isopena, 'fa fa-chevron-right': !isopena}"></i>
+                            </accordion-heading>
+
+                            <div class="">
+                                <h4>Physical Appearance</h4>
+                                <div class="mb10">
+                                    <rating class="rating" ng-model="notes.deviceRating" min="1" max="5" state-on="'fa-star gold'" state-off="'fa-star-o'"></rating> <b>({{notes.deviceRating}} of 5)</b>
+                                </div>
+                                <div>
+                                    {{ratingDescriptions[notes.deviceRating]}}
+                                </div>
+                                <div>
+                                    <br>
+                                    Physical Damage - Anything that is actually broken. Cracked glass and/or LCD, liquid damage, broken housing, known torn flexes etc.
+                                    <br><br>
+                                    Cosmetic Wear - Scratches, scuffs, nicks, minor dents. If dent causes housing separation or is more significant (dented iPhone 5 corner for instance) then this would generally be classified as physical damage.
+                                    <br><br>
+                                </div>
+                            </div>
+                            <div class="">
+                                <textarea class="form-control" rows="4" ng-model="notes.initialCondition" placeholder="Enter Initial Condition here..."></textarea>
+                            </div>
+                            <div class="row">
+                                <h4 class="col-md-12">Component Checklist</h4>
+                                <div class="form-group">
+                                    <div class="col-md-6" ng-repeat="item in checklistList">
+                                        <a ng-click="item.checked=item.checked===1?0:1"
+                                           ng-class="{'btn btn-block btn-checklist btn-success btn-sm': item.checked, 'btn btn-block btn-checklist btn-default btn-sm': !item.checked}">
+                                            <i ng-class="{'fa fa-check-square-o': item.checked, 'fa fa-square-o': !item.checked}"></i> {{item.name}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </accordion-group>
+                        <accordion-group is-open="isopenb">
+                            <accordion-heading>
+                                Items With Device
+                                <i class="pull-right glyphicon" ng-class="{'fa fa-chevron-down': isopenb, 'fa fa-chevron-right': !isopenb}"></i>
+                            </accordion-heading>
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-6" ng-repeat="item in itemChecklistList">
+                                        <a ng-click="item.checked=item.checked===1?0:1"
+                                           ng-class="{'btn btn-block btn-checklist btn-success btn-sm': item.checked, 'btn btn-block btn-checklist btn-default btn-sm': !item.checked}">
+                                            <i ng-class="{'fa fa-check-square-o': item.checked, 'fa fa-square-o': !item.checked}"></i> {{item.checklist_item.name}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </accordion-group>
+                    </accordion>
+                </div>
+                <div class="add-device" ng-if="checklistList != null && itemChecklistList != null">
+                    <button class="btn btn-primary" tabindex="" ng-click="posWorkOrder()" ng-if="action == 'new' && currentDevice.device_type_id != 0">Add Device and Create Work Order</button>
+                    <button class="btn btn-primary" tabindex="" ng-click="posWorkOrder()" ng-if="action == 'sale'">Add Work Order</button>
+                    <button class="btn btn-primary" tabindex="" ng-click="posWorkOrder()" ng-if="action == 'workorder'">Add Work Order</button>
+                    <button class="btn btn-primary" tabindex="" ng-click="createWarranty()" ng-if="action == 'warranty'">Create Warranty</button>
+                </div>
+            </div>
+        </div><!--pos sidebar-->
+    </div>
+</div>

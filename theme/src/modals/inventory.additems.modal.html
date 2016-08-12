@@ -1,0 +1,76 @@
+<div class="modal-header">
+    <h3 class="modal-title"><span class="fa fa-envelope icon-circle"></span>&nbsp; Add Inventory Items</h3>
+</div>
+<div class="modal-body">
+    <div class="panel panel-default panel-body" ng-if="state=='search'">
+        <label class="control-label col-md-2">Search:</label>
+        <label class="control-label col-md-10">
+            <input type="text" class="form-control" ng-model="search.query">
+        </label>
+
+        <a href="#" class="btn btn-primary" ng-click="searchMissingItems()"><span class="fa fa-plus"></span> Search</a>
+    </div>
+    <div class="panel panel-default panel-body" ng-if="state=='adding'">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th align="middle"></th>
+                <th align="middle">Item Number</th>
+                <th align="middle">Item Name</th>
+                <th align="middle">Category</th>
+                <th align="middle"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="missingItem in missingItemsList">
+                <td align="left"></td>
+                <td align="left">{{missingItem.item_number}}</td>
+                <td align="left">{{missingItem.name}}</td>
+                <td align="left">{{missingItem.device_type.name}}</td>
+                <td align="left"><a href="#" class="btn btn-primary" ng-click="addMissingItem(missingItem)"><span class="fa fa-plus"> Add</span></a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row" ng-if="state=='newitem'">
+        <div id="sales-totals"class="table-responsive">
+            <h2>Inventory Item</h2>
+            <table class="table">
+                <tbody>
+                <tr>
+                    <td class="sales-bg-a" align="right">Item Name:</td>
+                    <td class="sales-bg-b" align="right">
+                        <input type="text" class="form-control" ng-model="newInventoryItem.name" ng-change="makeDirty()">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sales-bg-a" align="right">Item Category:</td>
+                    <td class="sales-bg-b" align="right">
+                        <select ui-select2="{allowClear: false}" data-placeholder="Select an item category..."
+                                ng-model="newInventoryItem.device_type_id" style="width:100%" ng-change="makeDirty()">
+                            <option ng-repeat="deviceType in deviceTypeList" value="{{deviceType.id}}">{{deviceType.name}}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sales-bg-a" align="right">Scan Number:</td>
+                    <td class="sales-bg-b" align="right">
+                        <input type="text" class="form-control" ng-model="newInventoryItem.item_number" ng-change="makeDirty()">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div><!--  End of Table -->
+    </div>
+    <div class="row" ng-if="state=='newitem'&&dirty==true">
+        <div class="pay-type">
+            <div class="col-md-12">
+                <button id="save-button" class="btn btn-lg btn-success save" ng-click="saveNewInventoryItem()"><strong>Save</strong></button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="createNewInventoryItem()" ng-if="hasSearched == true">Create New</button>
+    <button class="btn btn-success" ng-click="finished()">Finish</button>
+</div>

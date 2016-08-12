@@ -1,0 +1,24 @@
+<div class="modal-header">
+    <h3 class="modal-title">Create a Feedback Note</h3>
+</div>
+<div class="modal-body">
+    <div class="panel panel-default panel-body">
+        <h3><span class="fa fa-paper-plane icon-circle"></span>&nbsp; Create a Feedback Note</h3>
+        <div class="row">
+            <div class="col-sm-12 col-md-6" id="feedback-status">
+                <label>Feedback Status: <span class="asterisk">*</span></label>
+                <select class="form-control" name="document-type" id="document-type" tabindex="7" ng-model="feedbackStatusId"
+                    ng-options="feedbackStatuses.indexOf(selectedItem) as selectedItem for selectedItem in feedbackStatusRange()">
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <textarea class="form-control" rows="4" ng-model="notes.description" placeholder="Enter Description here..."></textarea>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary push-left" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-success" ng-click="save()">Save</button>
+</div>

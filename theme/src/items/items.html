@@ -1,0 +1,130 @@
+<div id="page-heading">
+	<ol class="breadcrumb">
+		<li><a href="/">Dashboard</a></li>
+		<li class="active">Master Inventory</li>
+	</ol>
+	<h1>Master Inventory Items</h1>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h4>Items</h4>
+				</div>
+				
+				<div class="panel-body">
+					<div class="col-xs-6 pull-left">
+						<button type="button" class="btn btn-midnightblue col-md-2" ng-click='addItem()'>Add item</button>
+					</div>
+					<div class="col-xs-6 pull-right">
+						<input type="text" class="form-control" placeholder="Search..." ng-model="tableParams.filter()['search']"/>
+					</div>
+					<table class="table table-bordered" ng-table="tableParams">
+						<thead>
+							<tr>
+								<th class="sortable" ng-class="{
+									'sort-asc': tableParams.isSortBy('name', 'asc'),
+									'sort-desc': tableParams.isSortBy('name', 'desc')
+									}"
+									ng-click="tableParams.sorting({'name' : tableParams.isSortBy('name', 'asc') ? 'desc' : 'asc'})">
+									<div>Name</div>
+								</th>
+								<th class="sortable" ng-class="{
+									'sort-asc': tableParams.isSortBy('item_number', 'asc'),
+									'sort-desc': tableParams.isSortBy('item_number', 'desc')
+									}"
+									ng-click="tableParams.sorting({'item_number' : tableParams.isSortBy('item_number', 'asc') ? 'desc' : 'asc'})">
+									<div>Item Number</div>
+								</th>
+								<th class="sortable" ng-class="{
+									'sort-asc': tableParams.isSortBy('unit_price', 'asc'),
+									'sort-desc': tableParams.isSortBy('unit_price', 'desc')
+									}"
+									ng-click="tableParams.sorting({'unit_price' : tableParams.isSortBy('unit_price', 'asc') ? 'desc' : 'asc'})">
+									<div>Unit Price</div>
+								</th>
+                                <th class="sortable" ng-class="{
+									'sort-asc': tableParams.isSortBy('labor_cost', 'asc'),
+									'sort-desc': tableParams.isSortBy('labor_cost', 'desc')
+									}"
+                                    ng-click="tableParams.sorting({'labor_cost' : tableParams.isSortBy('labor_cost', 'asc') ? 'desc' : 'asc'})">
+                                    <div>Labor Cost</div>
+                                </th>
+                                <th class="sortable" ng-class="{
+									'sort-asc': tableParams.isSortBy('distro_price', 'asc'),
+									'sort-desc': tableParams.isSortBy('distro_price', 'desc')
+									}"
+                                    ng-click="tableParams.sorting({'distro_price' : tableParams.isSortBy('distro_price', 'asc') ? 'desc' : 'asc'})">
+                                    <div>Distro Price</div>
+                                </th>
+                                <th class="sortable" ng-class="{
+									'sort-asc': tableParams.isSortBy('required', 'asc'),
+									'sort-desc': tableParams.isSortBy('required', 'desc')
+									}"
+                                    ng-click="tableParams.sorting({'required' : tableParams.isSortBy('required', 'asc') ? 'desc' : 'asc'})">
+                                    <div>Required</div>
+                                </th>
+                                <th class="sortable" ng-class="{
+									'sort-asc': tableParams.isSortBy('device_type_name', 'asc'),
+									'sort-desc': tableParams.isSortBy('device_type_name', 'desc')
+									}"
+                                    ng-click="tableParams.sorting({'device_type_name' : tableParams.isSortBy('device_type_name', 'asc') ? 'desc' : 'asc'})">
+                                    <div>DeviceType</div>
+                                </th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-if="isAdd">
+                                <td data-title="'Name'"><input type="text" ng-model="currentItem.name"></td>
+                                <td data-title="'Item Number'"><input type="text" ng-model="currentItem.item_number"></td>
+                                <td data-title="'Unit Price'"><input type="text" ng-model="currentItem.unit_price"></td>
+                                <td data-title="'Labor Cost'"><input type="text" ng-model="currentItem.labor_cost"></td>
+                                <td data-title="'Distro Price'"><input type="text" ng-model="currentItem.distro_price"></td>
+                                <td data-title="'Required'"><input type="text" ng-model="currentItem.required"></td>
+                                <td data-title="'Device Type'">
+                                    <a href="#" class="btn btn-white" ng-click="currentItem.device_type_id = 0;currentItem.device_type = { name: 'Null' };"><span class="fa fa-star-o"></span></a>
+                                    <div class="col-xs-6">
+                                        <device-type-search-box />
+                                    </div>
+                                    <input type="text" class="form-control" ng-model="currentItem.device_type.name" disabled>
+                                </td>
+								<td>
+									<button ng-click="saveItem(currentItem)"> Save </button>
+									<button ng-click="cancelItem()"> Cancel </button>
+								</td>
+							</tr>
+							<tr class="odd gradeX" ng-repeat="data in $data">
+								<td data-title="'Name'">{{data.name}}</td>
+								<td data-title="'Item Number'" ng-if="!data.isEdit">{{data.item_number}}</td>
+								<td data-title="'Item Number'" ng-if="data.isEdit"><input type="text" ng-model="data.item_number"></td>
+								<td data-title="'Unit Price'" ng-if="!data.isEdit">{{data.unit_price}}</td>
+                                <td data-title="'Unit Price'" ng-if="data.isEdit"><input type="text" ng-model="data.unit_price"></td>
+                                <td data-title="'Labor Cost'" ng-if="!data.isEdit">{{data.labor_cost}}</td>
+                                <td data-title="'Labor Cost'" ng-if="data.isEdit"><input type="text" ng-model="data.labor_cost"></td>
+                                <td data-title="'Distro Price'" ng-if="!data.isEdit">{{data.distro_price}}</td>
+                                <td data-title="'Distro Price'" ng-if="data.isEdit"><input type="text" ng-model="data.distro_price"></td>
+                                <td data-title="'Required'" ng-if="!data.isEdit">{{data.required}}</td>
+                                <td data-title="'Required'" ng-if="data.isEdit"><input type="text" ng-model="data.required"></td>
+                                <td data-title="'Device Type'" ng-if="!data.isEdit">{{data.device_type ? data.device_type.name : 'Null'}}</td>
+                                <td data-title="'Device Type'" ng-if="data.isEdit">
+                                    <a href="#" class="btn btn-white" ng-click="data.device_type_id = 0;data.device_type = { name: 'Null' };"><span class="fa fa-star-o"></span></a>
+                                    <div class="col-xs-6">
+                                        <device-type-search-box />
+                                    </div>
+                                    <input type="text" class="form-control" ng-model="data.device_type.name" disabled>
+                                </td>
+                                <td>
+									<button ng-if="!data.isEdit" ng-click="editItem(data)"> Edit </button>
+									<button ng-if="data.isEdit" ng-click="updateItem(data)"> Save </button>
+									<button ng-if="data.isEdit" ng-click="cancelItem(data)"> Cancel </button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			<div>
+		</div>
+	</div>
+</div>

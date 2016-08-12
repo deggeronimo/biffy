@@ -1,0 +1,38 @@
+<!-- BEGIN SIDEBAR -->
+<nav id="page-leftbar" role="navigation">
+    <div>
+        <ul ng-if="user" id="sidebar" menus="menus" tag="sidebar" type="tree" sticky-scroll="40">
+            <li id="search" ng-class="{'keep-open':styleOpts.showSearchCollapsed}">
+                <a href=""
+                   ng-class="{blockImportant:styleOpts.leftbarCollapsed && !styleOpts.showSearchCollapsed}"
+                   ng-click="showSearchBar($event)"><i class="fa fa-search opacity-control"></i></a>
+
+                <form ng-show="!styleOpts.leftbarCollapsed || styleOpts.showSearchCollapsed"
+                      ng-style="{display: styleOpts.showSearchCollapsed? 'block':''}"
+                      ng-click="$event.stopPropagation()"
+                      ng-submit="goToSearch()">
+                    <input type="text" ng-model="searchQuery" class="search-query" placeholder="Search..."
+                           ng-style="{width: styleOpts.showSearchCollapsed? 'auto':''}">
+                    <button type="submit" ng-click="goToSearch()"><i class="fa fa-search"></i></button>
+                </form>
+            </li>
+            <!-- Dynamic menu items loaded from app states -->
+            <li ng-repeat="menu in menus | orderBy: '-priority'" ui-sref-active="active" ng-class="{'hasChild': menu.hasChild, 'open': menu.open}" ng-if="userCan(menu.state.name)">
+                <a ui-sref="{{menu.state.name}}" ng-click="openNavItem(menu, menus)">
+                    <i class="{{menu.class}}"></i><span>{{menu.name}}</span>
+                </a>
+                <ul ng-if="menu.hasChild" ng-style="{ display: !menu.open ? 'none' : 'block' }">
+                    <li ng-repeat="child in menu.children | orderBy: '-priority'" ui-sref-active-eq="active"
+                        ng-class="{'hasChild': child.hasChild, 'open': child.open}" ng-if="userCan(child.state.name)">
+                        <a ui-sref="{{child.state.name}}" ng-click="openNavChild(child, menu, menus)"><i class="{{child.class}}"></i>{{child.name}}</a>
+                        <ul ng-if="child.hasChild" ng-style="{display: !child.open ? 'none' : 'block'}">
+                            <li ng-repeat="subchild in child.children | orderBy: '-priority'" ui-sref-active-eq="active">
+                                <a ui-sref="{{subchild.state.name}}"><i class={{subchild.class}}"></i>{{subchild.name}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>

@@ -1,0 +1,143 @@
+<div class="container-fluid">
+    <div class="row pos">
+        <div class="col-sm-12 col-md-8">
+            <div id="pos-left-content">
+                <ul class="breadcrumb"> 
+                    <li><a href="#">Work Orders</a></li>
+                    <li class="active">Work Order Edit</li>
+                </ul>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <h2 class="wo-heading">WO#: {{currentWorkOrder.id}} - {{currentWorkOrder.device.device_type.name}} </h2>
+                        <div class="customer-info-wo-boh">
+                            <!-- <a class="edit-btn" href="" ng-click="openEditCustomerModal('lg')"><span class="fa fa-edit"></span></a> -->
+                            <span class="name"><strong>{{currentWorkOrder.sale.customer.given_name}} {{currentWorkOrder.sale.customer.family_name}} </strong>- #{{currentWorkOrder.sale.customer.id}}</span>
+                            <span class="phone">{{currentWorkOrder.sale.customer.phone}}</span>
+                            <span class="email">{{currentWorkOrder.sale.customer.email}}</span>
+                        </div>
+                    </div>
+                    <div id="wo-edit-tools-left" class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <div class="pull-right tool">
+                            <div class="form-group">
+                                <div class="" id="queue">
+                                    <work-order-queue-changer></work-order-queue-changer>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="wo-header"></div>
+                </div>
+                <!-- workorder notes begin -->
+                <!-- Past notes begin -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>History</h2>
+                        <ul class="timeline">
+                            <li class="timeline-white" >
+                                <div class="timeline-icon">
+                                    <img ng-src="{{user.picture_url}}" />
+                                </div>
+                                <div class="timeline-body">
+                                    <div class="timeline-header">
+                                        <!-- <span class="edit"><a href="#"><span class="fa fa-edit"></span></a></span> -->
+                                        <span class="date">{{filterNoteDateTime(currentWorkOrder.created_at)}} – {{user.name}}</span>
+                                    </div>
+                                    <div class="timeline-content">
+
+                                        <p>{{currentWorkOrder.notes}}</p>
+                                        <div class=""></div>
+                                        <h4>Physical Appearance</h4>
+                                        <div class="mb10">
+                                            <rating class="rating" ng-model="x" min="1" max="5" state-on="'fa-star gold'" state-off="'fa-star-o'" readonly="true"></rating> <b>({{currentWorkOrder.rating}} of 5)</b>
+                                        </div>
+                                        <div>
+                                            {{ratingDescriptions[currentWorkOrder.rating]}}
+                                        </div>
+                                    </div>
+                                    <div class="timeline-footer-init">
+                                        <accordion close-others="false" class="panel-cyan">
+                                            <accordion-group is-open="isopena" class="row">
+                                                <accordion-heading class="col-sm-12">
+                                                    Quick Diagnostic
+                                                    <i class="pull-right" ng-class="{'fa fa-chevron-down': isopena, 'fa fa-chevron-right': !isopena}"></i>
+                                                </accordion-heading>
+                                                <div class="col-sm-6">
+                                                    <div class="checkbox" ng-repeat="diag in diagnostics">
+                                                        <label class="checkbox-inline">
+                                                            <input type="checkbox" disabled="disabled" ng-click="" ng-checked="diag.checked===1">{{diag.checklist_function.name}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </accordion-group>
+                                            <accordion-group is-open="isopenb" class="row">
+                                                <accordion-heading class="col-sm-12">
+                                                    Items With Device
+                                                    <i class="pull-right" ng-class="{'fa fa-chevron-down': isopenb, 'fa fa-chevron-right': !isopenb}"></i>
+                                                </accordion-heading>
+                                                <div class="col-md-6">
+                                                    <div class="checkbox" ng-repeat="item in itemswithdevice">
+                                                        <label ng-if="$even">
+                                                            <input type="checkbox" disabled="disabled" ng-click="" ng-checked="item.checked===1">{{item.checklist_item.name}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="checkbox" ng-repeat="item in itemswithdevice">
+                                                        <label ng-if="$odd">
+                                                            <input type="checkbox" disabled="disabled" ng-click="" ng-checked="item.checked===1">{{item.checklist_item.name}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </accordion-group>
+                                        </accordion>
+                                    </div>
+                                </div>
+                            </li>
+                            <create-workorder-note workorder="currentWorkOrder" note="workOrderNote" user="user" statuses="workOrderStatuses" create-fn="createWorkOrderNote()" device-type-id="currentWorkOrder.device.device_type.id" ng-if="workorderLoaded"></create-workorder-note>
+                            <workorder-note-list notes="currentWorkOrder.workorder_notes" ng-if="workorderLoaded"></workorder-note-list>
+                        </ul>
+                    </div> 
+                </div>
+            </div>
+        </div>
+<!-- Side Bar Start-->
+        <div id="pos-sidebar" class="col-sm-12 col-md-4">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Add / Remove Items</h3>
+                    <div class="panel panel-default panel-body">
+                        <div id="part-search" store-item-search-box>
+                        </div>
+                        <div class="table-responsive wo-items">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th align="middle"></th>
+                                        <th align="middle">QTY</th>
+                                        <th align="middle">Item</th>
+                                        <th align="middle">Sku</th>
+                                        <th align="middle">Available</th>
+                                        <th align="middle">Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="saleItem in currentWorkOrder.sale_items">
+                                        <td align="middle"><a ng-click="removeSaleItem(saleItem)"><span class="fa fa-minus"></span></a></td>
+                                        <td align="middle">1</td>
+                                        <td align="left">{{saleItem.inventory.store_item.item.name}}</td>
+                                        <td align="middle">{{saleItem.inventory.store_item.item.item_number}}</td>
+                                        <td align="middle">{{saleItem.inventory.store_item.stock}}</td>
+                                        <td align="middle">{{saleItem.price | currency}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-default btn-block">Get Instructions for This Repair</button>
+            <button type="button" class="btn btn-default btn-block">Tech Support</button>
+            <button type="button" class="btn btn-default btn-block" ui-sref="pos.checkout({saleId:currentWorkOrder.sale_id})">View Sale</button>
+        </div><!--pos sidebar-->
+    </div>
+</div>

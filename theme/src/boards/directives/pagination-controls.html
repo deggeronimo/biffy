@@ -1,0 +1,10 @@
+<ul class="pagination">
+    <li ng-class="{'disabled': !page.active}" ng-repeat="page in pages" ng-switch="page.type">
+        <a ng-switch-when="prev" ng-click="changePage(page.number)">&laquo;</a>
+        <a ng-switch-when="first" ng-click="changePage(page.number)">{{page.number}}</a>
+        <a ng-switch-when="page" ng-click="changePage(page.number)">{{page.number}}</a>
+        <a ng-switch-when="more">&hellip;</a>
+        <a ng-switch-when="last" ng-click="changePage(page.number)">{{page.number}}</a>
+        <a ng-switch-when="next" ng-click="changePage(page.number)">&raquo;</a>
+    </li>
+</ul>

@@ -1,0 +1,158 @@
+//
+// Timeline
+// --------------------------------------------------
+
+.timeline-month {
+	width: 90px;
+	text-align: center;
+	position: relative;
+	left: 3%;
+	margin-left: -42px;
+	//span {display: block;}
+}
+
+.timeline {
+	.list-unstyled;
+	position: relative;
+	&:before {
+		content: '';
+		position: absolute;
+		top: 10px;
+		bottom: 0;
+		width: 2px;
+		background: @border-lighter;
+		left: 3%;
+		margin-left: 2px;
+	}
+	> li {
+		position: relative;
+		.timeline-header {
+			.clearfix();
+			padding: 0 0 15px;
+			color: rgba(255, 255, 255, 0.5);
+			font-size: 1.1em;
+			span.date {float: left;}
+			span.edit {float: right;}
+		}
+
+		.timeline-icon img{
+			width: 50px;
+			height: 50px;
+			font-size: 1.4em;
+			line-height: 50px;
+			-webkit-font-smoothing: antialiased;
+			position: absolute;
+			color: @gray-darker;
+			background: @grey-300;
+			border-radius: 50%;
+			text-align: center;
+			left: 3%;
+			top: 0;
+			margin: 0 0 0 -22px;
+			padding: 0;
+		}
+		.timeline-body {
+			h1, h2, h3, h4, h5, h6 {color: #fff;}
+			margin: 0 0 20px 10%;
+			padding: 20px;
+			color: rgba(255, 255, 255, 0.75);
+			position: relative;
+			border-width: 2px;
+			border-style: solid;
+			border-radius: @border-radius-large;
+			.box-shadow(0 1px 1px rgba(0,0,0,.05));
+			background-color: #fff;
+			&:after {
+				right: 100%;
+				border: solid transparent;
+				content: " ";
+				height: 0;
+				width: 0;
+				position: absolute;
+				pointer-events: none;
+				border-color: transparent;
+				border-width: 10px;
+				top: 5%;
+			}
+			img {margin: 5px 20px 0 0;}
+		}
+		.timeline-footer {
+			.clearfix();
+			background: @grey-400;
+			color: @white;
+			padding: 10px 20px 10px 20px;
+			margin: 25px -22px -22px -22px;
+
+			span.status {font-weight: 600;}
+		}
+		.timeline-footer-init {
+			.clearfix();
+			background: @white;
+			//color: @white;
+			//padding: 10px 20px 10px 20px;
+			margin: 25px -22px -22px -22px;
+			.panel-group {margin-bottom: 0px;}
+			span.status {font-weight: 600;}
+		}
+	}
+}
+
+@media (max-width: @screen-sm-max) {
+
+	.timeline-month {
+		width: 100%;
+		text-align: center;
+		margin-left: 0;
+		left: 0;
+		span {display: inline !important;}
+	}
+
+	.timeline:before {width: 0;left: 0;}
+	.timeline > li {
+		margin-top: 20px;
+		&:first-child {margin-top: 0;}
+
+		.timeline-body {
+			margin: 0 !important;
+			&:after {border-width: 0;}
+		}
+
+		.timeline-icon img{
+			width: 30px;
+			height: 30px;
+			line-height: 30px;
+			font-size: 1em;
+			margin: 20px 50px 0 0;
+			position: relative;
+			float: right;
+		}
+	}
+}
+
+
+.timeline-primary	   {.timeline-states(@brand-primary; @dark-white; @light-white;);}
+.timeline-warning      {.timeline-states(@brand-warning; @dark-white; @light-white;);}
+.timeline-danger       {.timeline-states(@brand-danger; @dark-white; @light-white;);}
+.timeline-success      {.timeline-states(@brand-success; @dark-white; @light-white;);}
+.timeline-info         {.timeline-states(@brand-info; @dark-white; @light-white;);}
+.timeline-inverse      {.timeline-states(@brand-inverse; @dark-white; @light-white;);}
+.timeline-white        {.timeline-states(@white; @dark-black; @dark-black;);}
+
+// custom colors
+.timeline-brown        {.timeline-states(@brand-brown; @dark-white; @light-white;);}  
+.timeline-indigo       {.timeline-states(@brand-indigo; @dark-white; @light-white;);}
+.timeline-orange       {.timeline-states(@brand-orange; @dark-white; @light-white;);}
+.timeline-blue         {.timeline-states(@cyan-200; @dark-white; @light-white;);}
+.timeline-midnightblue {.timeline-states(@brand-midnightblue; @dark-white; @light-white;);}
+.timeline-magenta      {.timeline-states(@brand-magenta; @dark-white; @light-white;);}  
+.timeline-green        {.timeline-states(@brand-green; @dark-white; @light-white;);} 
+.timeline-purple       {.timeline-states(@brand-purple; @dark-white; @light-white;);} 
+
+
+.timeline-states(@timeline-bg; @timeline-color; @timeline-date;) {
+	.timeline-body 			{border-color: @timeline-bg; background-color: @timeline-bg !important; color: @timeline-color !important;}
+	.timeline-body h1, .timeline-body h2, .timeline-body h3, .timeline-body h4, .timeline-body h5, .timeline-body h6  {color: @timeline-color !important;}
+	.timeline-body:after 	{border-right-color: @timeline-bg !important;}
+	.timeline-time 			{color: @timeline-bg}
+	.date, .author			{color: @timeline-date;}
+}

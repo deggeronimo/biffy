@@ -1,0 +1,50 @@
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="home">Dashboard</a></li>
+        <li>Device Types</li>
+        <li>Device Repair</li>
+        <li class="active">Device Repair Option Item</li>
+    </ol>
+    <h1>Device Repair Option Item</h1>
+</div>
+<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h4>Device Repair Option Item</h4>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-body">
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">Option Value</label>
+                        <label class="control-label col-xs-10">
+                            <input type="text" class="form-control" ng-model="data.option_value">
+                        </label>
+                        <label class="control-label col-xs-2">Item</label>
+                        <div class="col-xs-6">
+                            <item-search-box />
+                        </div>
+                        <label class="control-label col-xs-4">
+                            <input type="text" class="form-control" ng-model="data.item.name" disabled>
+                        </label>
+                        <label class="control-label col-xs-2">Image</label>
+                        <label class="control-label col-xs-10">
+                            <input type="text" class="form-control" ng-model="data.image">
+                        </label>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <button type="button" class="btn default" ng-click="cancel()">Cancel</button>
+            <button type="button" class="btn red" ng-click="destroy()">Delete</button>
+        </div>
+        <div class="col-xs-6 text-right">
+            <button type="button" class="btn green" ng-click="update()">Save</button>
+        </div>
+    </div>
+</div>

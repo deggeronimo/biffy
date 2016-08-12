@@ -1,0 +1,49 @@
+<div class="container-fluid">
+    <div class="col-md-12 pos">
+        <ol class="breadcrumb">
+            <li><a href="/">Dashboard</a></li>
+            <li class="active">Timeclock</li>
+        </ol>
+        <div id="page-heading">
+            <div class="options">
+                <div class="btn-toolbar">
+                    <a ng-click="clockIn()" ng-show="!clockedIn && !onBreak" class="btn btn-default btn-sm">Clock In</a>
+                    <a ng-click="clockOut()" ng-show="clockedIn && !onBreak" class="btn btn-default btn-sm">Clock Out</a>
+                    <a ng-click="breakStart()" ng-show="clockedIn && !onBreak" class="btn btn-default btn-sm">Go On Break</a>
+                    <a ng-click="breakEnd()" ng-show="onBreak" class="btn btn-default btn-sm">Return From Break</a>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>Timeclock</h4>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-bordered" ng-table="tableParams">
+                                <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>In</th>
+                                    <th>Out</th>
+                                    <th>Hours</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="entry in $data">
+                                    <td>{{entry.clock_type | timeclockType}}</td>
+                                    <td>{{entry.time_in | date:'M/d/yy h:mm a':'UTC'}}</td>
+                                    <td>{{entry.time_out | date:'M/d/yy h:mm a':'UTC'}}</td>
+                                    <td>{{entry.hours}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,82 @@
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="home">Dashboard</a></li>
+        <li class="active">Feedback</li>
+    </ol>
+    <h1>Feedback</h1>
+    <div class="options">
+        <div class="btn-toolbar">
+            <a ui-sref="feedback.edit()" class="btn btn-default btn-sm">Add</a>
+            <a class="btn btn-default btn-sm" ng-click="export()" target="_self">Export</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.reload()">Refresh</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.sorting({})">Clear sorting</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.filter({})">Clear filter</a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>Feedback</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-6 pull-right">
+                            <input type="text" class="form-control" placeholder="Search..." ng-model="tableParams.filter()['search']"/>
+                        </div>
+                    </div>
+                    <table class="table table-bordered" ng-table="tableParams">
+                        <thead>
+                        <tr>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('customer.family_name', 'asc'),
+                                'sort-desc': tableParams.isSortBy('customer.family_name', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'customer.family_name' : tableParams.isSortBy('customer.family_name', 'asc') ? 'desc' : 'asc'})">
+                                <div>Customer Name</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('sale_id', 'asc'),
+                                'sort-desc': tableParams.isSortBy('sale_id', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'sale_id' : tableParams.isSortBy('sale_id', 'asc') ? 'desc' : 'asc'})">
+                                <div>Sale Id</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('visit_time', 'asc'),
+                                'sort-desc': tableParams.isSortBy('visit_time', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'visit_time' : tableParams.isSortBy('visit_time', 'asc') ? 'desc' : 'asc'})">
+                                <div>Visit Date</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('created_at', 'asc'),
+                                'sort-desc': tableParams.isSortBy('created_at', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'created_at' : tableParams.isSortBy('created_at', 'asc') ? 'desc' : 'asc'})">
+                                <div>Created At</div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="odd gradeX" ng-repeat="data in $data">
+                            <td data-title="'Customer Name'">{{data.customer.given_name}} {{data.customer.family_name}}</td>
+                            <td data-title="'Sale Id'">{{data.sale_id}}</td>
+                            <td data-title="'Visit Date'">{{data.visit_time}}</td>
+                            <td data-title="'Created At'">{{data.created_at}}</td>
+                            <td data-title="'Actions'">
+                                <a class="btn default btn-xs green" ui-sref="feedback.edit({feedbackId:data.id})">
+                                    <i class="fa fa-edit"></i>
+                                    Edit
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,126 @@
+<div class="container-fluid">
+    <div class="row pos">
+        <div class="col-md-8 col-sm-12">
+            <div id="pos-left-content">
+                <ul class="breadcrumb">
+                    <li><a href="#">Appointments</a></li>
+                    <li class="active"><a href="#">List</a></li>
+                </ul>
+                <div class="options">
+                    <div class="btn-toolbar pull-right">
+                        <a ui-sref="appointments.edit()" class="btn btn-default btn-sm">Add</a>
+                        <a class="btn btn-default btn-sm" ng-click="config()">Config</a>
+                        <a class="btn btn-default btn-sm" ng-click="export()" target="_self">Export</a>
+                        <a class="btn btn-default btn-sm" ng-click="tableParams.reload()">Refresh</a>
+                        <a class="btn btn-default btn-sm" ng-click="tableParams.sorting({})">Clear sorting</a>
+                        <a class="btn btn-default btn-sm" ng-click="tableParams.filter({})">Clear filter</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <br/>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h4>Appointments</h4>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-xs-6 pull-right">
+                                        <input type="text" class="form-control" placeholder="Search..." ng-model="tableParams.filter()['search']"/>
+                                    </div>
+                                </div>
+                                <table class="table table-bordered" ng-table="tableParams">
+                                    <thead>
+                                    <tr>
+                                        <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('customer.family_name', 'asc'),
+                                'sort-desc': tableParams.isSortBy('customer.family_name', 'desc')
+                              }"
+                                            ng-click="tableParams.sorting({'customer.family_name' : tableParams.isSortBy('customer.family_name', 'asc') ? 'desc' : 'asc'})">
+                                            <div>Customer Name</div>
+                                        </th>
+                                        <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('store_id', 'asc'),
+                                'sort-desc': tableParams.isSortBy('store_id', 'desc')
+                              }"
+                                            ng-click="tableParams.sorting({'store_id' : tableParams.isSortBy('store_id', 'asc') ? 'desc' : 'asc'})">
+                                            <div>Store Id</div>
+                                        </th>
+                                        <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('appointment_status.name', 'asc'),
+                                'sort-desc': tableParams.isSortBy('appointment_status.name', 'desc')
+                              }"
+                                            ng-click="tableParams.sorting({'appointment_status.name' : tableParams.isSortBy('appointment_status.name', 'asc') ? 'desc' : 'asc'})">
+                                            <div>Appointment Status</div>
+                                        </th>
+                                        <th>
+                                            <div>Day/Time</div>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="odd gradeX" ng-repeat="data in $data">
+                                        <td data-title="'Customer Name'">{{data.customer.given_name}} {{data.customer.family_name}}</td>
+                                        <td data-title="'Store Id'">{{data.store_id}}</td>
+                                        <td data-title="'Appointment Status'">{{data.appointment_status.name}}</td>
+                                        <td data-title="'Day/Time'">{{data.time | date}}</td>
+                                        <td data-title="'Actions'">
+                                            <a class="btn default btn-xs green" ui-sref="appointments.edit({id:data.id})">
+                                                <i class="fa fa-edit"></i>Edit
+                                            </a>
+                                            <a class="btn default btn-xs green" ng-click="displayAppointment(data.id)">
+                                                <i class="fa fa-edit"></i>Show
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Side Bar Start-->
+        <div id="pos-sidebar" class="col-sm-12 col-md-4">
+            <div class="customer-data-wrap">
+                <div id="customer-info-wo" ng-if="currentCustomer!=null">
+                    <a class="edit-btn" href="" ng-click="openEditCustomerModal()"><span class="fa fa-edit"></span> Edit</a>
+                    <h4>Customer: {{currentCustomer.id}}</h4>
+                    <name><strong>{{currentCustomer.given_name}} {{currentCustomer.family_name}}</strong></name>
+                    <address>{{currentCustomer.phone}}<br>{{currentCustomer.email}}</address>
+                </div>
+                <div class="form-group" ng-if="currentAppointment!=null">
+                    <textarea class="form-control" rows="16" ng-model="currentAppointment.issue" ng-readonly="true"></textarea>
+                </div>
+                <div class="form-horizontal wo-info-panel" ng-if="currentAppointment!=null">
+                    <div class="form-group">
+                        <label for="status" class="col-md-3 control-label"><strong>Status: </strong></label>
+                        <div class="col-md-9">
+                            <select class="form-control" name="Status" id="status" tabindex="7" ng-model="selectedAppointmentStatusId"
+                                    ng-change="setSelectedAppointmentStatusId(selectedAppointmentStatusId)"
+                                    ng-options="appointmentStatuses.indexOf(selectedItem) as selectedItem for selectedItem in appointmentStatusRange()">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="date-visited" class="col-md-3 control-label"><strong>Appointment Date:</strong></label>
+                        <div class="col-md-9" id="date-visited">
+                            {{getDayTimeString()}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sale-id" class="col-md-3 control-label"><strong></strong></label>
+                        <div class="col-md-6" id="sale-id">
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-primary" tabindex="9" ng-click="createSale()">Create Sale</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--pos sidebar-->
+    </div>
+</div>

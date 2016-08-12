@@ -1,0 +1,19 @@
+<div class="input-group i-dtp">
+    <input type="text" class="form-control" ng-model="viewValue" />
+    <span class="input-group-btn">
+        <button type="button" class="btn btn-default" ng-click="clickToggle($event)"><i class="fa fa-{{icon}}"></i></button>
+    </span>
+    <ul class="dropdown-menu dropdown-menu-right" ng-style="{display: (isOpen && 'block') || 'none', top: position.top+'px', right: position.right+'px'}" ng-keydown="keydown($event)">
+        <li><div datepicker ng-model="modelValue"></div></li>
+        <li><div timepicker ng-model="modelValue"></div></li>
+        <li>
+            <span class="btn-group pull-left">
+                <button type="button" class="btn btn-sm btn-info" ng-click="select('now')">Now</button>
+                <button type="button" class="btn btn-sm btn-danger" ng-click="select(null)">Clear</button>
+            </span>
+            <span class="btn-group pull-right">
+                <button type="button" class="btn btn-sm btn-success" ng-click="close()">Close</button>
+            </span>
+        </li>
+    </ul>
+</div>

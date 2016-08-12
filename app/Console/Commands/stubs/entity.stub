@@ -1,0 +1,9 @@
+<?php namespace {{namespace}};
+
+use Biffy\Entities\AbstractEntity;
+
+class {{class}} extends AbstractEntity
+{
+    protected $fillable = [
+    ];
+}

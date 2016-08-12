@@ -1,0 +1,64 @@
+<div class="container-fluid">
+    <div class="col-md-12 pos">
+        <breadcrumbs></breadcrumbs>
+        <div id="page-heading">
+            <div class="options">
+                <div class="btn-toolbar">
+
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>Edit Profile</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <form class="form-horizontal row-border" method="post">
+                                    <div class="form-body">
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-2">Phone</label>
+                                            <label class="control-label col-xs-10">
+                                                <input type="text" class="form-control" ng-model="user.profile.phone">
+                                            </label>
+                                            <label class="control-label col-xs-2">Position</label>
+                                            <label class="control-label col-xs-10">
+                                                <input type="text" class="form-control" ng-model="user.profile.position">
+                                            </label>
+                                            <label class="control-label col-xs-2">Birthday</label>
+                                            <label class="control-label col-xs-10">
+                                                <!-- todo date selector -->
+                                                <input type="text" class="form-control" ng-model="user.profile.birthday">
+                                            </label>
+                                            <label class="control-label col-xs-2">About</label>
+                                            <label class="control-label col-xs-10">
+                                                <textarea ng-model="user.profile.about" class="form-control"></textarea>
+                                            </label>
+                                            <label class="control-label col-xs-2">Signature</label>
+                                            <label class="control-label col-xs-10">
+                                                <textarea ng-model="user.profile.signature" class="form-control"></textarea>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <button type="button" class="btn default" ng-click="cancel()">Cancel</button>
+                                </div>
+                                <div class="col-xs-6 text-right">
+                                    <button type="button" class="btn green" ng-click="save()">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

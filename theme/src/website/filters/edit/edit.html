@@ -1,0 +1,74 @@
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="home">Dashboard</a></li>
+        <li><a ui-sref="leads.list">Filters</a></li>
+        <li class="active">Edit</li>
+    </ol>
+    <h1>{{ mode }} Filters</h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>{{ mode }} Filters</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="control-label col-xs-2">Filter Group Name</label>
+                                <label class="control-label col-xs-10">
+                                    <select class="form-control" ng-model="data.filter_group_id"
+                                            ng-options="selectedItem.id as selectedItem.name for selectedItem in filterGroupList | orderBy : 'name'">
+                                    </select>
+                                </label>
+                                <label class="control-label col-xs-2">Sort Order</label>
+                                <label class="control-label col-xs-10">
+                                    <input type="text" class="form-control" ng-model="data.sort_order">
+                                </label>
+                                <label class="control-label col-xs-2">Portal Filter Id</label>
+                                <label class="control-label col-xs-10">
+                                    <input type="text" class="form-control" ng-model="data.portal_filter_id">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>Edit Name Attribute</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <div class="row" ng-repeat="language in languageList">
+                                    <label class="control-label col-xs-2">Name in {{language.lang}}</label>
+                                    <label class="control-label col-xs-10">
+                                        <input type="text" class="form-control" ng-model="nameAttributes[language.id-1].string">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <button type="button" class="btn red" ng-click="destroy()" ng-if="isEdit()">Delete</button>
+            <button type="button" class="btn default" ng-click="cancel()">Cancel</button>
+        </div>
+        <div class="col-xs-6 text-right">
+            <button type="button" class="btn green" ng-click="store()" ng-if="isAdd()">Save</button>
+            <button type="button" class="btn green" ng-click="update()" ng-if="isEdit()">Save</button>
+        </div>
+    </div>
+</div>

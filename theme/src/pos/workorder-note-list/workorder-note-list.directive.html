@@ -1,0 +1,31 @@
+<li class="timeline-white" ng-repeat="note in notes">
+    <div class="timeline-icon"><img ng-src="{{note.user.picture_url}}" /></div>
+    <div class="timeline-body">
+        <div class="timeline-header">
+            <span class="edit"><a href="#"><span class="fa fa-edit"></span></a></span>
+            <span class="date">{{filterNoteDateTime(note.created_at)}} {{note.created_at}} – {{note.user.name}}</span>
+        </div>
+        <div class="timeline-content" ng-bind-html="note.notes"></div>
+        <div class="timeline-footer-init" ng-if="note.diag !== null">
+            <accordion close-others="false" class="panel-cyan">
+                <accordion-group is-open="isopen" class="row">
+                    <accordion-heading class="col-sm-12">
+                        Quick Diagnostic
+                        <i class="pull-right" ng-class="{'fa fa-chevron-down': isopen, 'fa fa-chevron-right': !isopen}"></i>
+                    </accordion-heading>
+                    <div class="col-sm-6">
+                        <div class="checkbox" ng-repeat="diag in note.diag track by $index">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" disabled="disabled" ng-checked="diag.checked===1">{{diag.name}}
+                            </label>
+                        </div>
+                    </div>
+                </accordion-group>
+            </accordion>
+        </div>
+        <div class="timeline-footer"  ng-if="note.id">
+            <span class="pull-left status">{{note.workorder_status.name}}</span>
+            <span class="pull-right">{{note.public == 1 ? 'Public' : 'Private'}}</span>
+        </div>
+    </div>
+</li>

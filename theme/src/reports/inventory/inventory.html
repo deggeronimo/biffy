@@ -1,0 +1,83 @@
+<div class="row pos">
+    <div class="col-md-8 col-sm-12 pos-tile-container">
+        <ul class="breadcrumb">
+            <li><a href="#">Point of Sale</a></li>
+            <li><a href="#">Reporting Panel</a></li>
+            <li class="active"><a href="#">Inventory</a></li>
+        </ul>
+        <div class="container" ng-if="reportType=='DetailedReport'">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>Detailed Inventory Report</h4>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th><div>Item</div></th>
+                                        <th><div>Cost</div></th>
+                                        <th><div>Total Sold</div></th>
+                                        <th><div>Available</div></th>
+                                        <th><div>Recommended for 14 Days</div></th>
+                                        <th><div>Over/Under</div></th>
+                                        <th><div>Over/Under Cost</div></th>
+                                        <th><div>Projected Shortage</div></th>
+                                        <th align="middle">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="odd gradeX" ng-repeat="reportItem in reportItemList">
+                                        <td>{{reportItem.item.name}}</td>
+                                        <td>{{reportItem.item.distro_price | currency}}</td>
+                                        <td>{{reportItem.total_sold}}</td>
+                                        <td>{{reportItem.stock}}</td>
+                                        <td>{{reportItem.recommend}}</td>
+                                        <td>{{reportItem.stock - reportItem.recommend}}</td>
+                                        <td>{{(reportItem.stock - reportItem.recommend) * reportItem.item.distro_price | currency}}</td>
+                                        <td>{{reportItem.shortage}} days</td>
+                                        <td>
+                                            <button ng-if="false" ng-click="submitClock(time)">Show</button>
+                                        </td>
+                                    </tr>
+                                    <tr></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div id="pos-sidebar" class="col-sm-12 col-md-4">
+            <div id="sales-totals"class="table-responsive">
+                <h2>Sales Report Total</h2>
+                <table class="table">
+                    <tfoot>
+                    <tr>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Subtotal:</td>
+                        <td class="sales-bg-b" align="right">{{sumSubTotal | currency}}</td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Tax:</td>
+                        <td class="sales-bg-b" align="right">{{sumTax | currency}}</td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Total:</td>
+                        <td class="sales-bg-b" align="right">{{1*sumSubTotal + 1*sumTax | currency}}</td>
+                    </tr>
+                    <tr>
+                        <td class="sales-bg-a" align="right">Profit:</td>
+                        <td class="sales-bg-b" align="right">{{sumProfit | currency}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div><!--  End of Table -->
+    </div>
+</div>

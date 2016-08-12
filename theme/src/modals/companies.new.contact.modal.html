@@ -1,0 +1,34 @@
+<div class="modal-header">
+	<h3 class="modal-title">Create Contact</h3>
+</div>
+<div class="modal-body">
+	<h3><span class="fa fa-paper-plane icon-circle"></span>&nbsp; Create a Contact</h3>
+	<div class="row">
+		<div class="col-md-12">
+			<label class="control-label col-md-2">Name</label>
+			<label class="control-label col-md-10">
+				<input type="text" class="form-control" ng-model="contact.name">
+			</label>
+		</div>
+
+		<div class="col-md-12">
+			<label class="control-label col-md-2">Email</label>
+			<label class="control-label col-md-10">
+				<input type="text" class="form-control" ng-model="contact.email">
+			</label>
+		</div>
+
+		<div class="col-md-12">
+			<label class="control-label col-md-2">Phone</label>
+			<label class="control-label col-md-10">
+				<input type="text" class="form-control" ng-model="contact.phone">
+			</label>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+
+<div class="modal-footer">
+	<button type="button" class="btn btn-primary push-left" ng-click="cancel()">Cancel</button>
+	<button type="button" class="btn btn-success" ng-click="save()">Save</button>
+</div>

@@ -1,0 +1,83 @@
+<div class="container-fluid">
+    <div class="col-md-12 pos">
+        <ul class="breadcrumb">
+            <li><a ui-sref="home">Dashboard</a></li>
+            <li class="active">Invoices</li>
+        </ul>
+        <div class="row">
+            <h2 class="wo-heading">Invoices:</h2>
+            <a ui-sref="invoice.edit({id:'new'})" class="btn btn-default btn-sm">Add</a>
+            <a class="btn btn-default btn-sm" ng-click="export()" target="_self">Export</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.reload()">Refresh</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.sorting({})">Clear sorting</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.filter({})">Clear filter</a>
+        </div>
+        <div class="row">
+            <panel heading="Invoices" panel-class="panel-name">
+                <div class="row">
+                    <div class="col-xs-6 pull-right">
+                        <input type="text" class="form-control" placeholder="Search..." ng-model="tableParams.filter()['search']"/>
+                    </div>
+                </div>
+                <div class="table-responsive wo-items">
+                    <table class="table table-striped .table-hover" ng-table="tableParams">
+                        <thead>
+                        <tr>
+                            <th class="sortable" ng-class="{
+                                        'sort-asc': tableParams.isSortBy('woitem', 'asc'),
+                                        'sort-desc': tableParams.isSortBy('woitem', 'desc')
+                                      }"
+                                ng-click="tableParams.sorting({'woitem' : tableParams.isSortBy('woitem', 'asc') ? 'desc' : 'asc'})">
+                                <div>Customer/Company</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                        'sort-asc': tableParams.isSortBy('subtotal', 'asc'),
+                                        'sort-desc': tableParams.isSortBy('subtotal', 'desc')
+                                      }"
+                                ng-click="tableParams.sorting({'subtotal' : tableParams.isSortBy('subtotal', 'asc') ? 'desc' : 'asc'})">
+                                <div>Subtotal</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                        'sort-asc': tableParams.isSortBy('taxes', 'asc'),
+                                        'sort-desc': tableParams.isSortBy('taxes', 'desc')
+                                      }"
+                                ng-click="tableParams.sorting({'taxes' : tableParams.isSortBy('taxes', 'asc') ? 'desc' : 'asc'})">
+                                <div>Taxes</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                        'sort-asc': tableParams.isSortBy('subtotal', 'asc'),
+                                        'sort-desc': tableParams.isSortBy('subtotal', 'desc')
+                                      }"
+                                ng-click="tableParams.sorting({'subtotal' : tableParams.isSortBy('subtotal', 'asc') ? 'desc' : 'asc'})">
+                                <div>Total</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                        'sort-asc': tableParams.isSortBy('payments', 'asc'),
+                                        'sort-desc': tableParams.isSortBy('payments', 'desc')
+                                      }"
+                                ng-click="tableParams.sorting({'payments' : tableParams.isSortBy('payments', 'asc') ? 'desc' : 'asc'})">
+                                <div>Payments</div>
+                            </th>
+                            <th>
+                                <div>Details</div>
+                            </th>
+                            <th align="middle"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="data in $data | filter:searchFilter">
+                            <td align="left">{{'Chris Florin'}}</td>
+                            <td align="left">{{data.subtotal | currency}}</td>
+                            <td align="left">{{data.taxes | currency}}</td>
+                            <td align="left">{{1*data.subtotal + 1*data.taxes | currency}}</td>
+                            <td align="left">{{data.payments | currency}}</td>
+                            <td align="left">{{data.details}}</td>
+                            <td class="red-bg" align="middle" ui-sref="invoice.edit({id:data.id})">Edit</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </panel>
+        </div>
+    </div>
+</div>

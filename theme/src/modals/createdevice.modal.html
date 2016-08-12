@@ -1,0 +1,42 @@
+<div class="modal-header">
+    <h3 class="modal-title">Customer Information</h3>
+</div>
+<div class="modal-body">
+    <h2><span class="fa fa-mobile"></span> Device Information</h2>
+    <div class="row">
+        <div class="col-md-12 <!--has-error-->">
+            <label>Device Name: <span class="asterisk">*</span></label>
+            <input type="text" class="form-control" id="device-name" name="device-name" value="" maxlength="100" tabindex="4"
+                   ng-model="currentDevice.name"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" id="first-name">
+            <label>Device Type: <span class="asterisk">*</span></label>
+            <select class="form-control" ng-model="currentDevice.device_type_id">
+                <option ng-repeat="deviceType in deviceTypes" value="{{deviceType.id}}">{{deviceType.model}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 <!--has-error-->">
+            <label>Serial: <span class="asterisk">*</span></label>
+            <input type="text" class="form-control" id="device-serial" name="device-serial" value="" maxlength="100" tabindex="4"
+                   ng-model="currentDevice.serial"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" id="serial-type">
+            <label>Serial Type: <span class="asterisk">*</span></label>
+            <select class="form-control" ng-model="currentDevice.serial_type">
+                <option value="Hardware">Hardware</option>
+                <option value="Software">Software</option>
+            </select>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary push-left" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-success" ng-click="save()">Save</button>
+</div>

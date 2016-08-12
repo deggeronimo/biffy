@@ -1,0 +1,67 @@
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="home">Dashboard</a></li>
+        <li>Marketing Run</li>
+        <li>Locations</li>
+        <li class="active">Edit</li>
+    </ol>
+    <h1>Leads</h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>{{ mode }} Lead</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <form class="form-horizontal row-border" method="post">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="control-label col-xs-2">Name</label>
+                                    <label class="control-label col-xs-10">
+                                        <input type="text" class="form-control" ng-model="data.name">
+                                    </label>
+                                    <label class="control-label col-xs-2">Marketing Location Type</label>
+                                    <label class="control-label col-xs-10">
+                                        <select class="form-control" name="Status" id="status" tabindex="7" ng-model="data.marketing_location_type_id"
+                                                ng-options="marketingLocationTypes.indexOf(selectedItem) as selectedItem for selectedItem in marketingLocationTypeStatusRange()">
+                                        </select>
+                                    </label>
+                                    <label class="control-label col-xs-2">Latitude</label>
+                                    <label class="control-label col-xs-10">
+                                        <input type="text" class="form-control" ng-model="data.latitude">
+                                    </label>
+                                    <label class="control-label col-xs-2">Longitude</label>
+                                    <label class="control-label col-xs-10">
+                                        <input type="text" class="form-control" ng-model="data.longitude">
+                                    </label>
+                                    <label class="control-label col-xs-2">Address</label>
+                                    <label class="control-label col-xs-10">
+                                        <input type="text" class="form-control" ng-model="data.address">
+                                    </label>
+                                    <label class="control-label col-xs-2">Phone</label>
+                                    <label class="control-label col-xs-10">
+                                        <input type="text" class="form-control" ng-model="data.phone">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <button type="button" class="btn red" ng-click="destroy()" ng-if="isEdit()">Delete</button>
+                                        <button type="button" class="btn default" ng-click="cancel()">Cancel</button>
+                                    </div>
+                                    <div class="col-xs-6 text-right">
+                                        <button type="button" class="btn green" ng-click="store()" ng-if="isAdd()">Save</button>
+                                        <button type="button" class="btn green" ng-click="update()" ng-if="isEdit()">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,56 @@
+<div class="container-fluid">
+    <div class="col-md-12 pos">
+        <ol class="breadcrumb">
+            <li><a href="/">Dashboard</a></li>
+            <li class="active">Users</li>
+        </ol>
+        <div id="page-heading">
+            <div class="options">
+                <div class="btn-toolbar">
+                    <a ui-sref="users.edit({id: 'new'})" class="btn btn-default btn-sm">Add</a>
+                    <a class="btn btn-default btn-sm" ng-click="tableParams.reload()">Refresh</a>
+                    <a class="btn btn-default btn-sm" ng-click="tableParams.sorting({})">Clear sorting</a>
+                    <a class="btn btn-default btn-sm" ng-click="tableParams.filter({})">Clear filter</a>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>Users</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <select ui-select2="{allowClear: true}" data-placeholder="Filter store..." ng-model="tableParams.filter()['store_id']" style="width:100%">
+                                        <option></option>
+                                        <option ng-repeat="item in stores" value="{{item.id}}">{{item.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-6">
+                                    <input type="text" class="form-control" placeholder="Search..." ng-model="tableParams.filter()['search']"/>
+                                </div>
+                            </div>
+                            <table class="table table-bordered" ng-table="tableParams">
+                                <tbody>
+                                <tr class="odd gradeX" ng-repeat="data in $data">
+                                    <td data-title="'Given Name'" sortable="'given_name'">{{data.given_name}}</td>
+                                    <td data-title="'Family Name'" sortable="'family_name'">{{data.family_name}}</td>
+                                    <td data-title="'Email'" sortable="'email'"><a href="mailto:{{data.email}}">{{data.email}}</a></td>
+                                    <td data-title="'Actions'">
+                                        <a class="btn default btn-xs" ui-sref="users.edit({id:data.id})"><i class="fa fa-edit"></i> Edit</a>
+                                        <a class="btn default btn-xs" ui-sref="users.groups({id:data.id})"><i class="fa fa-group"></i> Groups</a>
+                                        <a class="btn default btn-xs" ui-sref="users.permissions({id:data.id})"><i class="fa fa-lock"></i> Permissions</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

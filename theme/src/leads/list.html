@@ -1,0 +1,82 @@
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="home">Dashboard</a></li>
+        <li class="active">Leads</li>
+    </ol>
+    <h1>Leads</h1>
+    <div class="options">
+        <div class="btn-toolbar">
+            <a ui-sref="leads.edit()" class="btn btn-default btn-sm">Add</a>
+            <a class="btn btn-default btn-sm" ng-click="export()" target="_self">Export</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.reload()">Refresh</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.sorting({})">Clear sorting</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.filter({})">Clear filter</a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>Leads</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-6 pull-right">
+                            <input type="text" class="form-control" placeholder="Search..." ng-model="tableParams.filter()['search']"/>
+                        </div>
+                    </div>
+                    <table class="table table-bordered" ng-table="tableParams">
+                        <thead>
+                        <tr>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('given_name', 'asc'),
+                                'sort-desc': tableParams.isSortBy('given_name', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'given_name' : tableParams.isSortBy('given_name', 'asc') ? 'desc' : 'asc'})">
+                                <div>Given Name</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('family_name', 'asc'),
+                                'sort-desc': tableParams.isSortBy('family_name', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'family_name' : tableParams.isSortBy('family_name', 'asc') ? 'desc' : 'asc'})">
+                                <div>Family Name</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('email', 'asc'),
+                                'sort-desc': tableParams.isSortBy('email', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'email' : tableParams.isSortBy('email', 'asc') ? 'desc' : 'asc'})">
+                                <div>Email</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('device', 'asc'),
+                                'sort-desc': tableParams.isSortBy('device', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'device' : tableParams.isSortBy('device', 'asc') ? 'desc' : 'asc'})">
+                                <div>Device</div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="odd gradeX" ng-repeat="data in $data">
+                            <td data-title="'Given Name'">{{data.given_name}}</td>
+                            <td data-title="'Family Name'">{{data.family_name}}</td>
+                            <td data-title="'Email'"><a href="mailto:{{data.email}}">{{data.email}}</a></td>
+                            <td data-title="'Device'">{{data.device}}</td>
+                            <td data-title="'Actions'">
+                                <a class="btn default btn-xs green" ui-sref="leads.edit({id:data.id})">
+                                    <i class="fa fa-edit"></i>
+                                    Edit
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+<div class="modal-header">
+	<h3 class="modal-title">Edit Location</h3>
+</div>
+<div class="modal-body">
+	<h3><span class="fa fa-map-marker icon-circle"></span>&nbsp; Edit a Location</h3>
+	<div class="row">
+		<div class="col-md-12">
+			<label for="location-name"><strong>Name:</strong></label><input type="text" id="location-name" ng-model="currentcontact.name">
+		</div>
+
+		<div class="col-md-12">
+			<label for="location-latitude"><strong>Latitude:</strong></label><input id="location-latitude" type="text" ng-model="currentcontact.latitude">
+		</div>
+
+		<div class="col-md-12">
+			<label for="location-longitude"><strong>Longitude:</strong></label><input id="location-longitude" type="text" ng-model="currentcontact.longitude">
+		</div>
+
+		<div class="col-md-12">
+			<label for="location-address"><strong>Address:</strong></label><input id="location-address" type="text" ng-model="currentcontact.address">
+		</div>
+
+		<div class="col-md-12">
+			<label for="location-phone"><strong>Phone:</strong></label><input id="location-phone" type="text" ng-model="currentcontact.phone">
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-primary push-left" ng-click="cancel()">Cancel</button>
+	<button type="button" class="btn btn-success" ng-click="saveContact(currentcontact)">Save</button>
+</div>

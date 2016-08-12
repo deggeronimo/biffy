@@ -1,0 +1,735 @@
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="home">Dashboard</a></li>
+        <li class="active">Device Types</li>
+    </ol>
+    <h1>Device Types</h1>
+    <div class="options">
+        <div class="btn-toolbar">
+            <a ng-click="addNewDevice()" class="btn btn-default btn-sm">Add</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.reload()">Refresh</a>
+            <a class="btn btn-default btn-sm" ng-click="reset()">Reset</a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4>Device Types</h4>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered" ng-table="tableParams">
+                    <thead>
+                    <tr>
+                        <th class="sortable" ng-class="{
+                            'sort-asc': tableParams.isSortBy('name', 'asc'),
+                            'sort-desc': tableParams.isSortBy('name', 'desc')
+                          }"
+                            ng-click="tableParams.sorting({'name' : tableParams.isSortBy('name', 'asc') ? 'desc' : 'asc'})">
+                            <div>Name</div>
+                        </th>
+                        <th class="sortable" ng-class="{
+                            'sort-asc': tableParams.isSortBy('parent', 'asc'),
+                            'sort-desc': tableParams.isSortBy('parent', 'desc')
+                          }"
+                            ng-click="tableParams.sorting({'parent' : tableParams.isSortBy('parent', 'asc') ? 'desc' : 'asc'})">
+                            <div>Parent</div>
+                        </th>
+                        <th class="sortable" ng-class="{
+                            'sort-asc': tableParams.isSortBy('root', 'asc'),
+                            'sort-desc': tableParams.isSortBy('root', 'desc')
+                          }"
+                            ng-click="tableParams.sorting({'root' : tableParams.isSortBy('root', 'asc') ? 'desc' : 'asc'})">
+                            <div>Root Parent</div>
+                        </th>
+                        <th class="sortable" ng-class="{
+                            'sort-asc': tableParams.isSortBy('manufacturer', 'asc'),
+                            'sort-desc': tableParams.isSortBy('manufacturer', 'desc')
+                          }"
+                            ng-click="tableParams.sorting({'manufacturer' : tableParams.isSortBy('manufacturer', 'asc') ? 'desc' : 'asc'})">
+                            <div>Manufacturer</div>
+                        </th>
+                        <th class="sortable" ng-class="{
+                            'sort-asc': tableParams.isSortBy('family', 'asc'),
+                            'sort-desc': tableParams.isSortBy('family', 'desc')
+                          }"
+                            ng-click="tableParams.sorting({'family' : tableParams.isSortBy('family', 'asc') ? 'desc' : 'asc'})">
+                            <div>Family</div>
+                        </th>
+                        <th class="sortable" ng-class="{
+                            'sort-asc': tableParams.isSortBy('sort_order', 'asc'),
+                            'sort-desc': tableParams.isSortBy('sort_order', 'desc')
+                          }"
+                            ng-click="tableParams.sorting({'sort_order' : tableParams.isSortBy('sort_order', 'asc') ? 'desc' : 'asc'})">
+                            <div>Sort Order</div>
+                        </th>
+                        <th class="sortable" ng-class="{
+                            'sort-asc': tableParams.isSortBy('view_count', 'asc'),
+                            'sort-desc': tableParams.isSortBy('view_count', 'desc')
+                          }"
+                            ng-click="tableParams.sorting({'view_count' : tableParams.isSortBy('view_count', 'asc') ? 'desc' : 'asc'})">
+                            <div>Views</div>
+                        </th>
+                        <th class="sortable" ng-class="{
+                            'sort-asc': tableParams.isSortBy('status', 'asc'),
+                            'sort-desc': tableParams.isSortBy('status', 'desc')
+                          }"
+                            ng-click="tableParams.sorting({'status' : tableParams.isSortBy('status', 'asc') ? 'desc' : 'asc'})">
+                            <div>Status</div>
+                        </th>
+                        <th class="sortable" ng-class="{
+                            'sort-asc': tableParams.isSortBy('release_date', 'asc'),
+                            'sort-desc': tableParams.isSortBy('release_date', 'desc')
+                          }"
+                            ng-click="tableParams.sorting({'release_date' : tableParams.isSortBy('release_date', 'asc') ? 'desc' : 'asc'})">
+                            <div>Release Date</div>
+                        </th>
+                        <th class="sortable" ng-class="{
+                            'sort-asc': tableParams.isSortBy('created_at', 'asc'),
+                            'sort-desc': tableParams.isSortBy('created_at', 'desc')
+                          }"
+                            ng-click="tableParams.sorting({'created_at' : tableParams.isSortBy('created_at', 'asc') ? 'desc' : 'asc'})">
+                            <div>Date Added</div>
+                        </th>
+                        <th>
+                            <div>Has Repairs</div>
+                        </th>
+                        <th><div>Actions</div></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="even gradeX">
+                        <td data-title="'Name'"><input type="text" class="form-control" placeholder="Search..." ng-model="tableParams.filter()['name']"/></td>
+                        <td data-title="'Parent'">
+                            <input type="text" class="form-control" placeholder="Search..." ng-model="tableParams.filter()['parent_name']"/>
+                        </td>
+                        <td data-title="'Root Parent"></td>
+                        <td data-title="'Manufacturer'">
+                            <select class="form-control" ng-model="tableParams.filter()['manufacturer_id']"
+                                    ng-options="selectedItem.id as selectedItem.name for selectedItem in deviceManufacturerList | orderBy : 'name'">
+                            </select>
+                        </td>
+                        <td data-title="'Family'">
+                            <select class="form-control" ng-model="tableParams.filter()['family_id']"
+                                    ng-options="selectedItem.id as selectedItem.name for selectedItem in deviceFamilyList | orderBy : 'name'">
+                            </select>
+                        </td>
+                        <td data-title="'Sort'"></td>
+                        <td data-title="'Views'"></td>
+                        <td data-title="'Status'"></td>
+                        <td data-title="'Release Date'"></td>
+                        <td data-title="'Date Added'"></td>
+                        <td data-title="'Has Repairs'"></td>
+                        <td data-title="'Actions'"></td>
+                    </tr>
+                    <tr class="odd gradeX" ng-repeat="data in $data">
+                        <td data-title="'Name'">{{data.name}}</td>
+                        <td data-title="'Parent'" ng-if="!data.isEdit">{{data.parent_name}}</td>
+                        <td data-title="'Parent'" ng-if="data.isEdit">
+                            <select class="form-control" ng-model="data.parent_device_type_id"
+                                    ng-options="selectedItem.id as selectedItem.name for selectedItem in deviceTypeOptions | orderBy : 'name'">
+                            </select>
+                        </td>
+                        <td data-title="'Root'" ng-if="!data.isEdit">{{data.device_type_filter.name}}</td>
+                        <td data-title="'Root'" ng-if="data.isEdit">
+                            <select class="form-control" ng-model="data.device_type_filter_id"
+                                    ng-options="selectedItem.id as selectedItem.name for selectedItem in deviceTypeFilterList | orderBy : 'name'">
+                            </select>
+                        </td>
+                        <td data-title="'Manufacturer'" ng-if="!data.isEdit">{{data.device_manufacturer.name}}</td>
+                        <td data-title="'Manufacturer'" ng-if="data.isEdit">
+                            <select class="form-control" ng-model="data.device_manufacturer_id"
+                                    ng-options="selectedItem.id as selectedItem.name for selectedItem in deviceManufacturerList | orderBy : 'name'">
+                            </select>
+                        </td>
+                        <td data-title="'Family'" ng-if="!data.isEdit">{{data.device_family.name}}</td>
+                        <td data-title="'Family'" ng-if="data.isEdit">
+                            <select class="form-control" ng-model="data.device_family_id"
+                                    ng-options="selectedItem.id as selectedItem.name for selectedItem in deviceFamilyList | orderBy : 'name'">
+                            </select>
+                        </td>
+                        <td data-title="'Sort'" ng-if="!data.isEdit">{{data.sort_order}}</td>
+                        <td data-title="'Sort'" ng-if="data.isEdit"><input type="text" class="form-control" ng-model="data.sort_order"></td>
+                        <td data-title="'Views'">{{data.view_count}}</td>
+                        <td data-title="'Status'" ng-if="!data.isEdit">{{data.status=='1'?'True':'False'}}</td>
+                        <td data-title="'Status'" ng-if="data.isEdit">
+                            <select class="form-control" ng-model="data.status"
+                                    ng-options="selectedItem.id as selectedItem.name for selectedItem in trueFalse">
+                            </select>
+                        </td>
+                        <td data-title="'Release Date'" ng-if="!data.isEdit">{{data.release_date}}</td>
+                        <td data-title="'Release Date'" ng-if="data.isEdit"><input type="text" class="form-control" ng-model="data.release_date"></td>
+                        <td data-title="'Date Added'">{{data.created_at}}</td>
+                        <td data-title="'Has Repairs'">{{data.has_repairs ? 'True' : 'False'}}</td>
+                        <td data-title="'Actions'">
+                            <a class="btn default btn-xs green" ng-click="editDevice(data)"><i class="fa fa-edit"></i>Edit</a>
+                            <a class="btn default btn-xs green" ng-click="updateDevice(data)" ng-if="data.isEdit"><i class="fa fa-edit">Save</i></a>
+                            <a class="btn default btn-xs green" ng-click="selectDevice(data)"><i class="fa fa-edit"></i>Select</a>
+                            <a class="btn default btn-xs green" ng-click="deleteDevice(data)"><i class="fa fa-edit"></i>Delete</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <accordion close-others="false" class="panel-cyan">
+            <accordion-group is-open="isopena">
+                <accordion-heading class="">
+                    Device
+                    <i class="pull-right glyphicon" ng-class="{'fa fa-chevron-down': isopena, 'fa fa-chevron-right': !isopena}"></i>
+                </accordion-heading>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4>Edit Device Type</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="control-label col-xs-2">Parent Device Type</label>
+                                    <label class="control-label col-xs-1"><a href="#" class="btn btn-white" ng-click="setCurrentDeviceParentNull()"><span class="fa fa-star-o"></span></a></label>
+                                    <label class="control-label col-xs-9">
+                                        <div class="col-xs-6">
+                                            <device-type-search-box />
+                                        </div>
+                                        <label class="control-label col-xs-4">
+                                            <input type="text" class="form-control" ng-model="currentDevice.parent_device_type.name" disabled>
+                                        </label>
+                                    </label>
+                                    <label class="control-label col-xs-2">Device Manufacturer</label>
+                                    <label class="control-label col-xs-1"><a href="#" class="btn btn-white" ng-click="setCurrentDeviceManufacturerNull()"><span class="fa fa-star-o"></span></a></label>
+                                    <label class="control-label col-xs-9">
+                                        <div class="col-xs-6">
+                                            <manufacturer-search-box />
+                                        </div>
+                                        <label class="control-label col-xs-4">
+                                            <input type="text" class="form-control" ng-model="currentDevice.device_manufacturer.name" disabled>
+                                        </label>
+                                    </label>
+                                    <label class="control-label col-xs-2">Device Family</label>
+                                        <label class="control-label col-xs-1"><a href="#" class="btn btn-white" ng-click="setCurrentDeviceFamilyNull()"><span class="fa fa-star-o"></span></a></label>
+                                    <label class="control-label col-xs-9">
+                                        <div class="col-xs-6">
+                                            <family-search-box />
+                                        </div>
+                                        <label class="control-label col-xs-4">
+                                            <input type="text" class="form-control" ng-model="currentDevice.device_family.name" disabled>
+                                        </label>
+                                    </label>
+                                    <label class="control-label col-xs-2">Filters</label>
+                                    <label class="control-label col-xs-10">
+                                        <input type="text" class="form-control" ng-model="currentDevice.filters">
+                                    </label>
+                                    <label class="control-label col-xs-2">Image</label>
+                                    <label class="control-label col-xs-10">
+                                        <input type="text" class="form-control" ng-model="currentDevice.image">
+                                    </label>
+                                    <label class="control-label col-xs-2">Sort Order</label>
+                                    <label class="control-label col-xs-10">
+                                        <input type="text" class="form-control" ng-model="currentDevice.sort_order">
+                                    </label>
+                                    <label class="control-label col-xs-2">Model Number</label>
+                                    <label class="control-label col-xs-10">
+                                        <input type="text" class="form-control" ng-model="currentDevice.model">
+                                    </label>
+                                    <label class="control-label col-xs-2">Release Date</label>
+                                    <label class="control-label col-xs-10">
+                                        <input type="text" class="form-control" ng-model="currentDevice.release_date">
+                                    </label>
+                                    <div ng-if="currentDevice.id">
+                                        <label class="control-label col-xs-2">Date Added</label>
+                                        <label class="control-label col-xs-10">
+                                            <input type="text" class="form-control" ng-model="currentDevice.created_at" readonly>
+                                        </label>
+                                        <label class="control-label col-xs-2">Date Modified</label>
+                                        <label class="control-label col-xs-10">
+                                            <input type="text" class="form-control" ng-model="currentDevice.updated_at" readonly>
+                                        </label>
+                                        <label class="control-label col-xs-2">View Count</label>
+                                        <label class="control-label col-xs-10">
+                                            <input type="text" class="form-control" ng-model="currentDevice.view_count" readonly>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <accordion close-others="false" class="panel-cyan" ng-if="currentDevice.id">
+                    <accordion-group is-open="isopenaa">
+                        <accordion-heading class="">
+                            Selected Device Attributes
+                            <i class="pull-right glyphicon" ng-class="{'fa fa-chevron-down': isopenaa, 'fa fa-chevron-right': !isopenaa}"></i>
+                        </accordion-heading>
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h4>Edit Name Attribute</h4>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="form-body">
+                                        <div class="form-group">
+                                            <div class="row" ng-repeat="language in languageList">
+                                                <label class="control-label col-xs-2">Name in {{language.lang}}</label>
+                                                <label class="control-label col-xs-10">
+                                                    <input type="text" class="form-control" ng-model="currentDevice.attributes.name[language.id-1].string">
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                            </div>
+                        </div>
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h4>Edit Meta Description Attribute</h4>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="form-body">
+                                        <div class="form-group">
+                                            <div class="row" ng-repeat="language in languageList">
+                                                <label class="control-label col-xs-2">Meta Description in {{language.lang}}</label>
+                                                <label class="control-label col-xs-10">
+                                                    <input type="text" class="form-control" ng-model="currentDevice.attributes.meta_description[language.id-1].string">
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                            </div>
+                        </div>
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h4>Edit Meta Keywords Attribute</h4>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="form-body">
+                                        <div class="form-group">
+                                            <div class="row" ng-repeat="language in languageList">
+                                                <label class="control-label col-xs-2">Meta Keywords in {{language.lang}}</label>
+                                                <label class="control-label col-xs-10">
+                                                    <input type="text" class="form-control" ng-model="currentDevice.attributes.meta_keywords[language.id-1].string">
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                            </div>
+                        </div>
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h4>Edit Web Description Attribute</h4>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="form-body">
+                                        <div class="form-group">
+                                            <div class="row" ng-repeat="language in languageList">
+                                                <label class="control-label col-xs-2">Web Description in {{language.lang}}</label>
+                                                <label class="control-label col-xs-10">
+                                                    <textarea class="form-control" rows="4" ng-model="currentDevice.attributes.web_description[language.id-1].string"></textarea>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                            </div>
+                        </div>
+                    </accordion-group>
+                </accordion>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <button type="button" class="btn red" ng-click="destroyCurrentDevice()" ng-if="currentDevice.id">Delete</button>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                        <button type="button" class="btn green" ng-click="storeCurrentDevice(false)" ng-if="!currentDevice.id">Save + Keep</button>
+                        <button type="button" class="btn green" ng-click="updateCurrentDevice()" ng-if="currentDevice.id">Save</button>
+                    </div>
+                </div>
+            </accordion-group>
+            <accordion-group is-open="isopenb">
+                <accordion-heading>
+                    Device Repairs
+                    <i class="pull-right glyphicon" ng-class="{'fa fa-chevron-down': isopenb, 'fa fa-chevron-right': !isopenb}"></i>
+                </accordion-heading>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4>Device Type Repairs</h4>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-bordered" ng-table="deviceRepairsTableParams">
+                            <thead>
+                            <tr>
+                                <th><div>Repair Name</div></th>
+                                <th><div>Repair Template</div></th>
+                                <th><div>Repair Item</div></th>
+                                <th><div>Website Price</div></th>
+                                <th><div>Actions</div></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="odd gradeX" ng-repeat="data in $data">
+                                <td data-title="'Repair Name'">{{data.name}}</td>
+                                <td data-title="'Repair Template'" ng-if="!data.isEdit">{{data.device_repair_type ? data.device_repair_type.name : 'None'}}</td>
+                                <td data-title="'Repair Template'" ng-if="data.isEdit">
+                                    <select class="form-control" ng-model="data.device_repair_type_id"
+                                            ng-options="selectedItem.id as selectedItem.name for selectedItem in deviceRepairTemplateList | orderBy : 'name'">
+                                    </select>
+                                </td>
+                                <td data-title="'Repair Item'" ng-if="!data.isEdit">
+                                    {{data.item.name}}
+                                </td>
+                                <td data-title="'Repair Item'" ng-if="data.isEdit">
+                                    <div class="col-xs-6">
+                                        <item-search-box />
+                                    </div>
+                                    <label class="control-label col-xs-4">
+                                        <input type="text" class="form-control" ng-model="data.item.name" disabled>
+                                    </label>
+                                </td>
+
+                                <td data-title="'Website Price'">{{data.estimated_cost}}</td>
+                                <td data-title="'Actions'">
+                                    <a class="btn default btn-xs green" ng-click="editDeviceRepair(data)" ng-if="!data.isEdit"><i class="fa fa-edit"></i>Edit</a>
+                                    <a class="btn default btn-xs green" ng-click="updateDeviceRepair(data)" ng-if="data.isEdit"><i class="fa fa-edit">Save</i></a>
+                                    <a class="btn default btn-xs green" ng-click="deleteDeviceRepair(data)"><i class="fa fa-edit"></i>Delete</a>
+                                    <a class="btn default btn-xs green" ng-click="selectDeviceRepair(data)"><i class="fa fa-edit"></i>Select</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-xs-6">
+                            </div>
+                            <div class="col-xs-6 text-right">
+                                <button type="button" class="btn green" ng-click="createNewDeviceRepair()">Add Repair</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4>Edit Device Repairs</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="control-label col-xs-2">Image</label>
+                                    <label class="control-label col-xs-10">
+                                        <input type="text" class="form-control" ng-model="currentDeviceRepair.image">
+                                    </label>
+                                    <label class="control-label col-xs-2">Sort Order</label>
+                                    <label class="control-label col-xs-10">
+                                        <input type="text" class="form-control" ng-model="currentDeviceRepair.sort_order">
+                                    </label>
+                                    <label class="control-label col-xs-2">View Count</label>
+                                    <label class="control-label col-xs-10">
+                                        <input type="text" class="form-control" ng-model="currentDeviceRepair.view_count" readonly>
+                                    </label>
+                                    <label class="control-label col-xs-2">Status</label>
+                                    <label class="control-label col-xs-10">
+                                        <select class="form-control" ng-model="currentDeviceRepair.status"
+                                                ng-options="selectedItem.id as selectedItem.name for selectedItem in trueFalse">
+                                        </select>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <accordion close-others="false" class="panel-cyan">
+                    <accordion-group is-open="isopenba">
+                        <accordion-heading class="">
+                            Selected Device Repair Attributes
+                            <i class="pull-right glyphicon" ng-class="{'fa fa-chevron-down': isopenba, 'fa fa-chevron-right': !isopenba}"></i>
+                        </accordion-heading>
+                        <div>
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h4>Edit Name Attribute</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="form-body">
+                                            <div class="form-group">
+                                                <div class="row" ng-repeat="language in languageList">
+                                                    <label class="control-label col-xs-2">Name in {{language.lang}}</label>
+                                                    <label class="control-label col-xs-10">
+                                                        <input type="text" class="form-control" ng-model="currentDeviceRepair.attributes.name[language.id-1].string">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-footer">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-footer">
+                                </div>
+                            </div>
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h4>Edit Estimated Cost Attribute</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="form-body">
+                                            <div class="form-group">
+                                                <div class="row" ng-repeat="language in languageList">
+                                                    <label class="control-label col-xs-2">Estimated Cost in {{language.lang}}</label>
+                                                    <label class="control-label col-xs-10">
+                                                        <input type="text" class="form-control" ng-model="currentDeviceRepair.attributes.estimated_cost[language.id-1].string">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-footer">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-footer">
+                                </div>
+                            </div>
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h4>Edit Meta Description Attribute</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="form-body">
+                                            <div class="form-group">
+                                                <div class="row" ng-repeat="language in languageList">
+                                                    <label class="control-label col-xs-2">Meta Description in {{language.lang}}</label>
+                                                    <label class="control-label col-xs-10">
+                                                        <input type="text" class="form-control" ng-model="currentDeviceRepair.attributes.meta_description[language.id-1].string">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-footer">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-footer">
+                                </div>
+                            </div>
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h4>Edit Meta Keywords Attribute</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="form-body">
+                                            <div class="form-group">
+                                                <div class="row" ng-repeat="language in languageList">
+                                                    <label class="control-label col-xs-2">Meta Keywords in {{language.lang}}</label>
+                                                    <label class="control-label col-xs-10">
+                                                        <input type="text" class="form-control" ng-model="currentDeviceRepair.attributes.meta_keywords[language.id-1].string">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-footer">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-footer">
+                                </div>
+                            </div>
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h4>Edit Web Description Attribute</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="form-body">
+                                            <div class="form-group">
+                                                <div class="row" ng-repeat="language in languageList">
+                                                    <label class="control-label col-xs-2">Web Description in {{language.lang}}</label>
+                                                    <label class="control-label col-xs-10">
+                                                        <textarea class="form-control" rows="4" ng-model="currentDeviceRepair.attributes.web_description[language.id-1].string"></textarea>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-footer">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-footer">
+                                </div>
+                            </div>
+                        </div>
+                    </accordion-group>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <button type="button" class="btn red" ng-click="destroyCurrentDeviceRepair()">Delete</button>
+                        </div>
+                        <div class="col-xs-6 text-right">
+                            <button type="button" class="btn green" ng-click="updateCurrentDeviceRepair()">Save</button>
+                        </div>
+                    </div>
+                </accordion>
+            </accordion-group>
+            <accordion-group is-open="isopenc">
+                <accordion-heading>
+                    Device Repair Items
+                    <i class="pull-right glyphicon" ng-class="{'fa fa-chevron-down': isopenc, 'fa fa-chevron-right': !isopenc}"></i>
+                </accordion-heading>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4>Repair Items</h4>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-bordered" ng-table="deviceRepairItemTableParams">
+                            <thead>
+                            <tr>
+                                <th><div>Repair Option</div></th>
+                                <th><div>Option Value</div></th>
+                                <th><div>Item</div></th>
+                                <th><div>Image</div></th>
+                                <th><div>Actions</div></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="odd gradeX" ng-if="newDeviceRepairItem">
+                                <td data-title="'Repair Option'">
+                                    <select class="form-control" ng-model="newDeviceRepairItem.device_repair_option_id">
+                                        <option ng-repeat="deviceRepairOption in deviceRepairOptions" value="{{deviceRepairOption.id}}">{{deviceRepairOption.name}}</option>
+                                    </select>
+                                </td>
+                                <td data-title="'Option Value'"><input type="text" class="form-control" ng-model="newDeviceRepairItem.option_value"></td>
+                                <td data-title="'Item'">
+                                    <div class="col-xs-6">
+                                        <item-search-box />
+                                    </div>
+                                    <label class="control-label col-xs-4">
+                                        <input type="text" class="form-control" ng-model="data.item.name" disabled>
+                                    </label>
+                                </td>
+                                <td data-title="'Image'"><input type="text" class="form-control" ng-model="newDeviceRepairItem.image"></td>
+                                <td data-title="'Actions'">
+                                    <a class="btn default btn-xs green" ng-click="storeNewDeviceRepairItem()"><i class="fa fa-edit"></i>Save</a>
+                                    <a class="btn default btn-xs green" ng-click="cancelNewDeviceRepairItem()"><i class="fa fa-edit"></i>Cancel</a>
+                                </td>
+                            </tr>
+                            <tr class="odd gradeX" ng-repeat="data in $data">
+                                <td data-title="'Repair Option'">{{data.device_repair_option.name}}</td>
+
+                                <td data-title="'Option Value'" ng-if="!data.isEdit">{{data.option_value}}</td>
+                                <td data-title="'Option Value'" ng-if="data.isEdit"><input type="text" class="form-control" ng-model="data.option_value"></td>
+
+                                <td data-title="'Item'" ng-if="!data.isEdit">{{data.item.name}}</td>
+                                <td data-title="'Item'" ng-if="data.isEdit">
+                                    <div class="col-xs-6">
+                                        <item-search-box />
+                                    </div>
+                                    <label class="control-label col-xs-4">
+                                        <input type="text" class="form-control" ng-model="data.item.name" disabled>
+                                    </label>
+                                </td>
+
+                                <td data-title="'Image'" ng-if="!data.isEdit">{{data.image}}</td>
+                                <td data-title="'Image'" ng-if="data.isEdit"><input type="text" class="form-control" ng-model="data.image"></td>
+
+                                <td data-title="'Actions'">
+                                    <a class="btn default btn-xs green" ng-click="editDeviceRepairItem(data)" ng-if="!data.isEdit"><i class="fa fa-edit"></i>Edit</a>
+                                    <a class="btn default btn-xs green" ng-click="updateDeviceRepairItem(data)" ng-if="data.isEdit"><i class="fa fa-edit"></i>Save</a>
+                                    <a class="btn default btn-xs green" ng-click="cancelDeviceRepairItem(data)" ng-if="data.isEdit"><i class="fa fa-edit"></i>Cancel</a>
+                                    <a class="btn default btn-xs green" ng-click="deleteDeviceRepairItem(data)"><i class="fa fa-edit"></i>Delete</a>
+                                    <a class="btn default btn-xs green" ng-click="selectDeviceRepairItem(data)"><i class="fa fa-edit"></i>Select</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>Edit Device Repair Option Items</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="form-body">
+                                    <div class="form-group">
+                                    </div>
+                                </div>
+                                <div class="panel-footer">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <accordion close-others="false" class="panel-cyan">
+                        <accordion-group is-open="isopenca">
+                            <accordion-heading class="">
+                                Selected Device Repair Option Item Attributes
+                                <i class="pull-right glyphicon" ng-class="{'fa fa-chevron-down': isopenca, 'fa fa-chevron-right': !isopenca}"></i>
+                            </accordion-heading>
+                            <div>
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <h4>Edit Estimated Cost Attribute</h4>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="form-body">
+                                                <div class="form-group">
+                                                    <div class="row" ng-repeat="language in languageList">
+                                                        <label class="control-label col-xs-2">Estimated Cost in {{language.lang}}</label>
+                                                        <label class="control-label col-xs-10">
+                                                            <input type="text" class="form-control" ng-model="currentDeviceRepairItem.attributes.estimated_cost[language.id-1].string">
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel-footer">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer">
+                                    </div>
+                                </div>
+                            </div>
+                        </accordion-group>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <button type="button" class="btn red" ng-click="destroyCurrentDeviceRepairItem()">Delete</button>
+                            </div>
+                            <div class="col-xs-6 text-right">
+                                <button type="button" class="btn green" ng-click="updateCurrentDeviceRepairItem()">Save</button>
+                            </div>
+                        </div>
+                    </accordion>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-xs-6">
+                            </div>
+                            <div class="col-xs-6 text-right">
+                                <button type="button" class="btn green" ng-click="createNewDeviceRepairItem()">Add Item</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </accordion-group>
+        </accordion>
+    </div>
+</div>

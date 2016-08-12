@@ -1,0 +1,180 @@
+<div class="container-fluid">
+    <div class="row pos">
+        <div class="col-md-8 col-sm-12">
+            <div id="pos-left-content">
+                <ul class="breadcrumb">
+                    <li><a href="#">Feedback</a></li>
+                    <li class="active"><a href="#">Edit</a></li>
+                </ul>
+                <div class="row">
+                    <div class="col-sm-12 col-md-4">
+                        <div id="customer-info-wo">
+                            <a class="edit-btn" href="" ng-click="openEditCustomerModal('lg')"><span class="fa fa-edit"></span> Edit</a>
+                            <h4>Customer: {{currentCustomer.id}}</h4>
+                            <name><strong>{{currentCustomer.given_name}} {{currentCustomer.family_name}}</strong></name>
+                            <address>{{currentCustomer.phone}}<br>{{currentCustomer.email}}</address>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 pull-right">
+                        <form class="form-horizontal wo-info-panel" role="form">
+                            <div class="form-group">
+                                <label for="status" class="col-md-3 control-label"><strong>Status: </strong></label>
+                                <div class="col-md-9">
+                                    <select class="form-control" name="Status" id="status" tabindex="7" ng-model="selectedFeedbackStatusId"
+                                            ng-options="feedbackStatuses.indexOf(selectedItem) as selectedItem for selectedItem in feedbackStatusRange()">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="assigned-to" class="col-md-3 control-label"><strong>Assigned To:</strong></label>
+                                <div class="col-md-9">
+                                    <select class="form-control" id="assigned-to" tabindex="7" ng-model="assignedToUserId"
+                                            ng-options="user.id as (user.given_name + ' ' + user.family_name) for user in adminUsers">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="date-visited" class="col-md-3 control-label"><strong>Date of visit:</strong></label>
+                                <div class="col-md-9" id="date-visited">
+                                    {{feedback.visit_time | date }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="sale-id" class="col-md-3 control-label"><strong>Sale Id:</strong></label>
+                                <div class="col-md-6" id="sale-id">
+                                    {{feedback.sale_id }}
+                                </div>
+                                <div class="col-md-3">
+                                    <a class="" href="" ng-click="editSale()"><span class="fa fa-edit"> Goto Sale</span></a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="" ng-if="currentItemType != 'none'">
+                        <div ng-if="currentItemType == 'document'">
+                            <h4>{{currentItem.feedback_doctype.name}}: {{currentItem.filename}}</h4>
+                            <p>{{currentItem.description}}</p>
+                            <img ng-src="uploads/{{currentItem.filename}}" />
+                        </div>
+                        <div ng-if="currentItemType == 'note'">
+                            <h4>{{currentItem.feedback_status.name}}: {{currentItem.created_at}}</h4>
+                            <p>{{currentItem.notes}}</p>
+                        </div>
+                        <div ng-if="currentItemType == 'call'">
+                            <h4>Call Log: {{currentItem.created_at}}</h4>
+                            <p>{{currentItem.notes}}</p>
+                        </div>
+                        <div ng-if="currentItemType == 'feedback'">
+                            <h4>General:</h4>
+                            <p>
+                                How likely is it that you would recommend us to a friend or colleague?
+                                <rating class="rating" ng-model="feedback.recommend_rating" min="1" max="5" state-on="'fa-star gold'" state-off="'fa-star-o'" readonly="true"></rating>
+                                <b>({{feedback.recommend_rating}} of 5) {{recommendRatings[feedback.recommend_rating]}}</b>
+                            </p>
+                            <p>
+                                <label>What is the main reason you chose this score?</label>
+                                <textarea class="form-control" rows="4" ng-model="currentItem.main_reason" readonly></textarea>
+                            </p>
+                            <p>
+                                <label>What is the best part of your experience with us?</label>
+                                <textarea class="form-control" rows="4" ng-model="currentItem.best_part" readonly></textarea>
+                            </p>
+                            <p>
+                                <label>In what ways can we improve?</label>
+                                <textarea class="form-control" rows="4" ng-model="currentItem.we_improve" readonly></textarea>
+                            </p>
+                            <h4>Process</h4>
+                            <p>
+                                You were aware of the status of your device during all stages of the repair process:
+                                <rating class="rating" ng-model="feedback.status_aware_rating" min="1" max="5" state-on="'fa-star gold'" state-off="'fa-star-o'" readonly="true"></rating>
+                                <b>({{feedback.status_aware_rating}} of 5) {{agreeRatings[feedback.status_aware_rating]}}</b>
+                            </p>
+                            <p>
+                                The repair was completed within the expected time frame:
+                                <rating class="rating" ng-model="feedback.repair_on_time_rating" min="1" max="5" state-on="'fa-star gold'" state-off="'fa-star-o'" readonly="true"></rating>
+                                <b>({{feedback.repair_on_time_rating}} of 5) {{agreeRatings[feedback.repair_on_time_rating]}}</b>
+                            </p>
+                            <p>
+                                <label>How could we make you more comfortable with the repair process?</label>
+                                <textarea class="form-control" rows="4" ng-model="currentItem.more_comfortable" readonly></textarea>
+                            </p>
+                            <h4>People</h4>
+                            <p>
+                                The individuals that assisted you were friendly and helpful:
+                                <rating class="rating" ng-model="feedback.friendly_rating" min="1" max="5" state-on="'fa-star gold'" state-off="'fa-star-o'" readonly="true"></rating>
+                                <b>({{feedback.friendly_rating}} of 5) {{agreeRatings[feedback.friendly_rating]}}</b>
+                            </p>
+                            <p>
+                                How well did we communicate throughout the repair process?
+                                <rating class="rating" ng-model="feedback.communication_rating" min="1" max="5" state-on="'fa-star gold'" state-off="'fa-star-o'" readonly="true"></rating>
+                                <b>({{feedback.communication_rating}} of 5) {{wellRatings[feedback.communication_rating]}}</b>
+                            </p>
+                            <h4>Product</h4>
+                            <p>
+                                How satisfied are you with the overall repair quality?
+                                <rating class="rating" ng-model="feedback.overall_rating" min="1" max="5" state-on="'fa-star gold'" state-off="'fa-star-o'" readonly="true"></rating>
+                                <b>({{feedback.overall_rating}} of 5) {{satisfactionRatings[feedback.overall_rating]}}</b>
+                            </p>
+                            <p>
+                                <label>Why did you choose this score?</label>
+                                <textarea class="form-control" rows="4" ng-model="currentItem.why_choose_score" readonly></textarea>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Side Bar Start-->
+        <div id="pos-sidebar" class="col-sm-12 col-md-4">
+            <div class="customer-data-wrap">
+                <div class="add-device">
+                    <button type="submit" class="btn btn-primary" id="submit" tabindex="9" ng-click="setCurrentFeedback()">Check Feedback</button>
+                </div>
+                <h3>Related Documents</h3>
+                <ul class="customer-data">
+                    <li class="repair" ng-repeat="doc in feedback.feedback_docs">
+                        <a ng-click="setCurrentDocument(doc.id)">
+                            <span class="wo-num">{{doc.filename}}</span>
+                            <span class="description pull-right">{{doc.feedback_doctype.name}}</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="add-device">
+                    <button type="submit" class="btn btn-primary" id="submit" tabindex="9" ng-click="addNewDocument()">Add New Document</button>
+                </div>
+                <br/>
+                <div class="add-device">
+                    <button type="submit" class="btn btn-primary" id="submit2" tabindex="9" ng-click="addExistingDocument()">Add Existing Document</button>
+                </div>
+                <h3>Notes</h3>
+                <ul class="customer-data">
+                    <li class="device" ng-repeat="note in feedback.feedback_notes">
+                        <a ng-click="setCurrentNote(note.id)">
+                            <span class="wo-num"> {{note.created_at}} - {{note.feedback_status.name}}</span>
+                            <span class="description pull-right">{{note.notes}}</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="add-device">
+                    <button type="submit" class="btn btn-primary" id="submit" tabindex="9" ng-click="addNewNote()">Add New Note</button>
+                </div>
+                <h3>Call Log</h3>
+                <ul class="customer-data">
+                    <li class="device" ng-repeat="call in feedback.feedback_call_logs">
+                        <a ng-click="setCurrentCall(call.id)">
+                            <span class="wo-num"> {{call.created_at}} - {{call.who_called}}</span>
+                            <span class="description pull-right">{{call.notes}}</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="add-device">
+                    <button type="submit" class="btn btn-primary" id="submit" tabindex="9" ng-click="addNewCall()">Add New Call</button>
+                </div>
+            </div>
+        </div><!--pos sidebar-->
+    </div>
+</div>

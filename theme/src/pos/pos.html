@@ -1,0 +1,106 @@
+<div class="container-fluid">
+    <div class="row pos">
+        <div class="col-md-8 col-sm-12">
+            <div id="pos-left-content">
+                <ul class="breadcrumb">
+                    <li class="active">Point of Sale</li>
+                </ul>
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <ul class="pos-tile-container">
+                            <li class="col-md-4 col-sm-6" ng-click="goto('pos.customer')">
+                                <a href="#" class="pos-tile hover-slideUp">
+                                    <span class="pt-text">
+                                        <span class="tile-icon fa fa-wrench"></span>
+                                        <span class="info-text">Repair</span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="col-md-4 col-sm-6" ng-click="createNewSale()">
+                                <a href="#" class="pos-tile">
+                                    <span class="pt-text">
+                                        <span class="tile-icon fa fa-money"></span>
+                                        <span class="info-text">Sale</span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="col-md-4 col-sm-6">
+                                <a href="#" class="pos-tile">
+                                    <span class="pt-text">
+                                        <span class="tile-icon fa fa-reply"></span>
+                                        <span class="info-text">Return</span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="col-md-4 col-sm-6">
+                                <a href="#" class="pos-tile">
+                                    <span class="pt-text">
+                                        <span class="tile-icon fa fa-medkit"></span>
+                                        <span class="info-text">Square Trade</span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="col-md-4 col-sm-6">
+                                <a href="#"  class="pos-tile">
+                                    <span class="pt-text">
+                                        <span class="tile-icon fa fa-search"></span>
+                                        <span class="info-text">Sale Lookup</span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="col-md-4 col-sm-6">
+                                <a href="#"  class="pos-tile">
+                                    <span class="pt-text">
+                                        <span class="tile-icon fa fa-mobile-phone"></span>
+                                        <span class="info-text">Buy-Back</span>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Side Bar-->
+
+        <div id="pos-sidebar" class="col-sm-12 col-md-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <a href="#" class="pos-tile-sales">
+                        <span class="pt-text">
+                            <span class="tile-icon fa fa-wrench"> 8</span>
+                            <span class="pt-text-bottom">Awaiting Repair</span>
+                        </span>
+                    </a>
+                </div>
+                <div class="col-md-6">
+                    <a href="#" class="pos-tile-sales">
+                        <span class="pt-text">
+                            <span class="tile-icon fa fa-mobile-phone"> 15</span>
+                            <span class="pt-text-bottom">Completed Repairs</span>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Sales</h2>
+                    <div class="pos-tile-sales">
+                        <span class="pt-text">
+                            <span class="tile-icon">$1,745.00</span>
+                            <span class="pt-text-bottom">Todays Sales</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="pos-tile-sales">
+                        <span class="pt-text">
+                            <span class="tile-icon">$2,500.00</span>
+                            <span class="pt-text-bottom">Todays Goal</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div><!--pos sidebar-->
+    </div>
+</div>

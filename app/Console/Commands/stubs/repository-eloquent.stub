@@ -1,0 +1,11 @@
+<?php namespace {{namespace}};
+
+use Biffy\Entities\EloquentAbstractRepository;
+
+class {{class}} extends EloquentAbstractRepository implements {{interface}}
+{
+    public function __construct({{entity}} $model)
+    {
+        $this->model = $model;
+    }
+}

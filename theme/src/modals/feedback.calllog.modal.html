@@ -1,0 +1,27 @@
+<div class="modal-header">
+    <h3 class="modal-title">Create a Feedback Call Log</h3>
+</div>
+<div class="modal-body">
+    <div class="panel panel-default panel-body">
+        <h3><span class="fa fa-phone icon-circle"></span>&nbsp; Create a Feedback Call Log</h3>
+        <div class="row">
+            <div class="col-sm-12 col-md-6" id="zip">
+                <label>Who was involved in this conversation?: <span class="asterisk">*</span></label>
+                <input type="text" class="form-control" id="who-called" name="who-called" value="" maxlength="100" tabindex="4"
+                       ng-model="whoCalled"/>
+            </div>
+            <div class="col-sm-12 col-md-6" id="referral-type">
+            </div>
+        </div>
+        <div class="row">
+            <textarea class="form-control" rows="4" ng-model="notes.description" placeholder="Enter Notes here..."></textarea>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary push-left" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-success" ng-click="save()">Save</button>
+</div>
+
+

@@ -1,0 +1,17 @@
+<div class="modal-header">
+    <h3 class="modal-title">Device Repair Information</h3>
+</div>
+<div class="modal-body">
+    <h2><span class="fa fa-mobile"></span> Device Repair Information</h2>
+    <div class="row">
+        <div class="col-md-12" id="first-name">
+            <label>Device Repair List:</label>
+            <select size="7" multiple ng-multiple="true" ng-model="selectedDeviceRepairTypes" ng-options="deviceRepairType.name for deviceRepairType in deviceRepairTypes"></select>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary push-left" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-success" ng-click="save()">Select</button>
+</div>

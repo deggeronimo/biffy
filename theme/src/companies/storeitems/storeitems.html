@@ -1,0 +1,113 @@
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="home">Dashboard</a></li>
+        <li><a ui-sref="companies">Companies</a></li>
+        <li class="active">Store Items</li>
+    </ol>
+    <h1>Store Items</h1>
+    <div class="options">
+        <div class="btn-toolbar">
+            <a ui-sref="companies.storeitems.add()" class="btn btn-default btn-sm">Add</a>
+            <a class="btn btn-default btn-sm" ng-click="export()" target="_self">Export</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.reload()">Refresh</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.sorting({})">Clear sorting</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.filter({})">Clear filter</a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>Store Items</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-6 pull-right">
+                            <input type="text" class="form-control" placeholder="Search..." ng-model="tableParams.filter()['search']"/>
+                        </div>
+                    </div>
+                    <table class="table table-bordered" ng-table="tableParams">
+                        <thead>
+                        <tr>
+                            <th class="sortable" ng-class="{
+                                                'sort-asc': tableParams.isSortBy('item_number', 'asc'),
+                                                'sort-desc': tableParams.isSortBy('item_number', 'desc')
+                                            }"
+                                ng-click="tableParams.sorting({'item_number' : tableParams.isSortBy('item_number', 'asc') ? 'desc' : 'asc'})">
+                                <div>Item Number</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                                'sort-asc': tableParams.isSortBy('name', 'asc'),
+                                                'sort-desc': tableParams.isSortBy('name', 'desc')
+                                            }"
+                                ng-click="tableParams.sorting({'name' : tableParams.isSortBy('name', 'asc') ? 'desc' : 'asc'})">
+                                <div>Item Name</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                                'sort-asc': tableParams.isSortBy('device_type_name', 'asc'),
+                                                'sort-desc': tableParams.isSortBy('device_type_name', 'desc')
+                                            }"
+                                ng-click="tableParams.sorting({'device_type_name' : tableParams.isSortBy('device_type_name', 'asc') ? 'desc' : 'asc'})">
+                                <div>Category</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                                'sort-asc': tableParams.isSortBy('unit_price', 'asc'),
+                                                'sort-desc': tableParams.isSortBy('unit_price', 'desc')
+                                            }"
+                                ng-click="tableParams.sorting({'unit_price' : tableParams.isSortBy('unit_price', 'asc') ? 'desc' : 'asc'})">
+                                <div>Unit Price</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                                'sort-asc': tableParams.isSortBy('labor_cost', 'asc'),
+                                                'sort-desc': tableParams.isSortBy('labor_cost', 'desc')
+                                            }"
+                                ng-click="tableParams.sorting({'labor_cost' : tableParams.isSortBy('labor_cost', 'asc') ? 'desc' : 'asc'})">
+                                <div>Labor Cost</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                                'sort-asc': tableParams.isSortBy('stock', 'asc'),
+                                                'sort-desc': tableParams.isSortBy('stock', 'desc')
+                                            }"
+                                ng-click="tableParams.sorting({'stock' : tableParams.isSortBy('stock', 'asc') ? 'desc' : 'asc'})">
+                                <div>Available</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                                'sort-asc': tableParams.isSortBy('reserved', 'asc'),
+                                                'sort-desc': tableParams.isSortBy('reserved', 'desc')
+                                            }"
+                                ng-click="tableParams.sorting({'reserved' : tableParams.isSortBy('reserved', 'asc') ? 'desc' : 'asc'})">
+                                <div>Reserved</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                                'sort-asc': tableParams.isSortBy('on_order', 'asc'),
+                                                'sort-desc': tableParams.isSortBy('on_order', 'desc')
+                                            }"
+                                ng-click="tableParams.sorting({'on_order' : tableParams.isSortBy('on_order', 'asc') ? 'desc' : 'asc'})">
+                                <div>On Order</div>
+                            </th>
+                            <th><div>Actions</div></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="odd gradeX" ng-repeat="data in $data">
+                            <td data-title="'Item Number'">{{data.store_item.item.item_number}}</td>
+                            <td data-title="'Item Name'">{{data.store_item.item.name}}</td>
+                            <td data-title="'Category'">{{data.store_item.item.device_type.name}}</td>
+                            <td data-title="'Unit Price'">{{data.unit_price | currency}}</td>
+                            <td data-title="'Labor Cost'">{{data.labor_cost | currency}}</td>
+                            <td data-title="'Available'">{{data.store_item.stock}}</td>
+                            <td data-title="'Reserved'">{{data.store_item.reserved}}</td>
+                            <td data-title="'On Order'">{{data.store_item.on_order}}</td>
+                            <td data-title="'Actions'">
+                                <a class="btn default btn-xs" ui-sref="companies.storeitems.edit({id:data.id})"><i class="fa fa-edit"></i> Edit</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

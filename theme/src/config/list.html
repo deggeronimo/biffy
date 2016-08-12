@@ -1,0 +1,52 @@
+<div class="container-fluid">
+    <div class="col-md-12 pos">
+        <ul class="breadcrumb">
+            <li><a ui-sref="home">Dashboard</a></li>
+            <li class="active">Config</li>
+        </ul>
+        <div id="page-heading">
+            <div class="options">
+                <div class="btn-toolbar">
+                    <a class="btn btn-default btn-sm" ui-sref="config.edit({id: 'new'})">Add</a>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>Config</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Key</th>
+                                        <th>Type</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="entry in config">
+                                        <td>{{entry.name}}</td>
+                                        <td>{{entry.key}}</td>
+                                        <td>{{entry.type}}</td>
+                                        <td>
+                                            <a ui-sref="config.edit({id: entry.id})"><i class="fa fa-edit"></i> Edit</a>
+                                            &nbsp;
+                                            <a ng-click="destroy(entry.id)"><i class="fa fa-trash-o"></i> Delete</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

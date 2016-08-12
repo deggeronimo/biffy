@@ -1,0 +1,4 @@
+<ul class="breadcrumb">
+    <li><a ui-sref="home">Dashboard</a></li>
+    <li ng-repeat="crumb in breadcrumbs"><a ng-if="crumb.url" ng-href="{{crumb.url}}" ng-bind="crumb.text"></a> <span ng-if="!crumb.url" class="active" ng-bind="crumb.text"></span></li>
+</ul>

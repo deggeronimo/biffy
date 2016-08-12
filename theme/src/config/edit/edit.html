@@ -1,0 +1,61 @@
+<div class="container-fluid">
+    <div class="col-md-12 pos">
+        <ul class="breadcrumb">
+            <li><a ui-sref="home">Dashboard</a></li>
+            <li><a ui-sref="config">Config</a></li>
+            <li class="active">Edit</li>
+        </ul>
+        <div id="page-header">
+
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>Edit Config</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <form class="form-horizontal">
+                                    <div class="form-body">
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-2">Name</label>
+                                            <label class="control-label col-xs-10">
+                                                <input type="text" class="form-control" ng-model="config.name">
+                                            </label>
+                                            <label class="control-label col-xs-2">Key</label>
+                                            <label class="control-label col-xs-10">
+                                                <input type="text" class="form-control" ng-model="config.key">
+                                            </label>
+                                            <label class="control-label col-xs-2">Type</label>
+                                            <label class="control-label col-xs-10">
+                                                <input type="text" class="form-control" ng-model="config.type">
+                                            </label>
+                                            <label class="control-label col-xs-2">Default</label>
+                                            <label class="control-label col-xs-10">
+                                                <input type="text" class="form-control" ng-model="config.default">
+                                            </label>
+                                            <label class="control-label col-xs-2">Extra</label>
+                                            <label class="control-label col-xs-10">
+
+                                            </label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="button" class="btn" ng-click="save()">Save</button>
+                                    <button type="button" class="btn" ui-sref="config">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

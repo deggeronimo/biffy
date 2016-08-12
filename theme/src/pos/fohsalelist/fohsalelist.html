@@ -1,0 +1,108 @@
+<div id="page-heading">
+    <ol class="breadcrumb">
+        <li><a ui-sref="home">Dashboard</a></li>
+        <li class="active">Sale List</li>
+    </ol>
+    <h1>Sale List</h1>
+    <div class="options">
+        <div class="btn-toolbar">
+            <a class="btn btn-default btn-sm" ng-click="tableParams.reload()">Refresh</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.sorting({})">Clear sorting</a>
+            <a class="btn btn-default btn-sm" ng-click="tableParams.filter({})">Clear filter</a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>Sale List</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-6 pull-right">
+                            <input type="text" class="form-control" placeholder="Search..." ng-model="tableParams.filter()['search']"/>
+                        </div>
+                    </div>
+                    <table class="table table-bordered" ng-table="tableParams">
+                        <thead>
+                        <tr>
+                            <th>
+                                <div>Customer</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('email', 'asc'),
+                                'sort-desc': tableParams.isSortBy('email', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'email' : tableParams.isSortBy('email', 'asc') ? 'desc' : 'asc'})">
+                                <div>Email</div>
+                            </th>
+                            <th>
+                                <div>Phone</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('subtotal', 'asc'),
+                                'sort-desc': tableParams.isSortBy('subtotal', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'subtotal' : tableParams.isSortBy('subtotal', 'asc') ? 'desc' : 'asc'})">
+                                <div>Subtotal</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('taxes', 'asc'),
+                                'sort-desc': tableParams.isSortBy('taxes', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'taxes' : tableParams.isSortBy('taxes', 'asc') ? 'desc' : 'asc'})">
+                                <div>Taxes</div>
+                            </th>
+                            <th>
+                                <div>Total</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('payments', 'asc'),
+                                'sort-desc': tableParams.isSortBy('payments', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'payments' : tableParams.isSortBy('payments', 'asc') ? 'desc' : 'asc'})">
+                                <div>Payments</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('adjustments', 'asc'),
+                                'sort-desc': tableParams.isSortBy('adjustments', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'adjustments' : tableParams.isSortBy('adjustments', 'asc') ? 'desc' : 'asc'})">
+                                <div>Adjustments</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                'sort-asc': tableParams.isSortBy('trade_credit', 'asc'),
+                                'sort-desc': tableParams.isSortBy('trade_credit', 'desc')
+                              }"
+                                ng-click="tableParams.sorting({'trade_credit' : tableParams.isSortBy('trade_credit', 'asc') ? 'desc' : 'asc'})">
+                                <div>Trade Credit</div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="odd gradeX" ng-repeat="data in $data">
+                            <td data-title="'Customer'">{{data.customer.given_name}} {{data.customer.family_name}}</td>
+                            <td data-title="'Email'"><a href="mailto:{{data.customer.email}}">{{data.customer.email}}</a></td>
+                            <td data-title="'Phone'">{{data.customer.phone}}</td>
+                            <td data-title="'Subtotal'">{{data.subtotal | currency}}</td>
+                            <td data-title="'Taxes'">{{data.taxes | currency}}</td>
+                            <td data-title="'Total'">{{1*data.subtotal+1*data.taxes | currency}}</td>
+                            <td data-title="'Payments'">{{data.payments | currency}}</td>
+                            <td data-title="'Adjustments'">{{data.adjustments | currency}}</td>
+                            <td data-title="'Trade Credit'">{{data.trade_credit | currency}}</td>
+                            <td data-title="'Actions'">
+                                <a class="btn default btn-xs green" ui-sref="pos.checkout({saleId:data.id})">
+                                    <i class="fa fa-edit"></i>
+                                    Edit
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

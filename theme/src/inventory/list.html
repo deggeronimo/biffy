@@ -1,0 +1,100 @@
+<div class="container-fluid">
+    <div class="col-md-12 pos">
+        <ul class="breadcrumb">
+            <li><a href="/">Dashboard</a></li>
+            <li class="active">Inventory</li>
+        </ul>
+        <h1>Inventory</h1>
+        <div class="options">
+            <div class="btn-toolbar">
+                <a ng-click="addMissingItems()" class="btn btn-default btn-sm">Add Existing</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <input type="text" class="form-control ui-autocomplete-input" placeholder="Search..." ng-model="itemQuery"/>
+            </div>
+        </div>
+        <div class="row">
+            <panel heading="Inventory" panel-class="panel-name">
+                <div class="table-responsive wo-items">
+                    <table class="table table-bordered" ng-table="tableParams">
+                        <thead>
+                        <tr>
+                            <th class="sortable" ng-class="{
+                                                'sort-asc': tableParams.isSortBy('item_number', 'asc'),
+                                                'sort-desc': tableParams.isSortBy('item_number', 'desc')
+                                            }"
+                                ng-click="tableParams.sorting({'item_number' : tableParams.isSortBy('item_number', 'asc') ? 'desc' : 'asc'})">
+                                <div>Item Number</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                                'sort-asc': tableParams.isSortBy('name', 'asc'),
+                                                'sort-desc': tableParams.isSortBy('name', 'desc')
+                                            }"
+                                ng-click="tableParams.sorting({'name' : tableParams.isSortBy('name', 'asc') ? 'desc' : 'asc'})">
+                                <div>Item Name</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                                'sort-asc': tableParams.isSortBy('device_type_name', 'asc'),
+                                                'sort-desc': tableParams.isSortBy('device_type_name', 'desc')
+                                            }"
+                                ng-click="tableParams.sorting({'device_type_name' : tableParams.isSortBy('device_type_name', 'asc') ? 'desc' : 'asc'})">
+                                <div>Category</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                                'sort-asc': tableParams.isSortBy('store_items.unit_price', 'asc'),
+                                                'sort-desc': tableParams.isSortBy('store_items.unit_price', 'desc')
+                                            }"
+                                ng-click="tableParams.sorting({'store_items.unit_price' : tableParams.isSortBy('store_items.unit_price', 'asc') ? 'desc' : 'asc'})">
+                                <div>Unit Price</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                                'sort-asc': tableParams.isSortBy('stock', 'asc'),
+                                                'sort-desc': tableParams.isSortBy('stock', 'desc')
+                                            }"
+                                ng-click="tableParams.sorting({'stock' : tableParams.isSortBy('stock', 'asc') ? 'desc' : 'asc'})">
+                                <div>Available</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                                'sort-asc': tableParams.isSortBy('reserved', 'asc'),
+                                                'sort-desc': tableParams.isSortBy('reserved', 'desc')
+                                            }"
+                                ng-click="tableParams.sorting({'reserved' : tableParams.isSortBy('reserved', 'asc') ? 'desc' : 'asc'})">
+                                <div>Reserved</div>
+                            </th>
+                            <th class="sortable" ng-class="{
+                                                'sort-asc': tableParams.isSortBy('on_order', 'asc'),
+                                                'sort-desc': tableParams.isSortBy('on_order', 'desc')
+                                            }"
+                                ng-click="tableParams.sorting({'on_order' : tableParams.isSortBy('on_order', 'asc') ? 'desc' : 'asc'})">
+                                <div>On Order</div>
+                            </th>
+                            <th><div>Actions</div></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="odd gradeX" ng-repeat="data in $data">
+                            <td data-title="'Item Number'">{{data.item_number}}</td>
+                            <td data-title="'Item Name'">{{data.name}}</td>
+                            <td data-title="'Category'">{{data.device_type_name}}</td>
+                            <td data-title="'Unit Price'" ng-if="!data.isEdit">{{data.unit_price | currency}}</td>
+                            <td data-title="'Unit Price'" ng-if="data.isEdit"><input type="text" class="form-control" ng-model="data.unit_price"></td>
+                            <td data-title="'Available'" ng-if="!data.isEdit">{{data.stock}}</td>
+                            <td data-title="'Store Stock'" ng-if="data.isEdit"><input type="text" class="form-control" ng-model="data.stock"></td>
+                            <td data-title="'Reserved'">{{data.reserved}}</td>
+                            <td data-title="'On Order'">{{data.on_order}}</td>
+                            <td data-title="'Actions'">
+                                <a class="btn default btn-xs" ng-click="editStoreItem(data)" ng-if="!data.isEdit"><i class="fa fa-edit"></i>Edit</a>
+                                <a class="btn default btn-xs" ng-click="updateStoreItem(data)" ng-if="data.isEdit"><i class="fa fa-edit"></i>Save</a>
+                                <a class="btn default btn-xs" ng-click="cancelStoreItem(data)" ng-if="data.isEdit"><i class="fa fa-edit"></i>Cancel</a>
+                                <a class="btn default btn-xs" ui-sref="inventory.tracking({storeItemId:data.id})" ng-if="!data.isEdit"><i class="fa fa-edit"></i>Track</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </panel>
+        </div><!--  End of Table -->
+    </div>
+</div>

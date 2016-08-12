@@ -1,0 +1,188 @@
+<div class="container-fluid">
+    <div class="row pos">
+        <div class="col-sm-12 col-md-8">
+            <div id="pos-left-content">
+                <ul class="breadcrumb">
+                    <li><a href="#">Point of Sale</a></li>
+                    <li><a href="#">Repair</a></li>
+                    <li class="active">Customer Information</li>
+                </ul>
+                <div class="row">
+                    <div id="customer-info" class="col-md-6 col-sm-6">
+                        <div class="panel panel-default panel-body">
+                            <h3><span class="fa fa-user icon-circle"></span>&nbsp; Customer Information</h3>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 " id="first-name">
+                                    <label>First Name: <span class="asterisk">*</span></label>
+                                    <input type="text" class="form-control" id="customer-given_name" name="FirstName" value="" maxlength="25" tabindex="2" ng-model="newCustomer.given_name"/>
+                                </div>
+                                <div class="col-sm-12 col-md-6" id="last-name">
+                                    <label>Last Name: <span class="asterisk">*</span></label>
+                                    <input type="text" class="form-control" id="customer-family_name" name="LastName" value="" maxlength="25" tabindex="3" ng-model="newCustomer.family_name"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12" id="email">
+                                    <label>Email:</label>
+                                    <input type="text" class="form-control" id="customer-email" name="EmailAddress" value="" maxlength="100" tabindex="4" ng-model="newCustomer.email"/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12" id="phoneNumber">
+                                    <label>Phone: <span class="asterisk">*</span></label>
+                                    <input type="text" class="form-control phoneNumber" id="customer-phone" name="PhoneNumber1" value="" maxlength="50" tabindex="5" ng-model="newCustomer.phone" ui-mask="(999) 999-9999" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6" id="zip">
+                                    <label>Zip:</label>
+                                    <input type="text" class="form-control" id="customer-zip" name="PostalCode" value="" maxlength="15" tabindex="6" ng-model="newCustomer.postal_code"/>
+                                </div>
+                                <div class="col-sm-12 col-md-6" id="referral-type">
+                                    <label>Referral Type <span ng-if="requireReferralSource" class="asterisk">*</span></label>
+                                    <select class="form-control" name="referral-type" id="customer-referral_source" tabindex="7" ng-model="newCustomer.referral_source">
+                                        <option value="Search Engine">Search Engine</option>
+                                        <option value="Friend">Friend</option>
+                                        <option value="News Paper">News Paper</option>
+                                        <option value="AT&T">AT&T</option>
+                                        <option value="Verizon">Verizon</option>
+                                        <option value="Sprint">Sprint</option>
+                                        <option value="T-Mobile">T-Mobile</option>
+                                        <option value="Walk By">Walk By</option>
+                                        <option value="Drive By">Drive By</option>
+                                        <option value="Print">Print</option>
+                                        <option value="Ad">Ad</option>
+                                        <option value="Flyer">Flyer</option>
+                                        <option value="Yelp">Yelp</option>
+                                        <option value="Facebook">Facebook</option>
+                                        <option value="Groupon">Groupon</option>
+                                        <option value="Vehicle Wrap">Vehicle Wrap</option>
+                                        <option value="Web Site">Web Site</option>
+                                        <option value="GameStop">GameStop</option>
+                                        <option value="Cricket">Cricket</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Business Name: <i>(If Applicable)</i></label>
+                                    <input type="text" class="form-control business-name" name="business-name" value="" maxlength="50" tabindex="8" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <p class="col-md-12" id="more-info">
+                                    <a href=""><span class="fa fa-plus"></span>&nbsp; Add More Information</a>
+                                </p>
+                            </div>
+                            <button class="btn btn-primary" tabindex="9" ng-click="createCustomer()">Create Customer</button>
+                        </div>
+                    </div><!--Customer Info End-->
+
+                    <!--Returning Customer -->
+                    <div id="returning-customer" class="col-md-6 col-sm-6">
+                        <h3><span class="fa fa-user icon-circle"></span>&nbsp; Returning Customer</h3>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12" id="customer-search">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <span class="fa fa-search"></span>
+                                    </span>
+                                    <customer-search-box></customer-search-box>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="customer-results" ng-if="currentCustomer!=null">
+                            <panel panel-class="panel-cyan" panel-icon="fa fa-user" heading="{{currentCustomer.given_name}} {{currentCustomer.family_name}}">
+                                <panel-controls>
+                                    <a href=""><panel-control-collapse class="fa fa-chevron-down"></panel-control-collapse></a>
+                                </panel-controls>
+                                <address>{{currentCustomer.address_line_1}} <br>{{currentCustomer.city}}, {{currentCustomer.state}} {{currentCustomer.postal_code}}</address>
+                                <address>{{currentCustomer.phone}}<br>{{currentCustomer.email}}</address>
+                            </panel>
+                        </div>
+                    </div><!--Returning Customer End -->
+                </div>
+            </div>
+        </div>
+        <!-- Side Bar Start-->
+        <div id="pos-sidebar" class="col-sm-12 col-md-4">
+            <div class="customer-data-wrap">
+                <div class="row" ng-if="currentCustomer.appointments && currentCustomer.appointments.length>0">
+                    <h3>Appointments</h3>
+                    <ul class="customer-data">
+                        <li class="text-center quote" ng-repeat="appointment in currentCustomer.appointments">
+                            <a ui-sref="appointments.edit({id : appointment.id})">
+                                <span class="date pull-left">{{appointment.created_at}}</span>
+                                <span class="description">Things and Stuff</span>
+                                <span class="description pull-right">{{appointment.time}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row" ng-if="currentCustomer.quotes && currentCustomer.quotes.length>0">
+                    <h3>Quotes</h3>
+                    <ul class="customer-data">
+                        <li class="text-center quote" ng-repeat="quote in currentCustomer.quotes">
+                            <div ng-if="quote.sale==null">
+                                <span class="date pull-left">{{quote.created_at}}</span>
+                                <span class="description">Things and Stuff</span>
+                                <span class="description pull-right">{{1*quote.subtotal + 1*quote.taxes | currency}}</span>
+                            </div>
+                            <a ui-sref="pos.checkout({saleId : quote.sale.id})" ng-if="quote.sale!=null">
+                                <span class="date pull-left">{{quote.created_at}}</span>
+                                <span class="description">Things and Stuff</span>
+                                <span class="description pull-right">{{1*quote.subtotal + 1*quote.taxes | currency}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row" ng-if="currentCustomer.work_orders.length>0">
+                    <h3>Repairs</h3>
+                    <ul class="customer-data">
+                        <li class="repair" ng-repeat="workOrder in currentCustomer.work_orders | limitTo : 3">
+                            <a ui-sref="pos.checkout({saleId : workOrder.sale_id})">
+                                <span class="wo-num">{{workOrder.id}} - {{workOrder.device.device_type.name}} - Serial #: {{workOrder.device.serial}}</span>
+                                <span class="description pull-right">{{workOrder.work_order_status.name}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row" ng-if="currentCustomer">
+                    <h3>Devices</h3>
+                    <ul class="customer-data" ng-if="currentCustomer.devices && currentCustomer.devices.length>0">
+                        <li class="device" ng-repeat="device in currentCustomer.devices">
+                            <a ng-click="createNewWorkOrder(device.id)">
+                                <span class="description fa fa-plus"></span> {{device.device_type.name}}
+                                <span class="wo-num pull-right">Serial #: {{device.serial}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="add-device">
+                        <button type="submit" class="btn btn-primary" id="submit" tabindex="9" ng-click="addNewDevice()">Add New Device</button>
+                    </div>
+                </div>
+                <div class="row" ng-if="currentCustomer.customer_notes && currentCustomer.customer_notes.length>0">
+                    <h3>Notes</h3>
+                    <panel panel-class="panel-dark" panel-icon="fa fa-paper-plane" heading="{{customerNote.created_at}}"
+                           ng-repeat="customerNote in currentCustomer.customer_notes">
+                        <panel-controls>
+                            <a href=""><panel-control-collapse class="fa fa-chevron-down"></panel-control-collapse></a>
+                        </panel-controls>
+                        <p>{{customerNote.note}}</p>
+                    </panel>
+                </div>
+                <div class="row" ng-if="currentCustomer.feedbacks && currentCustomer.feedbacks.length>0">
+                    <h3>Feedback</h3>
+                    <panel panel-class="panel-dark" panel-icon="fa fa-paper-plane" heading="{{customerFeedback.visit_time}}"
+                            ng-repeat="customerFeedback in currentCustomer.feedbacks">
+                        <panel-controls>
+                            <a href=""><panel-control-collapse class="fa fa-chevron-down"></panel-control-collapse></a>
+                        </panel-controls>
+                        <p>Feedback Notes</p>
+                    </panel>
+                </div>
+            </div>
+        </div><!--pos sidebar-->
+    </div>
+</div>
